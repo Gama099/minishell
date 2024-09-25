@@ -1,5 +1,32 @@
 #include "../../../includes/minishell.h"
 
+int	echo_check(char **argv, int argc)
+{
+	int	i;
+	int	j;
+
+	i = 2;
+
+	while (i < argc)
+	{
+		j = 1;
+		if (argv[i][0] == '-')
+		{
+			while (argv[i][j])
+			{
+				if (argv[i][j] == 'n')
+					j++;
+				else
+					return (i);
+			}
+		}
+		else
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
 char    *ft_echo(char **argv , int argc)
 {
     int i;

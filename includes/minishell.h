@@ -30,11 +30,13 @@ typedef struct s_env_list
 struct s_env_list    *next;
 } t_env_list;
 
-
 char	*ft_strnstr(const char	*big, const char *little, size_t len);
+char    *ft_echo(char **argv , int argc);
 char	*ft_strjoin(char *s1, char *s2);
 char    *find_path(char **env, char *cmd);
-size_t	ft_strlen(char *str);
+int		check_value(char *str);
+int		echo_check(char **argv, int argc);
 int     check_access(char *PATH);
+size_t	ft_strlen(char *str);
 
 # endif

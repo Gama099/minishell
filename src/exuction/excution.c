@@ -31,12 +31,16 @@ void	one_cmd(t_command *cmd)
 	{
 		if (cmd->files.redirec == NULL)
 			run_normal(cmd);
+		// <
 		else if (cmd->files.redirec == "redin")
 			redirec_input(cmd);
+		// >
 		else if (cmd->files.redirec == "redout")
 			redirec_out(cmd);
+		// >>
 		else if (cmd->files.redirec == "redapp")
 			redirec_app_out(cmd);
+		// <<
 		else if (cmd->files.redirec == "herdoc")
 			herdoc(cmd);
 	}
