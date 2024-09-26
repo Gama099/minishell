@@ -42,10 +42,12 @@ int	there_is_plus(char *str)
 	while (str[i])
 	{
 		if (str[i] == '=' && str[i - 1] == '+')
-			return (EXIT_SUCCESS);
+			return (1);
+		else if (str[i] == '=' && str[i - 1] != '+')
+			return (2);
 		i++;
 	}
-	return (EXIT_FAILURE);
+	return (0);
 }
 
 void	change_var(char	*str, t_env_list *node)
@@ -57,7 +59,7 @@ char	*ft_export(t_env_list *list, char **argv)
 {
 	int j;
 	t_env_list	*node;
-	
+
 	j = 2;
 	if (argv[j] == NULL)// no args mean print
 	{
@@ -70,11 +72,12 @@ char	*ft_export(t_env_list *list, char **argv)
 		// then check if there is + before =
 		// if += for old var join else create new var
 		//if = for old var change value else add new var
+		//export a , todo
 		if ((node = check_if_exit(list,argv[j]) )!= NULL)
 		{
 			if (there_is_plus(argv[j]))
 				join_var(argv[j], node);
-			else
+			else if ()
 				change_var(argv[j], node);
 		}
 		add_new_var(argv[j], list);
