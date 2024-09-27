@@ -7,6 +7,8 @@ void	add_new_var(char *str, t_env_list *list)
 
 	current = list;
 	new_node = ft_create_node(str);
+	if (new_node == NULL)
+		return ;
 	ft_last_node(current)->next = new_node;//add new var to env linked list
 }
 
@@ -42,12 +44,10 @@ int	there_is_plus(char *str)
 	while (str[i])
 	{
 		if (str[i] == '=' && str[i - 1] == '+')
-			return (1);
-		else if (str[i] == '=' && str[i - 1] != '+')
-			return (2);
+			return (EXIT_SUCCESS);
 		i++;
 	}
-	return (0);
+	return (EXIT_FAILURE);
 }
 
 void	change_var(char	*str, t_env_list *node)
@@ -55,10 +55,71 @@ void	change_var(char	*str, t_env_list *node)
 	ft_strcpy(node->value, str);
 }
 
+int	before_sum(char *str, int i)
+{
+	int	j;
+
+	j = 1;
+	if (ft_isalpha(str[0]) != 1 || str[0] != '_')//alpha or underscore
+		return (0);
+	while (j <= i)
+	{
+		if (ft_isalnum(str[j]) != 1 || str[j] != '_')//alpha or numeric or underscore
+			return (0);
+		j++;
+	}
+	return (1);
+}
+
+int	arg_valid(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i] != '=' || str[i])//
+		i++;
+	if (str[i] == '\0')//no = in the string
+	{
+		if (before_sum(str, i))//check if var is valid
+			return (5);
+		else
+			return (EXIT_FAILURE);
+	}
+	if (there_is_plus(str[i]))
+	{
+		if (before_sum(str, i - 2))//check if var is valid
+			return (4);
+		else
+			return (EXIT_FAILURE);
+	}
+	else
+	{
+		if (before_sum(str, i - 1))
+			return (3);
+	}
+	return (EXIT_FAILURE);
+}
+
+void	add_var(t_env_list *list, int i, char *str)
+{
+	t_env_list	*node;
+
+	if ((node = check_if_exit(list, str) )!= NULL)
+	{
+		if (i == 5)
+			ft();//dont do anything
+		else if (i == 4)
+			join_var(str, node);//appeand value
+		else if (i == 3)
+			change_var(str, node);//change value
+	}
+	add_new_var(str, list);
+}
+
 char	*ft_export(t_env_list *list, char **argv)
 {
 	int j;
-	t_env_list	*node;
+	int	i;
 
 	j = 2;
 	if (argv[j] == NULL)// no args mean print
@@ -68,20 +129,11 @@ char	*ft_export(t_env_list *list, char **argv)
 	}
 	while (argv[j])
 	{
-		// check if var exit
-		// then check if there is + before =
-		// if += for old var join else create new var
-		//if = for old var change value else add new var
-		//export a , todo
-		if ((node = check_if_exit(list,argv[j]) )!= NULL)
-		{
-			if (there_is_plus(argv[j]))
-				join_var(argv[j], node);
-			else if ()
-				change_var(argv[j], node);
-		}
-		add_new_var(argv[j], list);
+		if ((i = arg_valid(argv[j])) != 1)
+			add_var(list, i, argv[j]);
+		else
+			printf("bash: export: `%s': not a valid identifier\n",argv[j]);
 		j++;
 	}
 	return (NULL);
-}
+}				

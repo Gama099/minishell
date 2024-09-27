@@ -10,13 +10,14 @@ char	*ft_unset(char **argv, t_env_list *list)
 	while (argv[j])
 	{
 		new_node = list;
-		while ((ft_strnstr(new_node->name, argv[j], ft_strlen(argv[j]))) == NULL)
+		while ((ft_strcmp(new_node->name, argv[j])) == 1)
 		{
 			prev = new_node;
         	new_node = new_node->next;
 		}
 		prev->next = new_node->next;
 		new_node->next == NULL;
+		//delete node;
 		j++;
 	}
 	return(NULL);

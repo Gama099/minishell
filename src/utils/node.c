@@ -31,7 +31,7 @@ t_env_list	*ft_create_node(char *str)
 
 	new_node = malloc(sizeof(t_env_list));
 	if (!new_node)
-		return (0);
+		return (NULL);
 	new_node->name = str;
 	if ((flag = check_value(str)) == 0)
 		new_node->value = 1;

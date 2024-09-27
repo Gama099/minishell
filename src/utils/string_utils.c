@@ -22,6 +22,23 @@ char	*ft_strnstr(const char	*big, const char *little, size_t len)
 	return (NULL);
 }
 
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	if (s2 == NULL || *s2 == '\0')
+		return (1);
+	while (s1[i] != '\0')
+	{
+		if (s1[i] == s2[i])
+			i++;
+		else
+			return (1);
+	}
+	return (0);
+}
+
 char	*ft_strjoin(char *s1, char *s2)
 {
 	int		i;
@@ -68,4 +85,20 @@ char    *ft_strcpy(char *s1, char *s2)
 	}
 	s1[i] = s2[i];  // now that we are finsihing looping though s1[i] will equal s2[i]
 	return (s1);
+}
+
+int	ft_isalnum(char c)
+{
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
+		(c >= '0' && c <= '9'))
+		return (1);
+	return (0);
+}
+
+int	ft_isalpha(char c)
+{
+	if (((c >= 'a') && (c <= 'z')) || 
+		((c >= 'A') && (c <= 'Z')))
+		return (1);
+	return (0);
 }
