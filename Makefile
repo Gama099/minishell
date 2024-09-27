@@ -23,8 +23,8 @@ all: $(NAME)
 
 $(NAME): $(OBJECT) $(HEADER)
 	$(CC) $(GFLAGS) $(OBJECT) -o $(NAME)
-$(OBJECT): $(SRC)
-	$(CC) $(GFLAGS) $(SRC) -c
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJECT)
