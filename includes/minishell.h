@@ -30,15 +30,21 @@ typedef struct s_env_list
 struct s_env_list    *next;
 } t_env_list;
 
+void	run_builts(char **argv, int argc, t_env_list *list);
 char	*ft_strnstr(const char	*big, const char *little, size_t len);
-int		ft_strcmp(char *s1, char *s2);
+char	*ft_export(t_env_list *list, char **argv);
+char	*ft_env(t_env_list *list);
+char	*ft_unset(char **argv, t_env_list *list);
 char    *ft_echo(char **argv , int argc);
 char    *ft_strcpy(char *s1, char *s2);
 char	*ft_strjoin(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
 char    *find_path(char **env, char *cmd);
+int		ft_strcmp(char *s1, char *s2);
+int 	ft_pwd();
 int		check_value(char *str);
 int		echo_check(char **argv, int argc);
+int		check_if_builts(char **argv);
 int		ft_isalnum(char c);
 int		ft_isalpha(char c);
 int     check_access(char *PATH);

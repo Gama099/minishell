@@ -2,12 +2,12 @@
 
 char    *run_normal(t_command *cmd)
 {
-    char    *cmd;
+    char    *command;
     int pid;
     int status;
 
-    cmd = find_path(env, cmd->argumants[0]);
-    if (cmd == NULL)
+    command = find_path(env, cmd->argumants[0]);
+    if (command == NULL)
         return (NULL);
     if ((pid = fork()) == -1)
     {
@@ -15,10 +15,10 @@ char    *run_normal(t_command *cmd)
         return (NULL);
     }
     else if (pid == 0)
-        execve(cmd, cmd->argumants, NULL);
+        execve(command, cmd->argumants, NULL);
     else
         wait(&status);
-    free(cmd);
+    free(command);
     return ("succes");
 }
 
@@ -32,16 +32,16 @@ void	one_cmd(t_command *cmd)
 		if (cmd->files.redirec == NULL)
 			run_normal(cmd);
 		// <
-		else if (cmd->files.redirec == "redin")
+		else if (ft_strcmp(cmd->files.redirec, "redin") == 0)
 			redirec_input(cmd);
 		// >
-		else if (cmd->files.redirec == "redout")
+		else if (ft_strcmp(cmd->files.redirec, "redout") == 0)
 			redirec_out(cmd);
 		// >>
-		else if (cmd->files.redirec == "redapp")
+		else if (ft_strcmp(cmd->files.redirec, "redapp") == 0)
 			redirec_app_out(cmd);
 		// <<
-		else if (cmd->files.redirec == "herdoc")
+		else if (ft_strcmp(cmd->files.redirec, "herdoc") == 0)
 			herdoc(cmd);
 	}
 }
@@ -54,5 +54,5 @@ int	excution(t_command *cmd)
 	{
 
 	}
-
+	return (EXIT_SUCCESS);
 }

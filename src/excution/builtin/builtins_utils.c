@@ -16,7 +16,7 @@ int	check_value(char *str)
 
 
 
-int    check_if_builts(char **argv)
+int	check_if_builts(char **argv)
 {
     if (ft_strcmp(argv[1], "echo") == 0)
         return (0);
@@ -31,7 +31,7 @@ int    check_if_builts(char **argv)
     return (1);
 }
 
-void    run_builts(char **argv, int argc, t_env_list *list)
+void	run_builts(char **argv, int argc, t_env_list *list)
 {
     if (ft_strcmp(argv[1], "echo") == 0)
         ft_echo(argv, argc);

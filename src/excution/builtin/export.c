@@ -17,16 +17,14 @@ void	join_var(char *str, t_env_list *node)
 	char	**splited;
 
 	splited = ft_split(str, '=');
-	node->value = ft_strjoin(node->value, splited[1]);
+	node->name = ft_strjoin(node->name, splited[1]);
 }
 
 t_env_list	*check_if_exit(t_env_list *list, char *str)
 {
-	int	i;
 	t_env_list *node;
 
 	node = list;
-	i = 0;
 	while (node != NULL)
 	{
 		if ((ft_strnstr(node->name, str, ft_strlen(str))) != NULL)
@@ -52,7 +50,7 @@ int	there_is_plus(char *str)
 
 void	change_var(char	*str, t_env_list *node)
 {
-	ft_strcpy(node->value, str);
+	ft_strcpy(node->name, str);
 }
 
 int	before_sum(char *str, int i)
@@ -85,7 +83,7 @@ int	arg_valid(char *str)
 		else
 			return (EXIT_FAILURE);
 	}
-	if (there_is_plus(str[i]))
+	if (there_is_plus(str))
 	{
 		if (before_sum(str, i - 2))//check if var is valid
 			return (4);

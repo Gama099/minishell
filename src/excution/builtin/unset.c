@@ -16,7 +16,7 @@ char	*ft_unset(char **argv, t_env_list *list)
         	new_node = new_node->next;
 		}
 		prev->next = new_node->next;
-		new_node->next == NULL;
+		new_node->next = NULL;
 		//delete node;
 		j++;
 	}
