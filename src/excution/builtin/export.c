@@ -114,6 +114,58 @@ void	add_var(t_env_list *list, int i, char *str)
 	add_new_var(str, list);
 }
 
+void	swap_data(t_env_list *current, t_env_list *next)
+{
+	int		temp;
+	char	*temp2;
+
+	temp = current->value;
+	current->value = next->value;
+	next->value = temp;
+	temp2 = current->name;
+	current->name = next->name;
+	next->name = temp2;
+}
+
+void	*sorted_env(t_env_list *list)
+{
+	t_env_list	*i;
+	t_env_list	*j;
+
+	i = list;
+	while (i != NULL)
+	{
+		j = i->next;
+		while (j != NULL)
+		{
+			if (ft_strncmp(i->name, j->name, INT_MAX) > 0)
+				swap_data(i, j);
+			j = j->next;
+		}
+		i = i->next;
+	}
+}
+
+void	*print_export(t_env_list *list)
+{
+	t_env_list *first;
+	int	i;
+
+	first = sorted_env(list);
+	while(first != NULL)
+	{
+		i = 0;
+		printf("declare -x ");
+		while (first->name[i] && first->name[i] != '=')
+			printf("%c", first->name[i]);
+		if (first->name[i]&& first->name[i]== '=')
+			printf("=\"%s\"\n", &first->name[i]);
+		else
+			printf("\n");
+		first = first->next;
+	}
+}
+
 char	*ft_export(t_env_list *list, char **argv)
 {
 	int j;
@@ -122,7 +174,7 @@ char	*ft_export(t_env_list *list, char **argv)
 	j = 2;
 	if (argv[j] == NULL)// no args mean print
 	{
-		//print_export();
+		print_export(list);
 		return (NULL);
 	}
 	while (argv[j])

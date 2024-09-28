@@ -32,16 +32,16 @@ void	one_cmd(t_command *cmd)
 		if (cmd->files.redirec == NULL)
 			run_normal(cmd);
 		// <
-		else if (ft_strcmp(cmd->files.redirec, "redin") == 0)
+		else if (!ft_strncmp(cmd->files.redirec, "redin", INT_MAX))
 			redirec_input(cmd);
 		// >
-		else if (ft_strcmp(cmd->files.redirec, "redout") == 0)
+		else if (!ft_strncmp(cmd->files.redirec, "redout", INT_MAX))
 			redirec_out(cmd);
 		// >>
-		else if (ft_strcmp(cmd->files.redirec, "redapp") == 0)
+		else if (!ft_strncmp(cmd->files.redirec, "redapp", INT_MAX))
 			redirec_app_out(cmd);
 		// <<
-		else if (ft_strcmp(cmd->files.redirec, "herdoc") == 0)
+		else if (!ft_strncmp(cmd->files.redirec, "herdoc", INT_MAX))
 			herdoc(cmd);
 	}
 }

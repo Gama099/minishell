@@ -8,6 +8,7 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <limits.h>
 
 typedef struct t_file
 {
@@ -40,7 +41,7 @@ char    *ft_strcpy(char *s1, char *s2);
 char	*ft_strjoin(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
 char    *find_path(char **env, char *cmd);
-int		ft_strcmp(char *s1, char *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int 	ft_pwd();
 int		check_value(char *str);
 int		echo_check(char **argv, int argc);

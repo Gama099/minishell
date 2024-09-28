@@ -10,7 +10,7 @@ char	*ft_unset(char **argv, t_env_list *list)
 	while (argv[j])
 	{
 		new_node = list;
-		while ((ft_strcmp(new_node->name, argv[j])) == 1)
+		while ((ft_strncmp(new_node->name, argv[j], INT_MAX)) == 1)
 		{
 			prev = new_node;
         	new_node = new_node->next;
