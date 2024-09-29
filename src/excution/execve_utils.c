@@ -13,26 +13,26 @@ int check_access(char *PATH)
         return (1);      
 }
 
-char    *find_path(char **env, char *cmd)
+char    *find_path(t_env_list *env, char *cmd)
 {
     char    **path;
-    char    *PATH;
+    char    *splited_path;
     int i;
     int check;
 
     i = 0;
     check = 0;
-    while ((PATH = ft_strnstr(env[i], "PATH", 4)) == NULL)
-        i++;
-    path = ft_split(PATH, ':');
+    while ((splited_path = ft_strnstr(env->name, "PATH", 4)) == NULL)
+        env = env->next;
+    path = ft_split(splited_path, ':');
     i  = 0;
     cmd = ft_strjoin("/", cmd); 
     while (path[i])
     {
-        PATH = ft_strjoin(path[i],cmd);
-        check = check_access(PATH);
+        splited_path = ft_strjoin(path[i],cmd);
+        check = check_access(splited_path);
         if (check == 0)
-            return (PATH);
+            return (splited_path);
         i++;
     }
     if (check == 1)

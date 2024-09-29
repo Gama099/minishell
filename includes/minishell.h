@@ -12,7 +12,7 @@
 
 typedef struct t_file
 {
-char    *fillName;
+char    *name;
 char    *redirec;
 int     fd[2];
 } t_files;
@@ -32,6 +32,9 @@ struct s_env_list    *next;
 } t_env_list;
 
 void	run_builts(char **argv, int argc, t_env_list *list);
+char    *redirec_out(t_command *cmd, t_env_list *env);
+char    *redirec_app_out(t_command *cmd, t_env_list *env);
+char    *redirec_input(t_command *cmd, t_env_list *env);
 char	*ft_strnstr(const char	*big, const char *little, size_t len);
 char	*ft_export(t_env_list *list, char **argv);
 char	*ft_env(t_env_list *list);

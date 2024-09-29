@@ -14,8 +14,6 @@ int	check_value(char *str)
 	return (EXIT_FAILURE);
 }
 
-
-
 int	check_if_builts(char **argv)
 {
     if (!ft_strncmp(argv[1], "echo", INT_MAX))

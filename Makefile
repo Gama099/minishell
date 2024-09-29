@@ -5,6 +5,7 @@ HEADER = includes/minishell.h
 SRC =	src/main.c \
 		src/excution/excution.c \
 		src/excution/execve_utils.c \
+		src/excution/rediction.c \
 		src/excution/builtin/builtins_utils.c \
 		src/excution/builtin/cd.c \
 		src/excution/builtin/echo.c \
@@ -16,6 +17,7 @@ SRC =	src/main.c \
 		src/utils/node.c \
 		src/utils/split.c \
 		src/utils/string_utils.c \
+
 		
 OBJECT = $(SRC:.c=.o)
 

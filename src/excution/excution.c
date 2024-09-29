@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-char    *run_normal(t_command *cmd)
+char    *run_normal(t_command *cmd, t_env_list *env)
 {
     char    *command;
     int pid;
@@ -18,41 +18,41 @@ char    *run_normal(t_command *cmd)
         execve(command, cmd->argumants, NULL);
     else
         wait(&status);
-    free(command);
+    //free(command);
     return ("succes");
 }
 
 
-void	one_cmd(t_command *cmd)
+void	one_cmd(t_command *cmd, t_env_list *list)
 {
 	 if (check_if_builts(cmd->argumants[0]) == 0)
-            run_builts(cmd->argumants[0]);
+            run_builts(cmd->argumants[0], list);
 	else
 	{
 		if (cmd->files.redirec == NULL)
-			run_normal(cmd);
+			run_normal(cmd, list);
 		// <
 		else if (!ft_strncmp(cmd->files.redirec, "redin", INT_MAX))
-			redirec_input(cmd);
+			redirec_input(cmd, list);
 		// >
 		else if (!ft_strncmp(cmd->files.redirec, "redout", INT_MAX))
-			redirec_out(cmd);
+			redirec_out(cmd, list);
 		// >>
 		else if (!ft_strncmp(cmd->files.redirec, "redapp", INT_MAX))
-			redirec_app_out(cmd);
+			redirec_app_out(cmd, list);
 		// <<
 		else if (!ft_strncmp(cmd->files.redirec, "herdoc", INT_MAX))
 			herdoc(cmd);
 	}
 }
 
-int	excution(t_command *cmd)
+int	excution(t_command *cmd, t_env_list *list)
 {
 	if (cmd->next == NULL)
-		one_cmd(cmd);
+		one_cmd(cmd, list);
 	while (cmd != NULL)
 	{
-
+		
 	}
 	return (EXIT_SUCCESS);
 }
