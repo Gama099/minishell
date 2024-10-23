@@ -1,4 +1,22 @@
-#include "../../includes/minishell.h"
+#include "minishell.h"
+
+int set_under_score(char **argv)
+{
+    t_env_list *node;
+    char    *value;
+    int i;
+
+    i = 0;
+    while (argv[i])
+        i++;
+     if (i = 1)
+        return (1);
+    node = check_if_exit(ft_bash()->list, "_");
+    value = node->value;
+    node->value = ft_strdup(argv[i - 1]);
+    free(value);
+    return (0);
+}
 
 int check_access(char *PATH)
 {

@@ -1,22 +1,28 @@
 CC = cc 
 NAME = minishell
-GFLAGS =-Wall -Wextra -Werror #-g3
+GFLAGS =-Wall -Wextra -Werror -Iincludes #-g3
 HEADER = includes/minishell.h
 SRC =	src/main.c \
 		src/excution/excution.c \
 		src/excution/execve_utils.c \
 		src/excution/rediction.c \
-		src/excution/builtin/builtins_utils.c \
-		src/excution/builtin/cd.c \
-		src/excution/builtin/echo.c \
-		src/excution/builtin/env.c \
-		src/excution/builtin/exit.c \
-		src/excution/builtin/export.c \
-		src/excution/builtin/pwd.c \
-		src/excution/builtin/unset.c \
+		src/builtin/builtins_utils.c \
+		src/builtin/cd.c \
+		src/builtin/echo.c \
+		src/builtin/env_utils.c \
+		src/builtin/env.c \
+		src/builtin/exit.c \
+		src/builtin/export_utils.c \
+		src/builtin/export.c \
+		src/builtin/print_export.c \
+		src/builtin/pwd.c \
+		src/builtin/unset.c \
 		src/utils/node.c \
 		src/utils/split.c \
 		src/utils/string_utils.c \
+		src/utils/file_utils.c \
+		src/utils/string_utils.c \
+		src/systemcall.c \
 
 		
 OBJECT = $(SRC:.c=.o)

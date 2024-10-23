@@ -87,7 +87,7 @@ char    *ft_strcpy(char *s1, char *s2)
 	return (s1);
 }
 
-int	ft_isalnum(char c)
+int	ft_isalnumm(char c)
 {
 	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
 		(c >= '0' && c <= '9'))
@@ -95,10 +95,29 @@ int	ft_isalnum(char c)
 	return (0);
 }
 
-int	ft_isalpha(char c)
+int	ft_isalphaa(char c)
 {
 	if (((c >= 'a') && (c <= 'z')) || 
 		((c >= 'A') && (c <= 'Z')))
 		return (1);
 	return (0);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	size_t	i;
+	size_t	dupsize;
+	char	*dup;
+
+	dupsize = ft_strlen(s1) + 1;
+	dup = (char *)malloc(dupsize);
+	if (dup == NULL)
+		return (0);
+	i = 0;
+	while (i < dupsize)
+	{
+		dup[i] = s1[i];
+		i++;
+	}
+	return (dup);
 }
