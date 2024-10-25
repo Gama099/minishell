@@ -1,7 +1,16 @@
 #include "minishell.h"
 
+int	check_ambiguous(char *filename)
+{
+	if ((filename == NULL || ft_strchrr(filename, ' ') != -1))
+		return (printf("ambiguous redirection"),1);
+	return (0);
+}
+
 int	check_file_b(char *filename, int mode)
 {
+	if (check_ambiguous(filename) == 1)
+		return (1);
 	if (mode == 1)
 	{
 		if (is_a_directory(filename, 1))
@@ -56,23 +65,20 @@ int	redirect_out_b(char *filename, int append)
 
 int	redirect_builtin(t_command *cmd)
 {
-	int	i;
-
-	i = 0;
 	while (cmd->files != NULL)
 	{
-		if (!ft_strncmp(cmd->files->redirec, "herdoc", INT_MAX))
+		if (!ft_strncmp(cmd->files->redirec, "herdoc", INT_MAX))	
 			ft_dup(cmd->files->fd[0], STDIN_FILENO);
 		if (!ft_strncmp(cmd->files->redirec, "redin", INT_MAX))
-			if (redirect_in_file_b())
+			if (redirect_in_file_b(cmd->files->name))
 				return (1);
 		if (!ft_strncmp(cmd->files->redirec, "redout", INT_MAX))
-			if (redirect_out_b(, 0))
+			if (redirect_out_b(cmd->files->name, 0))
 				return (1);
-		if (!ft_strncmp(cmd->files->redirec, "redapp", INT_MAX))
-			if (redirect_out_b(, 1))
+		if (!ft_strncmp(cmd->files->redirec, "redoapp", INT_MAX))
+			if (redirect_out_b(cmd->files->name, 1))
 				return (1);
-		i++;
+		cmd->files = cmd->files->next;
 	}
 	return (0);
 }

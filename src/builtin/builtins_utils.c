@@ -16,40 +16,42 @@ int	check_value(char *str)
 	return (EXIT_FAILURE);//no =
 }
 
-int	check_if_builts(char **argv)
+int	check_if_builts(char *cmd)
 {
-    if (!ft_strncmp(argv[1], "echo", INT_MAX))
+    if (!ft_strncmp(cmd, "echo", INT_MAX))
         return (0);
-    else if (!ft_strncmp(argv[1], "pwd", INT_MAX))
+    else if (!ft_strncmp(cmd, "pwd", INT_MAX))
         return (0);
-	else if (!ft_strncmp(argv[1], "env", INT_MAX))
+	else if (!ft_strncmp(cmd, "env", INT_MAX))
 		return (0);
-	else if (!ft_strncmp(argv[1], "export", INT_MAX))
+	else if (!ft_strncmp(cmd, "export", INT_MAX))
 		return (0);
-	else if (!ft_strncmp(argv[1], "unset", INT_MAX))
+	else if (!ft_strncmp(cmd, "unset", INT_MAX))
 		return (0);
-	else if (!ft_strncmp(argv[1], "exit", INT_MAX))
+	else if (!ft_strncmp(cmd, "exit", INT_MAX))
 		return (0);
-	else if (!ft_strncmp(argv[1], "cd", INT_MAX))
+	else if (!ft_strncmp(cmd, "cd", INT_MAX))
 		return (0);
     return (1);
 }
 
-void	run_builts(char **argv, int argc, t_env_list *list)
+int	run_builts(t_command *cmd)
 {
-	set_under_score(argv);
-    if (!ft_strncmp(argv[1], "echo", INT_MAX))
-        ft_echo(argv);
-    else if (!ft_strncmp(argv[1], "pwd", INT_MAX))
-        ft_pwd();
-	else if (!ft_strncmp(argv[1], "env", INT_MAX))
-		ft_env(list);
-	else if (!ft_strncmp(argv[1], "export", INT_MAX))
-		ft_export(list, argv);
-	else if (!ft_strncmp(argv[1], "unset", INT_MAX))
-		ft_unset(argv, list);
-	else if (!ft_strncmp(argv[1], "exit", INT_MAX))
-		ft_exit(argv);
-	else if (!ft_strncmp(argv[1], "cd", INT_MAX))
-		ft_cd(argv);
+	set_under_score(cmd->argumants);
+	redirect_builtin(cmd);
+    if (!ft_strncmp(cmd->argumants[0], "echo", INT_MAX))
+        return (ft_echo(cmd->argumants));
+    else if (!ft_strncmp(cmd->argumants[0], "pwd", INT_MAX))
+        return (ft_pwd());
+	else if (!ft_strncmp(cmd->argumants[0], "env", INT_MAX))
+		return (ft_env(ft_bash()->list));
+	else if (!ft_strncmp(cmd->argumants[0], "export", INT_MAX))
+		return (ft_export(ft_bash()->list, cmd->argumants));
+	else if (!ft_strncmp(cmd->argumants[0], "unset", INT_MAX))
+		return (ft_unset(cmd->argumants, ft_bash()->list));
+	else if (!ft_strncmp(cmd->argumants[0], "exit", INT_MAX))
+		return (ft_exit(cmd->argumants));
+	else if (!ft_strncmp(cmd->argumants[0], "cd", INT_MAX))
+		return (ft_cd(cmd->argumants));
+	return (0);
 }

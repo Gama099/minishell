@@ -9,6 +9,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
+# include <sys/stat.h>
 
 typedef struct s_file
 {
@@ -43,9 +44,7 @@ typedef struct s_bash
 } t_bash;
 
 t_bash	*ft_bash(void);
-char    *redirec_out(t_command *cmd, t_env_list *env);
-char    *redirec_app_out(t_command *cmd, t_env_list *env);
-char    *redirec_input(t_command *cmd, t_env_list *env);
+int	redirect_file(t_command *cmd);
 
 // builtins
 void		print_export(t_env_list *list);
@@ -57,10 +56,11 @@ int 		ft_pwd();
 int			ft_cd(char **arg);
 int			ft_exit(char **arg);
 int			check_if_builts(char **argv);
-void		run_builts(char **argv, int argc, t_env_list *list);
+int			run_builts(t_command *cmd);
 int			there_is_plus(char *str);
 int			check_value(char *str);
 int 		set_under_score(char **argv);
+int			redirect_builtin(t_command *cmd);
 t_env_list	*check_if_exit(t_env_list *list, char *str);
 //builtins
 
@@ -71,16 +71,22 @@ char		*ft_strnstr(const char	*big, const char *little, size_t len);
 char    	*ft_strcpy(char *s1, char *s2);
 char		*ft_strjoin(char *s1, char *s2);
 char		**ft_split(char const *s, char c);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char   		*find_path(char **env, char *cmd);
+int			ft_strchrr(char *s, int c);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_isalnum(char c);
 int			ft_isalpha(char c);
 int     	check_access(char *PATH);
+void		ft_bzero(void *s, size_t n);
 //string_utils
 
 //syscall
 void	 	ft_dup(int old_fd, int new_fd);
 //syscall
+
+//file
+int			is_a_directory(char *filename, int bltn);
+//file
 
 //node
 void		node_check(char	*str, t_env_list *node);
