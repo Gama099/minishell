@@ -9,7 +9,7 @@ int set_under_score(char **argv)
     i = 0;
     while (argv[i])
         i++;
-     if (i = 1)
+     if (i == 1)
         return (1);
     node = check_if_exit(ft_bash()->list, "_");
     value = node->value;

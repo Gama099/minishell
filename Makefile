@@ -29,10 +29,11 @@ OBJECT = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJECT) $(HEADER)
+$(NAME): $(OBJECT)
 	$(CC) $(GFLAGS) $(OBJECT) -o $(NAME)
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: %.c $(HEADER)
+	$(CC) $(GFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJECT)

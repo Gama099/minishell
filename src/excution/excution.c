@@ -14,7 +14,8 @@ int	check_path(t_command *cmd)
         	err_n_exit(NULL, NULL, cmd->argumants[0], 127);
     	else if (check == 2)//not excutable
         	err_n_exit(NULL, NULL, cmd->argumants[0], 126);
-		return (3);//path is valid
+		else
+			return (3);//path is valid
 	}
 	return (check);
 }
@@ -23,7 +24,7 @@ char	*get_redarct(t_command *cmd)
 {
     char    *command;
 
-	command == NULL;
+	command = NULL;
 	if (check_path(cmd) == 0)//user didnt give path
 		command = find_path(ft_bash()->list, cmd->argumants[0]);//find path my self
 	else
@@ -55,17 +56,17 @@ void	one_cmd(t_command *cmd)
 
 int	excution(t_command *cmd)
 {
-	int	*fd;
+	//int	*fd;
 
 	if (cmd->next == NULL && check_if_builts(cmd->argumants[0]) == 0)
 		builtin_helper(cmd);
 	else
 		one_cmd(cmd);
-	while (cmd != NULL)
-	{
-		if (pipe(fd) == -1)
-			return (perror("pipe"), 1);
+	// while (cmd != NULL)
+	// {
+	// 	if (pipe(fd) == -1)
+	// 		return (perror("pipe"), 1);
 
-	}
+	// }
 	return (0);
 }
