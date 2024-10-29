@@ -1,13 +1,13 @@
 #include "../../includes/minishell.h"
 
-int	ft_env(t_env_list *list)
+int	ft_env(t_env_list *list , char **str)
 {
 	t_env_list	*new_node;
 	int		i;
 
 	new_node = list;
 	i = 0;
-	while (ft_bash()->cmd.argumants[i])
+	while (str[i])
 		i++;
 	if (i > 1)
 		return (printf("too many arguments\n"), 1);

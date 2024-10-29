@@ -36,6 +36,7 @@ typedef struct s_env_list
 
 typedef struct s_bash
 {
+	char		**env;
 	t_env_list	*list;
 	t_command	cmd;
 	t_files		*files;
@@ -53,7 +54,7 @@ int			builtin_helper(t_command *cmd);
 int			check_if_builts(char *cmd);
 int			ft_export(char **str);
 int			arg_valid(char *str);
-int			ft_env(t_env_list *list);
+int			ft_env(t_env_list *list, char **str);
 int			ft_unset(char **argv, t_env_list **list);
 int			ft_echo(char **argv);
 int 		ft_pwd();
@@ -68,8 +69,8 @@ t_env_list	*check_if_exit(t_env_list *list, char *str);
 //builtins
 
 //excution
-char   		*find_path(t_env_list *env, char *cmd);
-void		one_cmd(t_command *cmd);
+char   		*find_path(char *cmd);
+int			excution(t_command *cmd);
 //excution
 
 //string_utils

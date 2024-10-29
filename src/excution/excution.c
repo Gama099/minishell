@@ -26,7 +26,7 @@ char	*get_redarct(t_command *cmd)
 
 	command = NULL;
 	if (check_path(cmd) == 0)//user didnt give path
-		command = find_path(ft_bash()->list, cmd->argumants[0]);//find path my self
+		command = find_path(cmd->argumants[0]);//find path my self
 	else
 	{
 		redirect_file(cmd);

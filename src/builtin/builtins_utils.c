@@ -42,7 +42,7 @@ int	run_builts(t_command *cmd)
     else if (!ft_strncmp(cmd->argumants[0], "pwd", INT_MAX))
         return (ft_pwd());
 	else if (!ft_strncmp(cmd->argumants[0], "env", INT_MAX))
-		return (ft_env(ft_bash()->list));
+		return (ft_env(ft_bash()->list, cmd->argumants)) ;
 	else if (!ft_strncmp(cmd->argumants[0], "export", INT_MAX))
 		return (ft_export(cmd->argumants));
 	else if (!ft_strncmp(cmd->argumants[0], "unset", INT_MAX))

@@ -31,27 +31,27 @@ int check_access(char *PATH)
         return (1);
 }
 
-char    *find_path(t_env_list *env, char *cmd)
+char    *find_path(char *cmd)
 {
-    char    **path;
-    char    *splited_path;
+    char    *path;
+    char    **splited_path;
 	char	*tmp;
     int i;
     int check;
 
     i = 0;
     check = 0;
-    while ((splited_path = ft_strnstr(env->name, "PATH", 4)) == NULL)
-        env = env->next;
-    path = ft_split(splited_path, ':');
+    while ((path = ft_strnstr(ft_bash()->env[i], "PATH", 4)) == NULL)
+        i++;
+    splited_path = ft_split(path, ':');
     i  = 0;
     tmp = ft_strjoin("/", cmd);
-    while (path[i])
+    while (splited_path[i])
     {
-        splited_path = ft_strjoin(path[i],tmp);
-        check = check_access(splited_path);
+        path = ft_strjoin(splited_path[i], tmp);
+        check = check_access(path);
         if (check == 0)
-            return (splited_path);
+            return (path);
         i++;
     }
     if (check == 1)

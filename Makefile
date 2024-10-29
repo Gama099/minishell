@@ -1,6 +1,6 @@
 CC = cc
 NAME = minishell
-GFLAGS =-Wall -Wextra -Werror -Iincludes #-g3
+GFLAGS =-Wall -Wextra -Werror -Iincludes -g3
 HEADER = includes/minishell.h
 SRC =	src/main.c \
 		src/excution/excution.c \
