@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 t_env_list	*check_if_exit(t_env_list *list, char *str)
 {

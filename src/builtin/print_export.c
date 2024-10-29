@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	swap_data(t_env_list *current, t_env_list *next)
 {

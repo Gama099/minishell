@@ -68,7 +68,7 @@ t_env_list	*check_if_exit(t_env_list *list, char *str);
 
 //excution
 char   		*find_path(char **env, char *cmd);
-
+void		one_cmd(t_command *cmd);
 //excution
 
 //string_utils

@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	add_new_var(char *str, t_env_list *list)
 {

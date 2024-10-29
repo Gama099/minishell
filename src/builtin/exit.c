@@ -3,7 +3,7 @@
 //exit with too much args
 //exit with number bettwen 0 and 255
 //others undifiend behavior
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 int	ft_exit_helper(int exit_code)
 {
