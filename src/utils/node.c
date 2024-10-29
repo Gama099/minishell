@@ -1,19 +1,5 @@
 #include "../../includes/minishell.h"
 
-int	check_value(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=' && str[i + 1] != '\0')
-			return (EXIT_SUCCESS);
-		i++;
-	}
-	return (EXIT_FAILURE);
-}
-
 t_env_list	*ft_last_node(t_env_list *head)
 {
 	t_env_list	*new_node;
@@ -28,15 +14,20 @@ t_env_list	*ft_create_node(char *str)
 {
 	t_env_list	*new_node;
 	int	flag;
+	char **splited;
 
 	new_node = malloc(sizeof(t_env_list));
 	if (!new_node)
 		return (NULL);
-	new_node->name = str;
-	if ((flag = check_value(str)) == 0)
-		new_node->value = 1;
+	splited = ft_split(str, '=');
+	new_node->value = splited[1];
+	if (!there_is_plus(str))
+		splited[0][ft_strlen(splited[0]) - 1] = '\0';//remove + from 1 array after the split
+	new_node->name = splited[0];
+	if ((flag = check_value(str)) == 0 || flag == 2)// there is = sometimes with value sometimes not
+		new_node->type = 1;
 	else
-		new_node->value = 0;
+		new_node->type = 0;
 	new_node->next = NULL;
 	return (new_node);
 }

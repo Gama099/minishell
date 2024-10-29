@@ -46,7 +46,7 @@ int	run_builts(t_command *cmd)
 	else if (!ft_strncmp(cmd->argumants[0], "export", INT_MAX))
 		return (ft_export(cmd->argumants));
 	else if (!ft_strncmp(cmd->argumants[0], "unset", INT_MAX))
-		return (ft_unset(cmd->argumants, ft_bash()->list));
+		return (ft_unset(cmd->argumants, &ft_bash()->list));
 	else if (!ft_strncmp(cmd->argumants[0], "exit", INT_MAX))
 		return (ft_exit(cmd->argumants));
 	else if (!ft_strncmp(cmd->argumants[0], "cd", INT_MAX))
@@ -58,7 +58,7 @@ void	child_builtin_helper(t_command *cmd)
 {
 	int	status;
 
-	if (check_if_builts(cmd) == 0)
+	if (check_if_builts(cmd->argumants[0]) == 0)
 	{
 		set_under_score(cmd->argumants);
 		redirect_file(cmd);

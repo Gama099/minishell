@@ -87,7 +87,7 @@ char    *ft_strcpy(char *s1, char *s2)
 	return (s1);
 }
 
-int	ft_isalnumm(char c)
+int	ft_isalnum(char c)
 {
 	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
 		(c >= '0' && c <= '9'))
@@ -95,7 +95,7 @@ int	ft_isalnumm(char c)
 	return (0);
 }
 
-int	ft_isalphaa(char c)
+int	ft_isalpha(char c)
 {
 	if (((c >= 'a') && (c <= 'z')) ||
 		((c >= 'A') && (c <= 'Z')))
@@ -103,7 +103,7 @@ int	ft_isalphaa(char c)
 	return (0);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(char *s1)
 {
 	size_t	i;
 	size_t	dupsize;
@@ -164,6 +164,28 @@ int	ft_putstr_fd(char *s, int fd)
 		if (ft_putchar_fd(s[i++], fd))
 			return (1);
 	}
+	return (0);
+}
+
+int	ft_putchar_fd(char c, int fd)
+{
+	if (write(fd, &c, 1) == -1)
+		return (1);
+	return (0);
+}
+
+int	ft_putendl_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (s && s[i])
+	{
+		if (ft_putchar_fd(s[i++], fd))
+			return (1);
+	}
+	if (ft_putchar_fd('\n', fd))
+		return (1);
 	return (0);
 }
 

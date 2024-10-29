@@ -1,11 +1,11 @@
 #include "../../includes/minishell.h"
 
-int	ft_env()
+int	ft_env(t_env_list *list)
 {
 	t_env_list	*new_node;
 	int		i;
 
-	new_node = ft_bash()->list;
+	new_node = list;
 	i = 0;
 	while (ft_bash()->cmd.argumants[i])
 		i++;

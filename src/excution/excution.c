@@ -57,7 +57,7 @@ int	excution(t_command *cmd)
 {
 	int	*fd;
 
-	if (cmd->next == NULL && check_if_builts(cmd) == 0)
+	if (cmd->next == NULL && check_if_builts(cmd->argumants[0]) == 0)
 		builtin_helper(cmd);
 	else
 		one_cmd(cmd);

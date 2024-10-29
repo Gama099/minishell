@@ -1,5 +1,5 @@
 #ifndef MINISHELL_H
-# define MINISHEL_H
+# define MINISHELL_H
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
@@ -48,12 +48,13 @@ int			redirect_file(t_command *cmd);
 
 // builtins
 void		print_export(t_env_list *list);
-void		builtin_helper(t_command *cmd);
 void		child_builtin_helper(t_command *cmd);
+int			builtin_helper(t_command *cmd);
 int			check_if_builts(char *cmd);
 int			ft_export(char **str);
+int			arg_valid(char *str);
 int			ft_env(t_env_list *list);
-int			ft_unset(char **argv, t_env_list *list);
+int			ft_unset(char **argv, t_env_list **list);
 int			ft_echo(char **argv);
 int 		ft_pwd();
 int			ft_cd(char **arg);
@@ -67,17 +68,20 @@ t_env_list	*check_if_exit(t_env_list *list, char *str);
 //builtins
 
 //excution
-char   		*find_path(char **env, char *cmd);
+char   		*find_path(t_env_list *env, char *cmd);
 void		one_cmd(t_command *cmd);
 //excution
 
 //string_utils
 size_t		ft_strlen(char *str);
-char		*ft_strdup(const char *s1);
+char		*ft_strdup(char *s1);
 char		*ft_strnstr(const char	*big, const char *little, size_t len);
 char    	*ft_strcpy(char *s1, char *s2);
 char		*ft_strjoin(char *s1, char *s2);
 char		**ft_split(char const *s, char c);
+int			ft_atoi(char *str);
+int			ft_putchar_fd(char c, int fd);
+int			ft_putendl_fd(char *s, int fd);
 int			ft_strchrr(char *s, int c);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_isalnum(char c);
@@ -105,8 +109,7 @@ int			is_a_directory(char *filename, int bltn);
 void		node_check(char	*str, t_env_list *node);
 void		free_env(t_env_list *env);
 t_env_list	*env_to_list(char	**env);
-t_env_list	*ft_create_node(char *str, int i);
+t_env_list	*ft_create_node(char *str);
 t_env_list	*ft_last_node(t_env_list *head);
 //node
-
 # endif

@@ -14,32 +14,16 @@ int	there_is_plus(char *str)
 	return (EXIT_FAILURE);
 }
 
-int	check_value(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=' && str[i + 1] != '\0')//there is value
-			return (EXIT_SUCCESS);
-		else if (str[i] == '=' && str[i + 1] == '\0')//null value
-			return (2);
-		i++;
-	}
-	return (EXIT_FAILURE);//no =
-}
-
 int	before_sum(char *str)
 {
 	int	j;
 
 	j = 1;
-	if (!ft_isalphaa(str[0]) && str[0] != '_')//alpha or underscore
+	if (!ft_isalpha(str[0]) && str[0] != '_')//alpha or underscore
 		return (0);
 	while (str[j])
 	{
-		if (!ft_isalnumm(str[j]) && str[j] != '_')//alpha or numeric or underscore
+		if (!ft_isalnum(str[j]) && str[j] != '_')//alpha or numeric or underscore
 			return (0);
 		j++;
 	}

@@ -18,10 +18,10 @@ SRC =	src/main.c \
 		src/builtin/pwd.c \
 		src/builtin/unset.c \
 		src/utils/node.c \
+		src/utils/atoi.c \
 		src/utils/split.c \
 		src/utils/string_utils.c \
 		src/utils/file_utils.c \
-		src/utils/string_utils.c \
 		src/systemcall.c \
 		src/error_utils.c \
 
