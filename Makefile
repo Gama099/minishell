@@ -1,4 +1,4 @@
-CC = cc 
+CC = cc
 NAME = minishell
 GFLAGS =-Wall -Wextra -Werror -Iincludes #-g3
 HEADER = includes/minishell.h
@@ -23,8 +23,8 @@ SRC =	src/main.c \
 		src/utils/file_utils.c \
 		src/utils/string_utils.c \
 		src/systemcall.c \
+		src/error_utils.c \
 
-		
 OBJECT = $(SRC:.c=.o)
 
 all: $(NAME)
