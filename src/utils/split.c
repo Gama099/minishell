@@ -87,7 +87,7 @@ char	**ft_split(char const *s, char c)
 		exit(1);
 	str = malloc((len + 1) * sizeof(char *));
 	if (!str)
-		return (NULL);
+		err_n_exit("syscall failed", "malloc", NULL, 1);
 	str[len] = NULL;
 	if (ft_write(str, s, c))
 		return (NULL);

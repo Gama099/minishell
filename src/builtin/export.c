@@ -31,7 +31,7 @@ void	join_var(char *str, t_env_list *node)
 void	change_var(char	*str, t_env_list *node)
 {
 	char	**splited;
-	
+
 	splited = ft_split(str, '=');
 	if (check_value(str) == 2)
 		node->value = ft_strdup("");
@@ -59,23 +59,23 @@ void	check_var(t_env_list *list, int i, char *str)
 		add_new_var(str, list);
 }
 
-int		ft_export()
+int		ft_export(char **str)
 {
 	int j;
 	int	i;
 
 	j = 1;
-	if (ft_bash()->cmd.argumants[j] == NULL)// no args mean sort and print
+	if (str[j] == NULL)// no args mean sort and print
 	{
 		print_export(ft_bash()->list);
 		return (0);
 	}
-	while (ft_bash()->cmd.argumants[j])
+	while (str[j])
 	{
-		if ((i = arg_valid(ft_bash()->cmd.argumants[j])) != 1)
-			check_var(ft_bash()->list, i, ft_bash()->cmd.argumants[j]);
+		if ((i = arg_valid(str[j])) != 1)
+			check_var(ft_bash()->list, i, str[j]);
 		else
-			printf("bash: export: `%s': not a valid identifier\n",ft_bash()->cmd.argumants[j]);
+			printf("bash: export: `%s': not a valid identifier\n", str[j]);
 		j++;
 	}
 	return (0);

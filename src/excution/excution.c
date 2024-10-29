@@ -1,21 +1,5 @@
 #include "minishell.h"
 
-int	is_a_directory(char *filename, int bltn)
-{
-	struct stat	buff;
-
-	ft_bzero(&buff, sizeof(buff));
-	stat(filename, &buff);
-	if ((buff.st_mode & __S_IFMT) == __S_IFDIR)
-	{
-		printf("Is a directory");
-		if (bltn == 0)
-			exit(1);//free todo
-		return (1);
-	}
-	return (0);
-}
-
 int	check_path(t_command *cmd)
 {
 	int	check;
@@ -24,62 +8,64 @@ int	check_path(t_command *cmd)
 	if (ft_strchrr(cmd->argumants[0], '/') != -1)
 	{
 		if (is_a_directory(cmd->argumants[0], 1))
-			exit(126);
+			clean_exit(126);
 		check = check_access(cmd->argumants[0]);
-		if (check == 1)
-        	return (write(2, "command not found\n", 19), 1);
-    	else if (check == 2)
-        	return (write(2, "permission denied\n",19), 1);
+		if (check == 1)// not found
+        	err_n_exit(NULL, NULL, cmd->argumants[0], 127);
+    	else if (check == 2)//not excutable
+        	err_n_exit(NULL, NULL, cmd->argumants[0], 126);
+		return (3);//path is valid
 	}
 	return (check);
 }
 
-int	run_normal(t_command *cmd)
+char	*get_redarct(t_command *cmd)
 {
     char    *command;
-    int pid;
-    int status;
 
 	command == NULL;
-	if (check_path(cmd) == 0);//user didnt give path
+	if (check_path(cmd) == 0)//user didnt give path
 		command = find_path(ft_bash()->list, cmd->argumants[0]);//find path my self
-    if (command == NULL)
-        return (1);
-    if ((pid = fork()) == -1)
-        return (printf("error with fork\n"), 1);
-    else if (pid == 0)
+	else
 	{
 		redirect_file(cmd);
-        execve(command, cmd->argumants, NULL);
+		return (cmd->argumants[0]);
 	}
-    else
-        wait(&status);
-    return (0);
+	redirect_file(cmd);
+    return (command);
 }
 
-int	one_cmd(t_command *cmd)
+void	one_cmd(t_command *cmd)
 {
-	int	status;
+	int 	pid;
+	int		child_status;
+	char    *command;
 
-	status = 0;
-	if (check_if_builts(cmd->argumants[0]) == 0)
-        status = run_builts(cmd);
-	else
-		status = run_normal(cmd);
-	return (status);
+	//i will try to put everything in child prossec
+	if ((pid = fork()) == -1)
+        err_n_exit("error with fork", "fork", NULL, 1);
+	if (pid == 0)
+	{
+        child_builtin_helper(cmd);//if not exit from child prossec that mean its not builtin
+		command = get_redarct(cmd);//get path and redirct
+		execve(command, cmd->argumants, NULL);//excute the cmd
+	}
+	wait(&child_status);
 }
 
 int	excution(t_command *cmd)
 {
 	int	*fd;
 
-	if (cmd->next == NULL)
+	if (cmd->next == NULL && check_if_builts(cmd) == 0)
+		builtin_helper(cmd);
+	else
 		one_cmd(cmd);
 	while (cmd != NULL)
 	{
 		if (pipe(fd) == -1)
 			return (perror("pipe"), 1);
-		
+
 	}
 	return (0);
 }

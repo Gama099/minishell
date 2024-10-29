@@ -3,10 +3,10 @@
 void	 	ft_dup(int old_fd, int new_fd)
 {
 	if (dup2(old_fd, new_fd) == -1)
-		printf("syscall failed dup2\n");
+		pr_err_msg("syscall failed", "dup2", NULL);
 	else
 	{
 		if (close(old_fd) == -1)
-			printf("syscall failed close\n");
+			pr_err_msg("syscall failed", "close", NULL);
 	}
 }

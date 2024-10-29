@@ -28,13 +28,14 @@ int check_access(char *PATH)
             return (2);
     }
     else
-        return (1);      
+        return (1);
 }
 
 char    *find_path(t_env_list *env, char *cmd)
 {
     char    **path;
     char    *splited_path;
+	char	*tmp;
     int i;
     int check;
 
@@ -44,19 +45,18 @@ char    *find_path(t_env_list *env, char *cmd)
         env = env->next;
     path = ft_split(splited_path, ':');
     i  = 0;
-    cmd = ft_strjoin("/", cmd); 
+    tmp = ft_strjoin("/", cmd);
     while (path[i])
     {
-        splited_path = ft_strjoin(path[i],cmd);
+        splited_path = ft_strjoin(path[i],tmp);
         check = check_access(splited_path);
         if (check == 0)
             return (splited_path);
         i++;
     }
     if (check == 1)
-        return (write(2, "command not found\n", 19), NULL);
+		err_n_exit("command not found", NULL, cmd, 127);
     else if (check == 2)
-        return (write(2, "permission denied\n",19), NULL);
+        err_n_exit("permission denied", NULL, cmd, 126);
     return (NULL);
 }
-

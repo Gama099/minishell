@@ -64,3 +64,21 @@ t_env_list	*env_to_list(char	**env)
 	}
 	return (first);
 }
+
+void	free_env(t_env_list *env)
+{
+	t_env_list *tmp;
+
+	while (env != NULL)
+	{
+		tmp = env;
+		env = env->next;
+		free(tmp->name);
+		tmp->name = NULL;
+		free(tmp->value);
+		tmp->value = NULL;
+		free(tmp);
+		tmp = NULL;
+	}
+	env = NULL;
+}

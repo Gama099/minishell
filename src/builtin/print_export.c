@@ -36,37 +36,41 @@ t_env_list	*sorted_env(t_env_list *list)
 	return (list);
 }
 
-// t_env_list *duplicat_env(t_env_list *env)
-// {
-// 	t_env_list	*head;
-// 	t_env_list	*prev;
-// 	t_env_list	*tmp;
+t_env_list	*copyList(t_env_list *head)
+{
+	t_env_list	*node;
 
-// 	tmp = env;
-// 	head = NULL;
-// 	prev = NULL;
-
-// 	while (tmp != NULL)
-// 	{
-// 		if (head == NULL)
-// 		{
-
-// 		}
-// 	}
-// }
+    if (head == NULL)
+        return NULL;
+    else
+	{
+        node = malloc(sizeof(t_env_list));
+		if (node == NULL)
+			err_n_exit("syscall failed", "malloc", NULL, 1);
+        node->name = head->name;
+		node->value = head->value;
+        node->next = copyList(head->next);
+        return node;
+    }
+}
 
 void	print_export(t_env_list *list)
 {
-	t_env_list *first;
+	t_env_list	*first;
 
-	first = sorted_env(list);
+	first = copyList(list);
+	first = sorted_env(first);
 	while(first != NULL)
 	{
-		printf("declare -x ");
-		if (first->value == NULL)
-			printf("%s\n",first->name);
-		else
-			printf("%s=\"%s\"\n",first->name, first->value);
+		if (first->name[0] != '_')
+		{
+			printf("declare -x ");
+			if (first->value == NULL)
+				printf("%s\n",first->name);
+			else
+				printf("%s=\"%s\"\n",first->name, first->value);
+		}
 		first = first->next;
 	}
+	free_env(first);
 }

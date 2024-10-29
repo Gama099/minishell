@@ -34,7 +34,10 @@ int	ft_cd_helper(char *path)
 	oldpwd = getcwd(NULL, 0);
 	code = chdir(path);
 	if (code != 0)
-		return (free(oldpwd), printf("No such file or directory\n"), (1));
+	{
+		free(oldpwd);
+		return (pr_err_msg("No such file or directory", "cd", NULL), 1);
+	}
 	pwd = getcwd(NULL, 0);
 	update_env("PWD", pwd);
 	update_env("OLDPWD", oldpwd);
@@ -47,7 +50,7 @@ int		ft_cd(char **arg)
 	t_env_list	*homes;
 
 	j = 1;
-	
+
 	if (arg[j] == NULL)//cd home if one arg
 	{
 		homes = check_if_exit(ft_bash()->list, "HOME");

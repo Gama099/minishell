@@ -97,7 +97,7 @@ int	ft_isalnumm(char c)
 
 int	ft_isalphaa(char c)
 {
-	if (((c >= 'a') && (c <= 'z')) || 
+	if (((c >= 'a') && (c <= 'z')) ||
 		((c >= 'A') && (c <= 'Z')))
 		return (1);
 	return (0);
@@ -152,5 +152,18 @@ void	*ft_memset(void *b, int c, size_t len)
 void	ft_bzero(void *s, size_t n)
 {
 	ft_memset(s, 0, n);
+}
+
+int	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (s && s[i])
+	{
+		if (ft_putchar_fd(s[i++], fd))
+			return (1);
+	}
+	return (0);
 }
 

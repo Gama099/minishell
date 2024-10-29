@@ -32,7 +32,7 @@ int	ft_echo(char **argv)
 	int	flag;
 
     i = echo_check(argv);
-	if (i == 1)
+	if (i == 1)//no -n option
 		flag = 1;
 	else
 		flag = 0;

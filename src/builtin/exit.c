@@ -5,6 +5,12 @@
 //others undifiend behavior
 #include "minishell.h"
 
+int	ft_exit_helper(int exit_code)
+{
+	clean_exit(exit_code);
+	return (1);
+}
+
 int	str_is_digit(char *a)
 {
 	int	i;
@@ -22,7 +28,7 @@ int	str_is_digit(char *a)
 int	ft_exit(char **arg)
 {
 	int	i;
-	
+
 	i = 1;
 	write(1, "exit\n", 6);
 	if (ft_bash()->cmd.argumants[i] == NULL)//one arg = exit
