@@ -122,7 +122,7 @@ char	*ft_strdup(const char *s1)
 	return (dup);
 }
 
-int	ft_strchrr(char *s, int c)
+int	ft_strchr(char *s, int c)
 {
 	int	i;
 
@@ -166,4 +166,3 @@ int	ft_putstr_fd(char *s, int fd)
 	}
 	return (0);
 }
-

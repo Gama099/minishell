@@ -18,7 +18,7 @@ int	is_a_directory(char *filename, int bltn)
 
 int	check_ambiguous(char *filename)
 {
-	if ((filename == NULL || ft_strchrr(filename, ' ') != -1))
+	if ((filename == NULL || ft_strchr(filename, ' ') != -1))
 		return (pr_err_msg("ambiguous redirection", NULL, NULL),1);
 	return (0);
 }

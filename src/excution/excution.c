@@ -5,7 +5,7 @@ int	check_path(t_command *cmd)
 	int	check;
 
 	check = 0;
-	if (ft_strchrr(cmd->argumants[0], '/') != -1)
+	if (ft_strchr(cmd->argumants[0], '/') != -1)
 	{
 		if (is_a_directory(cmd->argumants[0], 1))
 			clean_exit(126);

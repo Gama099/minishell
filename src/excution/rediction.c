@@ -2,7 +2,7 @@
 
 int	check_ambiguous(char *filename)
 {
-	if ((filename == NULL || ft_strchrr(filename, ' ') != -1))
+	if ((filename == NULL || ft_strchr(filename, ' ') != -1))
 		err_exit("ambiguous redirection", NULL, NULL, 1);
 	return (0);
 }
