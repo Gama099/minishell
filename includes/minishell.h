@@ -44,7 +44,7 @@ typedef struct s_file
   typedef struct s_command
   {
   char    **argumants;
-  t_files files;
+  t_files *files;
    struct s_command    *next;
   } t_command;
 
