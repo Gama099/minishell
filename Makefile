@@ -29,7 +29,7 @@ SRC =	src/main.c \
 		src/parser/expand_variables.c \
 		src/parser/identifaing_type_of_token.c \
 		src/parser/to_struct.c \
-		src/parser/trim_spaces_from_start_end.cc \
+		src/parser/trim_spaces_from_start_end.c \
 		src/parser/while_loop_and_buffring.c \
 
 OBJECT = $(SRC:.c=.o)
