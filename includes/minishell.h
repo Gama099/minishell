@@ -110,10 +110,10 @@ int			excution(t_command *cmd);
 //excution
 
 //string_utils
-size_t		ft_strlen(char *str);
+size_t		ft_strlen(const char *str);
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char		*ft_strdup(char *s1);
 char		*ft_strnstr(const char	*big, const char *little, size_t len);
-char    	*ft_strcpy(char *s1, char *s2);
 char		*ft_strjoin(char *s1, char *s2);
 char		**ft_split(char const *s, char c);
 int			ft_atoi(char *str);
@@ -123,6 +123,7 @@ int			ft_strchrr(char *s, int c);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_isalnum(char c);
 int			ft_isalpha(char c);
+int			ft_isdigit(char a);
 int     	check_access(char *PATH);
 int			ft_putstr_fd(char *s, int fd);
 void		ft_bzero(void *s, size_t n);

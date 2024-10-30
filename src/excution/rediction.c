@@ -65,20 +65,23 @@ int	redirect_out_b_child(char *filename, int append)
 
 int	redirect_file(t_command *cmd)
 {
-	while (cmd->files != NULL)
+	int	i;
+
+	i = 0;
+	while (cmd->files[i].next != NULL)
 	{
-		if (!ft_strncmp(cmd->files->redirec, "herdoc", INT_MAX))
+		if (!ft_strncmp(cmd->files[i].redirec, "<<", INT_MAX))
 			ft_dup(cmd->files->fd[0], STDIN_FILENO);
-		if (!ft_strncmp(cmd->files->redirec, "redin", INT_MAX))
+		if (!ft_strncmp(cmd->files[i].redirec, "<", INT_MAX))
 			if (redirect_in_file_b_child(cmd->files->name))
 				return (1);
-		if (!ft_strncmp(cmd->files->redirec, "redout", INT_MAX))
+		if (!ft_strncmp(cmd->files[i].redirec, ">", INT_MAX))
 			if (redirect_out_b_child(cmd->files->name, 0))
 				return (1);
-		if (!ft_strncmp(cmd->files->redirec, "redoapp", INT_MAX))
+		if (!ft_strncmp(cmd->files[i].redirec, ">>", INT_MAX))
 			if (redirect_out_b_child(cmd->files->name, 1))
 				return (1);
-		cmd->files = cmd->files->next;
+		i++;
 	}
 	return (0);
 }

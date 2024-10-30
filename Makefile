@@ -1,7 +1,8 @@
 CC = cc
 NAME = minishell
-#GFLAGS =-Wall -Wextra -Werror -Iincludes -g3
+CFLAGS =-g3 #-Wall -Wextra -Werror 
 HEADER = minishell.h
+INC = includes
 SRC =	src/main.c \
 		src/excution/excution.c \
 		src/excution/execve_utils.c \
@@ -36,11 +37,11 @@ OBJECT = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJECT)
-	$(CC) $(OBJECT) -o $(NAME)
+$(NAME) : $(OBJECT) 
+	$(CC) $(CFLAGS) -I$(INC) $(OBJECT)   -lreadline -o $@
 
 %.o: %.c $(HEADER)
-	$(CC)  -c $< -o $@
+	$(CC) $(CFLAGS) -I$(INC) -c $? -o $@
 
 clean:
 	rm -f $(OBJECT)

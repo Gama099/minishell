@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	ft_strlcpy(char *dst, const char *src, int size)
+void	ft_strlcpyy(char *dst, const char *src, int size)
 {
 	int	i;
 
@@ -51,7 +51,7 @@ int	ft_write(char **str, char const *s, char c)
 		{
 			if (allocating(str, index, j + 1))
 				return (1);
-			ft_strlcpy(str[index], s - j, j + 1);
+			ft_strlcpyy(str[index], s - j, j + 1);
 			index++;
 		}
 	}

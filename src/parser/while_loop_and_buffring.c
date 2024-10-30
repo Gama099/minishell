@@ -56,14 +56,14 @@ void	init_global_data(char **envp)
 	ft_bash()->env = envp;
 }
 
-int main(int argc, char **argv, char **envp)
+int main(int ac, char **av, char **envp)
 {
     char        *input;
     t_tokens    *tokens;
     char        *buffer;
 
-	argc += 1;
-	ft_strlen(argv[0]);
+	(void)ac;
+	(void)av;
 	init_global_data(envp);
     while (1)
     {
@@ -85,6 +85,10 @@ int main(int argc, char **argv, char **envp)
 	   	expand_varibles(&tokens);
         parser(&tokens);
 		t_command *command = to_strcuct(tokens);
+        // printf("cmd = %s\n", command->argumants[0]);
+        // printf("cmd = %s\n", command->argumants[1]);
+        // printf("file = %s\n", command->files->name);
+        // printf("red = %s\n", command->files->redirec);
 		excution(command);
 		//print_command(command);
         /*while (tokens)

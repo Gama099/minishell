@@ -63,7 +63,6 @@ int	redirect_in_file_b(char *filename)
 int	redirect_out_b(char *filename, int append)
 {
 	int	fd;
-
 	if (check_file_b(filename, 1) == 0)
 	{
 		if (append == 1)
@@ -81,20 +80,23 @@ int	redirect_out_b(char *filename, int append)
 
 int	redirect_builtin(t_command *cmd)
 {
-	while (cmd->files != NULL)
+	int	i;
+
+	i = 0;
+	while (cmd->files[i].next != NULL)
 	{
-		if (!ft_strncmp(cmd->files->redirec, "herdoc", INT_MAX))
+		if (ft_strncmp(cmd->files[i].redirec, "<<", ft_strlen("<<")) == 0)
 			ft_dup(cmd->files->fd[0], STDIN_FILENO);
-		if (!ft_strncmp(cmd->files->redirec, "redin", INT_MAX))
+		if (ft_strncmp(cmd->files[i].redirec, "<", ft_strlen("<")) == 0)
 			if (redirect_in_file_b(cmd->files->name))
 				return (1);
-		if (!ft_strncmp(cmd->files->redirec, "redout", INT_MAX))
+		if (ft_strncmp(cmd->files[i].redirec, ">", ft_strlen(">")) == 0)
 			if (redirect_out_b(cmd->files->name, 0))
 				return (1);
-		if (!ft_strncmp(cmd->files->redirec, "redoapp", INT_MAX))
+		if (ft_strncmp(cmd->files[i].redirec, ">>", ft_strlen(">>")) == 0)
 			if (redirect_out_b(cmd->files->name, 1))
 				return (1);
-		cmd->files = cmd->files->next;
+		i++;
 	}
 	return (0);
 }

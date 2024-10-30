@@ -149,6 +149,7 @@ t_command	*init_cmd_node(void)
 	command = malloc(sizeof(t_command));
 	command->argumants = NULL;
 	command->next = NULL;
+	command->files = malloc(sizeof(t_files));
 	command->files->name = NULL;
 	command->files->next = NULL;
 	command->files->redirec = NULL;
@@ -162,7 +163,7 @@ void	handle_rediration(t_command *command, t_tokens **tokens)
 	t_files	*current;
 	t_files	*new_file;
 
-	current = &command->files;
+	current = command->files;
 	if (command->files->name != NULL)
 	{
 		new_file = malloc(sizeof(t_files));
