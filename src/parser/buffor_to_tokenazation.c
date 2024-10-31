@@ -26,6 +26,7 @@ void	createTokensmeta(t_tokens **token, char str)
 	newNode->next = NULL;
 	newNode->sing_qoute = 0;
 	newNode->tokenType = NULL;
+	newNode->join_with_next = 0;
 	if (!*token)
 		*token = newNode;
 	else
@@ -49,13 +50,14 @@ void	createTokensmeta(t_tokens **token, char str)
 	}
 }*/
 
-void	createTokens(t_tokens **token, char *str, int qoute)
+void	createTokens(t_tokens **token, char *str, int qoute, int to_join)
 {
 	t_tokens	*newNode = malloc(sizeof(t_tokens));
 	t_tokens	*last = NULL;
 	newNode->token = ft_strdup(str);
 	newNode->next = NULL;
 	newNode->sing_qoute = qoute;
+	newNode->join_with_next = to_join;
 	newNode->tokenType = NULL;
 	if (!*token)
 		*token = newNode;
@@ -80,6 +82,8 @@ t_tokens *getTokens(char *buffer)
 	char		tmp_meta;
     t_tokens *tokens = NULL;
 
+	int to_join;
+
 	trimSpaces(&buffer);
     iter = buffer;
     tokenBegin = buffer;
@@ -91,6 +95,11 @@ t_tokens *getTokens(char *buffer)
     }
 	while (*iter)
 	{
+		// frist thin is to check the joining flag and reset it
+		//if (the things has to be colling)
+		//{ set join with 1
+		//}
+		to_join = 0;
 		// tokenbeging is the ptr that passed as the start of the toknen
 		if (*tokenBegin == '\0')
 			return tokens;
@@ -104,7 +113,7 @@ t_tokens *getTokens(char *buffer)
 			whichQoute = *iter;
 			*iter = '\0';
 			if (*(iter - 1))
-				createTokens(&tokens, tokenBegin, 0);
+				createTokens(&tokens, tokenBegin, 0, to_join);
 			tokenBegin = iter + 1;
 		}
 		// echo hello"world";
@@ -115,7 +124,7 @@ t_tokens *getTokens(char *buffer)
 		//
 		else if ((*iter == ' ' && !inQoutes) && *(iter - 1) != '\0'){
 			*iter = '\0';
-			createTokens(&tokens, tokenBegin, 0);
+			createTokens(&tokens, tokenBegin, 0, to_join);
 			tokenBegin = iter + 1;
 			if (*tokenBegin == '\0')
 				return tokens;
@@ -128,11 +137,15 @@ t_tokens *getTokens(char *buffer)
 		// this is when we arrive to the close of that qoute
 		else if ((*iter == whichQoute && inQoutes))
 		{
+			if (*(iter + 1) == '\'' || *(iter + 1) == '\"')
+			{
+				to_join = 1;
+			}
 			*iter = '\0';
 			if (whichQoute == '\'')
-				createTokens(&tokens, tokenBegin, 1);
+				createTokens(&tokens, tokenBegin, 1, to_join);
 			else
-				createTokens(&tokens, tokenBegin, 0);
+				createTokens(&tokens, tokenBegin, 0, to_join);
 			tokenBegin = iter + 1;
 			if (*tokenBegin == '\0')
 				return tokens;
@@ -169,7 +182,7 @@ t_tokens *getTokens(char *buffer)
 			if (*(iter - 1))
 			{
 			*iter = '\0';
-			createTokens(&tokens, tokenBegin, 0);
+			createTokens(&tokens, tokenBegin, 0, to_join);
 			*iter = '$';
 			tokenBegin = iter;
 			}
@@ -177,7 +190,7 @@ t_tokens *getTokens(char *buffer)
 		iter++;
 	}
 	if (tokenBegin)
-		createTokens(&tokens, tokenBegin, 0);
+		createTokens(&tokens, tokenBegin, 0, 0);
 	return tokens;
 }
 
@@ -191,6 +204,7 @@ t_tokens *getTokens(char *buffer)
 		while (tokens)
 		{
 			printf("[%s]\n", tokens->token);
+			printf("[%d]\n", tokens->join_with_next);
 			tokens = tokens->next;
 		}
 		free(buffer);
@@ -207,26 +221,26 @@ void	token_meta(t_tokens **token, char **iter, char **tokenBegin)
 	if (*(*iter - 1))
 	{
 		**iter = '\0';
-		createTokens(token, *tokenBegin, 0);
+		createTokens(token, *tokenBegin, 0, 0);
 		**iter = tmp_iter;
 	}
 	**iter = tmp_iter;
 	if (**iter == '>' && *(*iter + 1) == '>')
 	{
-		createTokens(token, ">>", 0);
+		createTokens(token, ">>", 0, 0);
 		(*iter)++;
 	}
 	else if (**iter == '<' && *(*iter + 1) == '<')
 	{
-		createTokens(token, "<<", 0);
+		createTokens(token, "<<", 0, 0);
 		(*iter)++;
 	}
 	else if (**iter == '>')
-		createTokens(token, ">", 0);
+		createTokens(token, ">", 0, 0);
 	else if (**iter == '<')
-		createTokens(token, "<", 0);
+		createTokens(token, "<", 0, 0);
 	else if (**iter == '|')
-		createTokens(token, "|", 0);
+		createTokens(token, "|", 0, 0);
 	**iter = '\0';
 	*tokenBegin = (*iter + 1);
 	//printf("tokebegin at iter + 1 %s\n", *tokenBegin);
@@ -238,4 +252,3 @@ void	token_meta(t_tokens **token, char **iter, char **tokenBegin)
 		}
 	//printf("tokebegin at iter + 100 %s\n", *tokenBegin);
 }
-

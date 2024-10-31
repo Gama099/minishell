@@ -72,8 +72,8 @@ int main(int ac, char **av, char **envp)
         {
             return (printf("erro\n"));
         }
-        if (!ft_strncmp(input, "exit", ft_strlen(input)))
-            exit(0);
+        //if (!ft_strncmp(input, "exit", ft_strlen(input)))
+         //   exit(0);
         buffer = ft_strdup(input);
         add_history(input);
         //printf("%s", buffer);
@@ -83,6 +83,7 @@ int main(int ac, char **av, char **envp)
             printf("%s\n", i->token);
         }*/
 	   	expand_varibles(&tokens);
+        join_token_syblings(&tokens);
         parser(&tokens);
 		t_command *command = to_strcuct(tokens);
         // printf("cmd = %s\n", command->argumants[0]);

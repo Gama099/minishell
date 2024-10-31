@@ -72,8 +72,12 @@ int		ft_export(char **str)
 	}
 	while (str[j])
 	{
+		//sleep(3);
 		if ((i = arg_valid(str[j])) != 1)
+		{
+			//printf("here test %s\n", str[j]);
 			check_var(ft_bash()->list, i, str[j]);
+		}
 		else
 			printf("bash: export: `%s': not a valid identifier\n", str[j]);
 		j++;

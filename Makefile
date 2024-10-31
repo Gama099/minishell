@@ -32,6 +32,7 @@ SRC =	src/main.c \
 		src/parser/to_struct.c \
 		src/parser/trim_spaces_from_start_end.c \
 		src/parser/while_loop_and_buffring.c \
+		src/parser/join_sybling_tokens.c \
 
 OBJECT = $(SRC:.c=.o)
 

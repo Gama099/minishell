@@ -16,6 +16,7 @@ typedef struct s_tokens
 	char	*token;
 	char	*tokenType;
 	int		sing_qoute;
+	int		join_with_next;
 	struct s_tokens *next;
 } t_tokens;
 
@@ -70,7 +71,8 @@ t_bash		*ft_bash(void);
 int			redirect_file(t_command *cmd);
 
 //parser
-void	createTokens(t_tokens **token, char *str, int qoute);
+
+void	createTokens(t_tokens **token, char *str, int qoute, int to_join);
 t_tokens *getTokens(char *buffer);
 int is_qoute_valid(char *buffer);
 void	trimSpaces(char **buffer);
@@ -81,6 +83,7 @@ void	expand_varibles(t_tokens **token);
 void	my_free(void);
 void	*my_malloc(size_t	size);
 t_command	*to_strcuct(t_tokens *tokens);
+void	join_token_syblings(t_tokens **token);
 //parser
 
 // builtins
