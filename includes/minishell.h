@@ -71,6 +71,7 @@ t_bash		*ft_bash(void);
 int			redirect_file(t_command *cmd);
 
 //parser
+
 void	createTokens(t_tokens **token, char *str, int qoute, int to_join);
 t_tokens *getTokens(char *buffer);
 int is_qoute_valid(char *buffer);
