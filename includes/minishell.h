@@ -16,6 +16,7 @@ typedef struct s_tokens
 	char	*token;
 	char	*tokenType;
 	int		sing_qoute;
+	int		join_with_next;
 	struct s_tokens *next;
 } t_tokens;
 
@@ -70,7 +71,7 @@ t_bash		*ft_bash(void);
 int			redirect_file(t_command *cmd);
 
 //parser
-void	createTokens(t_tokens **token, char *str, int qoute);
+void	createTokens(t_tokens **token, char *str, int qoute, int to_join);
 t_tokens *getTokens(char *buffer);
 int is_qoute_valid(char *buffer);
 void	trimSpaces(char **buffer);
@@ -81,11 +82,12 @@ void	expand_varibles(t_tokens **token);
 void	my_free(void);
 void	*my_malloc(size_t	size);
 t_command	*to_strcuct(t_tokens *tokens);
+void	join_token_syblings(t_tokens **token);
 //parser
 
 // builtins
 void		print_export(t_env_list *list);
-void		child_builtin_helper(t_command *cmd);
+void		child_builtin_helper(t_command *cmd, int input, int *pipe);
 int			builtin_helper(t_command *cmd);
 int			check_if_builts(char *cmd);
 int			ft_export(char **str);
@@ -130,12 +132,14 @@ void		ft_bzero(void *s, size_t n);
 //string_utils
 
 //syscall
+void		save_stdfd(void);
 void	 	ft_dup(int old_fd, int new_fd);
+void		revert_stdfd(void);
 //syscall
 
 //errors
 void		clean_exit(int exit_status);
-void		err_n_exit(char *err_msg, char *err_cmd, char *err_name, int exit_status);
+void		err_n_exit(char *err_msg, char *err_cmd, char *err_name, int status);
 void		pr_err_msg(char *err_msg, char *err_cmd, char *err_name);
 //errors
 

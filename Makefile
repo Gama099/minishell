@@ -1,6 +1,6 @@
 CC = cc
 NAME = minishell
-CFLAGS =-g3 #-Wall -Wextra -Werror 
+CFLAGS =-g3 #-Wall -Wextra -Werror
 HEADER = minishell.h
 INC = includes
 SRC =	src/main.c \
@@ -18,11 +18,11 @@ SRC =	src/main.c \
 		src/builtin/print_export.c \
 		src/builtin/pwd.c \
 		src/builtin/unset.c \
+		src/builtin/rediction_builtins.c \
 		src/utils/node.c \
 		src/utils/atoi.c \
 		src/utils/split.c \
 		src/utils/string_utils.c \
-		src/utils/file_utils.c \
 		src/systemcall.c \
 		src/error_utils.c \
 		src/parser/buffor_to_tokenazation.c \
@@ -32,12 +32,13 @@ SRC =	src/main.c \
 		src/parser/to_struct.c \
 		src/parser/trim_spaces_from_start_end.c \
 		src/parser/while_loop_and_buffring.c \
+		src/parser/join_sybling_tokens.c \
 
 OBJECT = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME) : $(OBJECT) 
+$(NAME) : $(OBJECT)
 	$(CC) $(CFLAGS) -I$(INC) $(OBJECT)   -lreadline -o $@
 
 %.o: %.c $(HEADER)

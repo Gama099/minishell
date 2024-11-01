@@ -31,15 +31,15 @@ int	ft_exit(char **arg)
 
 	i = 1;
 	write(1, "exit\n", 6);
-	if (ft_bash()->cmd.argumants[i] == NULL)//one arg = exit
+	if (arg[i] == NULL)//one arg = exit
 		ft_exit_helper(0);
 	while (arg[i])
 	{
 		if (i > 1)
-			return (printf("too many arguments\n"), 1);
+			return (pr_err_msg("too many arguments", "exit", NULL), 1);
 		if (str_is_digit(arg[i]) == 1)
 		{
-			printf("numeric argument required\n");
+			pr_err_msg("numeric argument required", "exit", NULL);
 			exit(2);//free to do
 		}
 		i++;

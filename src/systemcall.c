@@ -10,3 +10,19 @@ void	 	ft_dup(int old_fd, int new_fd)
 			pr_err_msg("syscall failed", "close", NULL);
 	}
 }
+
+void	save_stdfd(void)
+{
+	ft_bash()->fd_stdin = dup(STDIN_FILENO);
+	if (ft_bash()->fd_stdin == -1)
+		pr_err_msg("syscall failed", "dup", NULL);
+	ft_bash()->fd_stdout = dup(STDOUT_FILENO);
+	if (ft_bash()->fd_stdout == -1)
+		pr_err_msg("syscall failed", "dup", NULL);
+}
+
+void	revert_stdfd(void)
+{
+	ft_dup(ft_bash()->fd_stdin, STDIN_FILENO);
+	ft_dup(ft_bash()->fd_stdout, STDOUT_FILENO);
+}

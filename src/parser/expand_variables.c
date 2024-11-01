@@ -22,7 +22,7 @@ void	write_new_token(char *new_token, char *token_str, t_env_var *env_list)
 			strcpy(new_token, env_list->real_value);
 			new_token = &new_token[ft_strlen(env_list->real_value)];
 			token_str++;
-			while ((ft_isalpha(*token_str)) || ft_isdigit(*token_str) || *token_str == '_')
+			while ((ft_isalpha(*token_str)) || ft_isdigit(*token_str) || *token_str == '_')//u need to check for null!!!!!
 				token_str++;
 			env_list = env_list->next;
 		}
@@ -85,7 +85,7 @@ int	get_env_len(char *env_var_start, t_env_var **env_list)
 	char	char_holder;
 
 	iter = env_var_start;
-	while (ft_isalpha(*iter) || ft_isdigit(*iter) || *iter == '_')
+	while (*iter && (ft_isalpha(*iter) || ft_isdigit(*iter) || *iter == '_'))
 		iter++;
 	char_holder = *iter;
 	*iter = '\0';
@@ -109,7 +109,7 @@ char	*get_new_token(char *token_str)
 	count_token_len = 0;
 	while (*token_iter)
 	{
-		if (*token_iter == '$')
+		if ((*token_iter == '$') && *(token_iter + 1))
 			token_iter = &token_iter[(get_env_len(token_iter+1, &env_list)) - 1];
 		else
 			count_token_len++;

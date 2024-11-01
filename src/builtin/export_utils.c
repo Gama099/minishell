@@ -38,7 +38,12 @@ int	arg_valid(char *str)
 	{
 		splited = ft_split(str, '+');
 		if (before_sum(splited[0]) == 1)//check if var is valid
-			return (4);
+		{
+			if (check_value(str) == 2)
+				return (6);
+			else
+				return (4);
+		}
 		else
 			return (EXIT_FAILURE);
 	}

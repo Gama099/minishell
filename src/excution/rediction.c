@@ -9,6 +9,8 @@ int	check_ambiguous_child(char *filename)
 
 int	check_file_b_child(char *filename, int mode)
 {
+	if (check_ambiguous_child(filename) == 1)
+		return (1);
 	if (mode == 1)
 	{
 		if (is_a_directory(filename, 1))
@@ -25,8 +27,6 @@ int	check_file_b_child(char *filename, int mode)
 		err_n_exit(NULL, NULL, filename, 1);
 		return (1);
 	}
-	if (check_ambiguous_child(filename) == 1)
-		return (1);
 	return (0);
 }
 
@@ -65,23 +65,20 @@ int	redirect_out_b_child(char *filename, int append)
 
 int	redirect_file(t_command *cmd)
 {
-	int	i;
-
-	i = 0;
-	while (cmd->files[i].next != NULL)
+	while (cmd->files != NULL)
 	{
-		if (!ft_strncmp(cmd->files[i].redirec, "<<", INT_MAX))
+		if (!ft_strncmp(cmd->files->redirec, "<<", INT_MAX))
 			ft_dup(cmd->files->fd[0], STDIN_FILENO);
-		if (!ft_strncmp(cmd->files[i].redirec, "<", INT_MAX))
+		if (!ft_strncmp(cmd->files->redirec, "<", INT_MAX))
 			if (redirect_in_file_b_child(cmd->files->name))
 				return (1);
-		if (!ft_strncmp(cmd->files[i].redirec, ">", INT_MAX))
+		if (!ft_strncmp(cmd->files->redirec, ">", INT_MAX))
 			if (redirect_out_b_child(cmd->files->name, 0))
 				return (1);
-		if (!ft_strncmp(cmd->files[i].redirec, ">>", INT_MAX))
+		if (!ft_strncmp(cmd->files->redirec, ">>", INT_MAX))
 			if (redirect_out_b_child(cmd->files->name, 1))
 				return (1);
-		i++;
+		cmd->files = cmd->files->next;
 	}
 	return (0);
 }

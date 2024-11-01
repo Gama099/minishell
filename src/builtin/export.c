@@ -48,8 +48,11 @@ void	check_var(t_env_list *list, int i, char *str)
 
 	if ((node = check_if_exit(list, str) )!= NULL)
 	{
+		printf("i = %d\n",i);
 		if (i == 5)
 			return ;//dont do anything
+		else if (i == 6)
+			node->value = ft_strdup("");
 		else if (i == 4)
 			join_var(str, node);//appeand value
 		else if (i == 3)
@@ -59,7 +62,7 @@ void	check_var(t_env_list *list, int i, char *str)
 		add_new_var(str, list);
 }
 
-int		ft_export(char **str)
+int		ft_export(char **str)// fix var var1 var2
 {
 	int j;
 	int	i;

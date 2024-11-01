@@ -36,7 +36,7 @@ int	ft_cd_helper(char *path)
 	if (code != 0)
 	{
 		free(oldpwd);
-		return (pr_err_msg("No such file or directory", "cd", NULL), 1);
+		return (pr_err_msg("No such file or directory", "cd", path), 1);
 	}
 	pwd = getcwd(NULL, 0);
 	update_env("PWD", pwd);

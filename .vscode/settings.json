@@ -1,0 +1,14 @@
+
+{
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "editor.detectIndentation": false,
+	"editor.rulers": [
+		80
+	],
+	"files.associations": {
+		"minishell.h": "c"
+	}
+}

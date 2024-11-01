@@ -54,12 +54,19 @@ int	run_builts(t_command *cmd)
 	return (1);
 }
 
-void	child_builtin_helper(t_command *cmd)
+void	child_builtin_helper(t_command *cmd, int input, int *pipe)
 {
 	int	status;
 
 	if (check_if_builts(cmd->argumants[0]) == 0)
 	{
+		if (input != 0)
+			ft_dup(input, STDIN_FILENO);
+		if (pipe != NULL)
+		{
+			close(pipe[0]);
+			ft_dup(pipe[1], STDOUT_FILENO);
+		}
 		set_under_score(cmd->argumants);
 		redirect_file(cmd);
 		status = run_builts(cmd);
@@ -71,8 +78,11 @@ int	builtin_helper(t_command *cmd)
 {
 	int	status;
 
+	save_stdfd();
 	set_under_score(cmd->argumants);
-	redirect_builtin(cmd);
+	status = redirect_builtin(cmd);
+	if (status != 0)
+		return (revert_stdfd(), status);
 	status = run_builts(cmd);
-	return (status);
+	return (revert_stdfd(), status);
 }
