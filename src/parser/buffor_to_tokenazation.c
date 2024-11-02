@@ -104,18 +104,16 @@ t_tokens *getTokens(char *buffer)
 		if (*tokenBegin == '\0')
 			return tokens;
 		// this is for this ' ' ' ' ' ' to become this '/0' '/0' '/0' '/0'
-		if (iter > buffer && (is_white_space(*iter) && *(iter - 1) == '\0') && !inQoutes)
-		{
+		if (iter > buffer && (is_white_space(*iter) && *(iter - 1) == '\0') && !inQoutes){
 			*iter = '\0';
 		}
 		// the start of a qoute
-		else if ((*iter == '\'' || *iter == '\"') && !inQoutes)
-		{
+		else if ((*iter == '\'' || *iter == '\"') && !inQoutes){
 			inQoutes = 1;
 			whichQoute = *iter;
 			*iter = '\0';
 			if (*(iter - 1))
-				createTokens(&tokens, tokenBegin, 0, to_join);
+				createTokens(&tokens, tokenBegin, 0, 1);
 			tokenBegin = iter + 1;
 		}
 		// echo hello"world";
