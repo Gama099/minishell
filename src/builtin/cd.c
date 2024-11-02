@@ -2,10 +2,10 @@
 
 void	update_env(char *name, char *value)//tempo
 {
-	char	*tmp;
+	char		*tmp;
 	t_env_list	*var;
 
-	var = check_if_exit(ft_bash()->list, name);
+	var = check_if_exit(ft_bash()->list, name, 0);
 	if (var)
 	{
 		if (value)
@@ -44,16 +44,15 @@ int	ft_cd_helper(char *path)
 	return (0);
 }
 
-int		ft_cd(char **arg)
+int	ft_cd(char **arg)
 {
-	int j;
+	int			j;
 	t_env_list	*homes;
 
 	j = 1;
-
-	if (arg[j] == NULL)//cd home if one arg
+	if (arg[j] == NULL) //cd home if one arg
 	{
-		homes = check_if_exit(ft_bash()->list, "HOME");
+		homes = check_if_exit(ft_bash()->list, "HOME", 0);
 		if (homes != NULL)
 			return (ft_cd_helper(homes->value));
 		return (printf("HOME not set\n"), 1);

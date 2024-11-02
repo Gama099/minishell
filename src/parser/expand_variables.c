@@ -1,44 +1,5 @@
 #include "../../includes/minishell.h"
 
-
-int	find_metachar(char *iter)
-{
-	while (*iter)
-	{
-		if (*iter == '$'){
-			return (1);
-		}
-		iter++;
-	}
-	return (0);
-}
-
-void	write_new_token(char *new_token, char *token_str, t_env_var *env_list)
-{
-	while (*token_str)
-	{
-		if (*token_str == '$')
-		{
-			strcpy(new_token, env_list->real_value);
-			new_token = &new_token[ft_strlen(env_list->real_value)];
-			token_str++;
-			while ((ft_isalpha(*token_str)) || ft_isdigit(*token_str) || *token_str == '_')//u need to check for null!!!!!
-				token_str++;
-			env_list = env_list->next;
-		}
-		else
-			*new_token++ = *token_str++;
-	}
-	*new_token = '\0';
-}
-
-int	is_meta_char(char character)
-{
-	if (character == '$' || character == '>' || character == '<')
-		return (1);
-	return (0);
-}
-
 void	creat_list(t_env_var **list, char *token)
 {
 	t_env_var	*env_var;
@@ -76,6 +37,48 @@ int	count_evn_vars_len(t_env_var *list)
 	}
 	return (count);
 }
+void	write_new_token(char *new_token, char *token_str, t_env_var *env_list);/*
+{
+	while (*token_str)
+	{
+		if (*token_str == '$')
+		{
+			printf("real_value = %s\n", env_list->real_value);
+			strcpy(new_token, env_list->real_value);
+			new_token = &new_token[ft_strlen(env_list->real_value)];
+			printf("new_token = [%s]\n", new_token);
+			token_str++;
+			while ((ft_isalpha(*token_str)) || ft_isdigit(*token_str) || *token_str == '_')//u need to check for null!!!!!
+				token_str++;
+			env_list = env_list->next;
+		}
+		else
+			*new_token++ = *token_str++;
+	}
+	*new_token = '\0';
+}*/
+/*
+int	find_metachar(char *iter)
+{
+	while (*iter)
+	{
+		if (*iter == '$'){
+			return (1);
+		}
+		iter++;
+	}
+	return (0);
+}
+
+
+int	is_meta_char(char character)
+{
+	if (character == '$' || character == '>' || character == '<')
+		return (1);
+	return (0);
+}
+
+
 
 int	get_env_len(char *env_var_start, t_env_var **env_list)
 {
@@ -121,6 +124,118 @@ char	*get_new_token(char *token_str)
 	write_new_token(new_token, token_str, env_list);
 	//TODO free the t_env that i did create
 	return (new_token);
+}*/
+
+int get_env_len(char *env_var_start, t_env_var **env_list)
+{
+    if (!env_var_start || !*env_var_start)
+        return 0;
+
+    char *iter = env_var_start;
+    int len = 0;
+
+    // Count length of environment variable name
+    while (iter[len] && (ft_isalpha(iter[len]) || ft_isdigit(iter[len]) || iter[len] == '_'))
+        len++;
+
+    if (len == 0)
+        return 0;
+
+    // Allocate and copy the environment variable name
+    char *env_var = malloc(len + 1);  // +1 for null terminator
+    if (!env_var)
+        return 0;
+
+    strncpy(env_var, env_var_start, len);  // Use strncpy instead of strcpy
+    env_var[len] = '\0';  // Ensure null termination
+
+    creat_list(env_list, env_var);
+    return len;
+}
+
+char *get_new_token(char *token_str)
+{
+    if (!token_str)
+        return NULL;
+
+    t_env_var *env_list = NULL;
+    char *token_iter = token_str;
+    int count_token_len = 0;
+
+    // First pass: calculate length and create env list
+    while (*token_iter)
+    {
+        if (*token_iter == '$' && *(token_iter + 1))
+        {
+            int env_len = get_env_len(token_iter + 1, &env_list);
+            if (env_len > 0)
+                token_iter += env_len + 1;  // +1 for the '$'
+            else
+            {
+                count_token_len++;
+                token_iter++;
+            }
+        }
+        else
+        {
+            count_token_len++;
+            token_iter++;
+        }
+    }
+
+    if (!env_list)
+        return NULL;
+
+    // Allocate new token with exact size needed
+    int env_vars_len = count_evn_vars_len(env_list);
+    char *new_token = malloc(count_token_len + env_vars_len + 1);  // +1 for null terminator
+    if (!new_token)
+    {
+        // Free env_list before returning
+        // Add cleanup code here
+        return NULL;
+    }
+
+    // Write the new token
+    write_new_token(new_token, token_str, env_list);
+
+    // Cleanup env_list
+    while (env_list)
+    {
+        t_env_var *temp = env_list;
+        env_list = env_list->next;
+        free(temp->var);
+        free(temp->real_value);
+        free(temp);
+    }
+
+    return new_token;
+}
+
+void write_new_token(char *new_token, char *token_str, t_env_var *env_list)
+{
+    char *write_ptr = new_token;
+
+    while (*token_str)
+    {
+        if (*token_str == '$' && env_list)
+        {
+            strcpy(write_ptr, env_list->real_value);
+            write_ptr += strlen(env_list->real_value);
+            token_str++;  // Skip the '$'
+
+            // Skip the environment variable name
+            while (*token_str && (ft_isalpha(*token_str) || ft_isdigit(*token_str) || *token_str == '_'))
+                token_str++;
+
+            env_list = env_list->next;
+        }
+        else
+        {
+            *write_ptr++ = *token_str++;
+        }
+    }
+    *write_ptr = '\0';
 }
 
 void	expand_varibles(t_tokens **token)

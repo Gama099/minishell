@@ -29,8 +29,8 @@ void	clean_exit(int exit_status)
 	exit(exit_status);
 }
 
-void	err_n_exit(char *err_msg, char *err_cmd, char *err_name, int exit_status)
+void	err_n_exit(char *err_msg, char *err_cmd, char *err_name, int status)
 {
 	pr_err_msg(err_msg, err_cmd, err_name);
-	clean_exit(exit_status);
+	clean_exit(status);
 }

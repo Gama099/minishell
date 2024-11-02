@@ -28,22 +28,22 @@ int	echo_check(char **argv)
 
 int	ft_echo(char **argv)
 {
-    int i;
+	int	i;
 	int	flag;
 
-    i = echo_check(argv);
-	if (i == 1)//no -n option
+	i = echo_check(argv);
+	if (i == 1) //no -n option
 		flag = 1;
 	else
 		flag = 0;
-    while (argv[i])
-    {
+	while (argv[i])
+	{
 		write(1, argv[i], ft_strlen(argv[i]));
-        i++;
+		i++;
 		if (argv[i])
 			write(1, " ", 1);
-    }
+	}
 	if (flag == 1)
 		write(1, "\n", 1);
-    return (0);
+	return (0);
 }

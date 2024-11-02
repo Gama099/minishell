@@ -19,15 +19,31 @@ int	before_sum(char *str)
 	int	j;
 
 	j = 1;
-	if (!ft_isalpha(str[0]) && str[0] != '_')//alpha or underscore
+	if (!ft_isalpha(str[0]) && str[0] != '_') //alpha or underscore
 		return (0);
 	while (str[j])
 	{
-		if (!ft_isalnum(str[j]) && str[j] != '_')//alpha or numeric or underscore
+		if (!ft_isalnum(str[j]) && str[j] != '_') //alpha or numeric or underscore
 			return (0);
 		j++;
 	}
 	return (1);
+}
+
+int	arg_helper(char *str)
+{
+	char	**splited;
+
+	splited = ft_split(str, '+');
+	if (before_sum(splited[0]) == 1) //check if var is valid
+	{
+		if (check_value(str) == 2)
+			return (6);
+		else
+			return (4);
+	}
+	else
+		return (EXIT_FAILURE);
 }
 
 int	arg_valid(char *str)
@@ -35,24 +51,13 @@ int	arg_valid(char *str)
 	char	**splited;
 
 	if (!there_is_plus(str))
-	{
-		splited = ft_split(str, '+');
-		if (before_sum(splited[0]) == 1)//check if var is valid
-		{
-			if (check_value(str) == 2)
-				return (6);
-			else
-				return (4);
-		}
-		else
-			return (EXIT_FAILURE);
-	}
+		return (arg_helper(str));
 	else
 	{
 		splited = ft_split(str, '=');
 		if (check_value(str) == 1)
 		{
-			if (before_sum(splited[0]) == 1)//check if var is valid
+			if (before_sum(splited[0]) == 1) //check if var is valid
 				return (5);
 		}
 		else

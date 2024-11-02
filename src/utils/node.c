@@ -29,6 +29,7 @@ t_env_list	*ft_create_node(char *str)
 	else
 		new_node->type = 0;
 	new_node->next = NULL;
+	free(splited);
 	return (new_node);
 }
 

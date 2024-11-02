@@ -7,9 +7,9 @@ int	check_value(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '=' && str[i + 1] != '\0')//there is value
+		if (str[i] == '=' && str[i + 1] != '\0') //there is value
 			return (EXIT_SUCCESS);
-		else if (str[i] == '=' && str[i + 1] == '\0')//null value
+		else if (str[i] == '=' && str[i + 1] == '\0') //null value
 			return (2);
 		i++;
 	}
@@ -18,10 +18,10 @@ int	check_value(char *str)
 
 int	check_if_builts(char *cmd)
 {
-    if (!ft_strncmp(cmd, "echo", INT_MAX))
-        return (0);
-    else if (!ft_strncmp(cmd, "pwd", INT_MAX))
-        return (0);
+	if (!ft_strncmp(cmd, "echo", INT_MAX))
+		return (0);
+	else if (!ft_strncmp(cmd, "pwd", INT_MAX))
+		return (0);
 	else if (!ft_strncmp(cmd, "env", INT_MAX))
 		return (0);
 	else if (!ft_strncmp(cmd, "export", INT_MAX))
@@ -32,17 +32,17 @@ int	check_if_builts(char *cmd)
 		return (0);
 	else if (!ft_strncmp(cmd, "cd", INT_MAX))
 		return (0);
-    return (1);
+	return (1);
 }
 
 int	run_builts(t_command *cmd)
 {
-    if (!ft_strncmp(cmd->argumants[0], "echo", INT_MAX))
-        return (ft_echo(cmd->argumants));
-    else if (!ft_strncmp(cmd->argumants[0], "pwd", INT_MAX))
-        return (ft_pwd());
+	if (!ft_strncmp(cmd->argumants[0], "echo", INT_MAX))
+		return (ft_echo(cmd->argumants));
+	else if (!ft_strncmp(cmd->argumants[0], "pwd", INT_MAX))
+		return (ft_pwd());
 	else if (!ft_strncmp(cmd->argumants[0], "env", INT_MAX))
-		return (ft_env(ft_bash()->list, cmd->argumants)) ;
+		return (ft_env(ft_bash()->list, cmd->argumants));
 	else if (!ft_strncmp(cmd->argumants[0], "export", INT_MAX))
 		return (ft_export(cmd->argumants));
 	else if (!ft_strncmp(cmd->argumants[0], "unset", INT_MAX))
@@ -67,7 +67,6 @@ void	child_builtin_helper(t_command *cmd, int input, int *pipe)
 			close(pipe[0]);
 			ft_dup(pipe[1], STDOUT_FILENO);
 		}
-		set_under_score(cmd->argumants);
 		redirect_file(cmd);
 		status = run_builts(cmd);
 		clean_exit(status);
@@ -79,7 +78,7 @@ int	builtin_helper(t_command *cmd)
 	int	status;
 
 	save_stdfd();
-	set_under_score(cmd->argumants);
+	//set_under_score(cmd->argumants);
 	status = redirect_builtin(cmd);
 	if (status != 0)
 		return (revert_stdfd(), status);

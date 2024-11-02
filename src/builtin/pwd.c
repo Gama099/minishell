@@ -7,7 +7,7 @@ int ft_pwd()
     pwd = getcwd(NULL, 0);
     if (pwd == NULL)
         return (EXIT_FAILURE);
-    printf("%s\n",pwd);
-    free (pwd);
+    printf("%s\n", pwd);
+    free(pwd);
     return (EXIT_SUCCESS);
 }

@@ -48,13 +48,15 @@ t_bash	*ft_bash(void)
 	return (&shell);
 }
 
-void	init_global_data(char **envp)
+void   init_global_data(char **envp)
 {
 	ft_bash()->fd_stdin = dup(STDIN_FILENO);
 	ft_bash()->fd_stdout= dup(STDOUT_FILENO);
+	if (!envp[0])
+		ft_env_i();
 	ft_bash()->list = env_to_list(envp);
-	ft_bash()->env = envp;
 }
+
 
 int main(int ac, char **av, char **envp)
 {

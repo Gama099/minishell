@@ -1,8 +1,3 @@
-//exit without arg
-//exit with abc
-//exit with too much args
-//exit with number bettwen 0 and 255
-//others undifiend behavior
 #include "../../includes/minishell.h"
 
 int	ft_exit_helper(int exit_code)
@@ -16,7 +11,7 @@ int	str_is_digit(char *a)
 	int	i;
 
 	i = 0;
-	while(a[i])
+	while (a[i])
 	{
 		if (a[i] < '0' || a[i] > '9')
 			return (EXIT_FAILURE);
@@ -31,7 +26,7 @@ int	ft_exit(char **arg)
 
 	i = 1;
 	write(1, "exit\n", 6);
-	if (arg[i] == NULL)//one arg = exit
+	if (arg[i] == NULL) //one arg = exit
 		ft_exit_helper(0);
 	while (arg[i])
 	{

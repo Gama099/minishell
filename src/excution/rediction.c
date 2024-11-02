@@ -13,7 +13,7 @@ int	check_file_b_child(char *filename, int mode)
 		return (1);
 	if (mode == 1)
 	{
-		if (is_a_directory(filename, 1))
+		if (is_a_directory(filename, 0))
 			return (1);
 		if (access(filename, F_OK) != -1 && access(filename, W_OK) == -1)
 		{

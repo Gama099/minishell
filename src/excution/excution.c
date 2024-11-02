@@ -1,6 +1,5 @@
 #include "../../includes/minishell.h"
 
-
 int	check_path(t_command *cmd)
 {
 	int	check;
@@ -24,6 +23,7 @@ int	check_path(t_command *cmd)
 char	*get_redarct(t_command *cmd, int *pipe, int input)
 {
     char    *command;
+
 
 	if (input != 0)
 		ft_dup(input, STDIN_FILENO);
@@ -55,20 +55,37 @@ int	one_cmd(t_command *cmd, int input, int *pipe)
 	{
         child_builtin_helper(cmd, input, pipe);//if not exit from child prossec that mean its not builtin
 		command = get_redarct(cmd, pipe, input);//get path and redirct
-		execve(command, cmd->argumants, ft_bash()->env);//excute the cmd
+		execve(command, cmd->argumants, env_to_ary(ft_bash()->list));//excute the cmd
 	}
 	return (pid);
 }
 
-int	count_pipe(t_command *cmd)
+int	count_pipe(void *count, int mode)
 {
 	int	i;
+	t_command	*cmd;
+	t_env_list	*env;
 
 	i = 0;
-	while(cmd->next != NULL)
+	if (mode == 1)
 	{
-		cmd = cmd->next;
-		i++;
+		void*(env);
+		cmd = (t_command *)count;
+		while(cmd->next != NULL)
+		{
+			cmd = cmd->next;
+			i++;
+		}
+	}
+	else
+	{
+		void*(cmd);
+		env = (t_env_list *)count;
+		while(env->next != NULL)
+		{
+			env = env->next;
+			i++;
+		}
 	}
 	return (i);
 }
@@ -96,7 +113,7 @@ int	excute_pipe(t_command *cmd)
 
 	i = 0;
 	old_input = 0;
-	j = count_pipe(cmd);
+	j = count_pipe(cmd, 1);
 	pid = malloc(sizeof(int) * (j + 1));
 	if (pid == NULL)
 		err_n_exit("syscall failed", "malloc", NULL, 1);
@@ -135,6 +152,7 @@ int	excution(t_command *cmd)
 			builtin_helper(cmd);
 		else
 		{
+			set_under_score(cmd->argumants);
 			pid = one_cmd(cmd, 0, NULL);
 			waitpid(pid, &status, 0);
 		}

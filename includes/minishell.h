@@ -104,12 +104,15 @@ int			there_is_plus(char *str);
 int			check_value(char *str);
 int 		set_under_score(char **argv);
 int			redirect_builtin(t_command *cmd);
-t_env_list	*check_if_exit(t_env_list *list, char *str);
+t_env_list	*check_if_exit(t_env_list *list, char *str, int mode);
 //builtins
 
 //excution
+void		ft_env_i(void);
 char   		*find_path(char *cmd);
+int			count_pipe(void *count, int mode);
 int			excution(t_command *cmd);
+char		**env_to_ary(t_env_list *envp);
 //excution
 
 //string_utils

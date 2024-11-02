@@ -8,7 +8,7 @@ int	is_a_directory(char *filename, int bltn)
 	stat(filename, &buff);
 	if ((buff.st_mode & __S_IFMT) == __S_IFDIR)
 	{
-		printf("Is a directory");
+		printf("Is a directory\n");
 		if (bltn == 0)
 			clean_exit(1);
 		return (1);
@@ -29,7 +29,7 @@ int	check_file_b(char *filename, int mode)
 		return (1);
 	if (mode == 1)
 	{
-		if (is_a_directory(filename, 0))
+		if (is_a_directory(filename, 1))
 			return (1);
 		if (access(filename, F_OK) != -1 && access(filename, W_OK) == -1)
 		{
@@ -72,7 +72,6 @@ int	redirect_out_b(char *filename, int append)
 			fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (fd == -1)
 			return (pr_err_msg("No such file or directory", NULL, filename), 1);
-			
 		ft_dup(fd, STDOUT_FILENO);
 	}
 	else
