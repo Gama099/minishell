@@ -78,7 +78,7 @@ int	builtin_helper(t_command *cmd)
 	int	status;
 
 	save_stdfd();
-	//set_under_score(cmd->argumants);
+	set_under_score(cmd->argumants);
 	status = redirect_builtin(cmd);
 	if (status != 0)
 		return (revert_stdfd(), status);
