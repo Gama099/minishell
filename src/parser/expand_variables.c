@@ -216,12 +216,7 @@ char *get_new_token(char *token_str)
     // First pass: calculate length and create env list
     while (*token_iter)
     {
-		if (*token_iter == '$' && *(token_iter + 1) == '?')
-		{
-			token_iter += 2;
-			count_token_len++;
-		}
-        else if (*token_iter == '$' && *(token_iter + 1))
+        if (*token_iter == '$' && *(token_iter + 1))
         {
 			//printf("here we found %s\n", token_iter);
             int env_len = get_env_len(token_iter + 1, &env_list);

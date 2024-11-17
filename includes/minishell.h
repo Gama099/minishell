@@ -10,7 +10,6 @@
 # include <readline/history.h>
 # include <limits.h>
 # include <sys/stat.h>
-# include <signal.h>
 
 typedef struct s_tokens
 {
@@ -27,6 +26,14 @@ typedef struct s_env_var
   char *real_value;
   struct s_env_var  *next;
 } t_env_var;
+
+typedef struct s_env_list
+{
+	char	*name;
+	char	*value;
+	int	type;
+	struct s_env_list    *next;
+} t_env_list;
 
   typedef struct s_listo
 {
@@ -56,13 +63,6 @@ typedef struct s_file
    struct s_command    *next;
   } t_command;
 
-typedef struct s_env_list
-{
-	char	*name;
-	char	*value;
-	int	type;
-	struct s_env_list    *next;
-} t_env_list;
 
 typedef struct s_bash
 {
@@ -111,19 +111,13 @@ int			there_is_plus(char *str);
 int			check_value(char *str);
 int 		set_under_score(char **argv);
 int			redirect_builtin(t_command *cmd);
-t_env_list	*check_if_exit(t_env_list *list, char *str, int mode);
+t_env_list	*check_if_exit(t_env_list *list, char *str);
 //builtins
 
 //excution
-int			check_path(t_command *cmd);
-int			counter(void *count, int mode);
-char		*get_redarct(t_command *cmd, int *pipe, int input);
-int			one_cmd(t_command *cmd, int input, int *pipe);
-int			excute_pipe(t_command *cmd);
 void		ft_env_i(void);
 char   		*find_path(char *cmd);
 int			excution(t_command *cmd);
-char		**env_to_ary(t_env_list *envp);
 //excution
 
 //string_utils

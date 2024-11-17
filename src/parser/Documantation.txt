@@ -1,0 +1,12 @@
+so the expand part here is done by a call by refrence so basiclly what we
+
+step 1: expand_vars(token list)
+	iterate thought the list of and check if the if is not in '\ '\
+		if is not step2
+step 2: get_new_token
+	itertate thouth the token and while you iteerata count the lenght of it it
+	then well you find the $ then canll and nother function
+	the statet will be the char after $ and then end will be tell we find some character
+	like $ ore operators
+	then we well iterate those the eve_list and see if ther var is exist i need
+	toknen so basic i have
