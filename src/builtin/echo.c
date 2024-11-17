@@ -9,7 +9,7 @@ int	echo_check(char **argv)
 	while (argv[i])
 	{
 		j = 1;
-		if (argv[i][0] == '-')
+		if (argv[i][0] == '-' && ft_strlen(argv[i]) > 1)
 		{
 			while (argv[i][j])
 			{
@@ -36,6 +36,8 @@ int	ft_echo(char **argv)
 		flag = 1;
 	else
 		flag = 0;
+	if (argv[i][0] == '$' && argv[i][1] == '?')
+		return (printf("%d\n",ft_bash()->exit_status), 0);
 	while (argv[i])
 	{
 		write(1, argv[i], ft_strlen(argv[i]));

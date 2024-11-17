@@ -5,8 +5,10 @@ HEADER = minishell.h
 INC = includes
 SRC =	src/main.c \
 		src/excution/excution.c \
+		src/excution/herdoc.c \
 		src/excution/execve_utils.c \
 		src/excution/rediction.c \
+		src/excution/excution_pipe.c \
 		src/builtin/builtins_utils.c \
 		src/builtin/cd.c \
 		src/builtin/echo.c \
@@ -18,13 +20,15 @@ SRC =	src/main.c \
 		src/builtin/print_export.c \
 		src/builtin/pwd.c \
 		src/builtin/unset.c \
-		src/builtin/rediction_builtins.c \
+		src/builtin/redirection_builtins.c \
+		src/builtin/redirection_utils.c \
 		src/utils/node.c \
 		src/utils/atoi.c \
 		src/utils/split.c \
 		src/utils/string_utils.c \
 		src/systemcall.c \
 		src/error_utils.c \
+		src/signals.c \
 		src/parser/buffor_to_tokenazation.c \
 		src/parser/check_qoutes_validation.c \
 		src/parser/expand_variables.c \

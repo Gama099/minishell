@@ -13,11 +13,11 @@ void	node_del(t_env_list *node)
 	node = NULL;
 }
 
-int	ft_unset(char **argv, t_env_list **list)//list to fix **
+int	ft_unset(char **argv, t_env_list **list)//more than 25line
 {
-	t_env_list *new_node;
+	t_env_list	*new_node;
 	t_env_list	*prev;
-	int	j;
+	int			j;
 
 	j = 1;
 	while (argv[j])
@@ -31,11 +31,11 @@ int	ft_unset(char **argv, t_env_list **list)//list to fix **
 		}
 		if (new_node != NULL)
 		{
-			if (prev == NULL)// first node
+			if (prev == NULL) //first node
 				*list = new_node->next;
 			else
 			{
-				if (new_node->next != NULL)//
+				if (new_node->next != NULL)
 					prev->next = new_node->next;
 				else
 					prev->next = NULL;
@@ -44,5 +44,5 @@ int	ft_unset(char **argv, t_env_list **list)//list to fix **
 		}
 		j++;
 	}
-	return(0);
+	return (0);
 }

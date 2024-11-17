@@ -52,47 +52,64 @@ void   init_global_data(char **envp)
 {
 	ft_bash()->fd_stdin = dup(STDIN_FILENO);
 	ft_bash()->fd_stdout= dup(STDOUT_FILENO);
+	ft_bash()->exit_status = 0;
 	if (!envp[0])
 		ft_env_i();
-	ft_bash()->list = env_to_list(envp);
+	else
+		ft_bash()->list = env_to_list(envp);
 }
 
+void	init_status(int status)
+{
+	ft_bash()->exit_status = status;
+}
 
 int main(int ac, char **av, char **envp)
 {
     char        *input;
     t_tokens    *tokens;
     char        *buffer;
+	t_command	*cmd;
+	int			status;
 
 	(void)ac;
 	(void)av;
 	init_global_data(envp);
     while (1)
     {
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, sigint_handler_main);
         input = readline("minishell$> ");
-        if(!input)
-        {
-            return (printf("erro\n"));
-        }
-        //if (!ft_strncmp(input, "exit", ft_strlen(input)))
-         //   exit(0);
-        buffer = ft_strdup(input);
-        add_history(input);
-        //printf("%s", buffer);
-        tokens = getTokens(buffer);
-        /*for (t_tokens *i = tokens; i; i = i->next)
-        {
-            printf("%s\n", i->token);
-        }*/
-	   	expand_varibles(&tokens);
-        join_token_syblings(&tokens);
-        parser(&tokens);
-		t_command *command = to_strcuct(tokens);
-        // printf("cmd = %s\n", command->argumants[0]);
-        // printf("cmd = %s\n", command->argumants[1]);
-        // printf("file = %s\n", command->files->name);
-        // printf("red = %s\n", command->files->redirec);
-		excution(command);
+        if(input == NULL)
+			clean_exit(ft_bash()->exit_status);
+		if (!ft_strncmp(input, "exit", ft_strlen(input)))
+			clean_exit(ft_bash()->exit_status);
+		buffer = ft_strdup(input);
+		add_history(input);
+		tokens = getTokens(buffer);
+		expand_varibles(&tokens);
+		join_token_syblings(&tokens);
+		parser(&tokens);
+		cmd = to_strcuct(tokens);
+		status = ft_herdoc(cmd);
+		if (status == 0)
+			init_status(excution(cmd));
+		else
+			init_status(status);
+    }
+		// printf("cmd = %s\n", cmd->argumants[0]);
+		// printf("cmd = %s\n", cmd->argumants[1]);
+		// printf("file = %s\n", cmd->files->name);
+		// printf("deli = %s\n", cmd->files->redirec);
+			//printf("%s", buffer);
+			/*for (t_tokens *i = tokens; i; i = i->next)
+			{
+				printf("%s\n", i->token);
+			}*/
+			// printf("cmd = %s\n", command->argumants[0]);
+			// printf("cmd = %s\n", command->argumants[1]);
+			// printf("file = %s\n", command->files->name);
+			// printf("red = %s\n", command->files->redirec);
 		//print_command(command);
         /*while (tokens)
         {
@@ -103,5 +120,6 @@ int main(int ac, char **av, char **envp)
         }*/
 		//my_free();
 		//init_struct();
-    }
+		return (0);
 }
+

@@ -39,16 +39,7 @@ void	createTokensmeta(t_tokens **token, char str)
 	return ;
 }
 
-/*void	create_new_node()
-{
-	t_tokens	*new_node;
 
-	new_node = malloc();
-	if (!new_node)
-	{
-		//TODO
-	}
-}*/
 
 void	createTokens(t_tokens **token, char *str, int qoute, int to_join)
 {
@@ -134,10 +125,11 @@ t_tokens *getTokens(char *buffer)
 				tokenBegin++;
 			}
 		}
-		// this is when we arrive to the close of that qoute
+		// the close of that qoute
 		else if ((*iter == whichQoute && inQoutes))
 		{
-			if (*(iter + 1) == '\'' || *(iter + 1) == '\"')
+			if (*(iter + 1) && !is_white_space(*(iter + 1)))
+			//if (*(iter + 1) == '\'' || *(iter + 1) == '\"')
 			{
 				to_join = 1;
 			}
@@ -182,7 +174,7 @@ t_tokens *getTokens(char *buffer)
 			if (*(iter - 1))
 			{
 			*iter = '\0';
-			createTokens(&tokens, tokenBegin, 0, to_join);
+			createTokens(&tokens, tokenBegin, 0, 1);
 			*iter = '$';
 			tokenBegin = iter;
 			}
@@ -194,23 +186,6 @@ t_tokens *getTokens(char *buffer)
 	return tokens;
 }
 
-/*int main() {
-    t_tokens *tokens;
-	while (1)
-	{
-		char *buffer = ft_strdup(readline("readlin>> "));
-		tokens = getTokens(buffer);
-		add_history(buffer);
-		while (tokens)
-		{
-			printf("[%s]\n", tokens->token);
-			printf("[%d]\n", tokens->join_with_next);
-			tokens = tokens->next;
-		}
-		free(buffer);
-	}
-}
-*/
 
 
 void	token_meta(t_tokens **token, char **iter, char **tokenBegin)

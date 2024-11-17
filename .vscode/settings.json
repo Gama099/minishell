@@ -10,5 +10,6 @@
 	],
 	"files.associations": {
 		"minishell.h": "c"
-	}
+	},
+	"functionHeaderExtension.headerFilePath": "/home/echoubby/Desktop/test1/includes/minishell.h"
 }

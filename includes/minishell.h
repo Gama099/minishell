@@ -10,6 +10,7 @@
 # include <readline/history.h>
 # include <limits.h>
 # include <sys/stat.h>
+# include <signal.h>
 
 typedef struct s_tokens
 {
@@ -42,6 +43,12 @@ typedef struct s_file
   struct s_file *next;
   } t_files;
 
+  typedef struct s_pipes
+  {
+	int	*pid;
+	int	j;
+  } t_pipes;
+
   typedef struct s_command
   {
   char    **argumants;
@@ -65,25 +72,25 @@ typedef struct s_bash
 	t_files		*files;
 	int			fd_stdin;
 	int			fd_stdout;
+	int			exit_status;
 } t_bash;
 
 t_bash		*ft_bash(void);
 int			redirect_file(t_command *cmd);
 
 //parser
-
-void	createTokens(t_tokens **token, char *str, int qoute, int to_join);
-t_tokens *getTokens(char *buffer);
-int is_qoute_valid(char *buffer);
-void	trimSpaces(char **buffer);
-int	is_white_space(char charac);
-void    parser(t_tokens **list);
-char	*replace_var(char *token);
-void	expand_varibles(t_tokens **token);
-void	my_free(void);
-void	*my_malloc(size_t	size);
+void		createTokens(t_tokens **token, char *str, int qoute, int to_join);
+t_tokens 	*getTokens(char *buffer);
+int			is_qoute_valid(char *buffer);
+void		trimSpaces(char **buffer);
+int			is_white_space(char charac);
+void   		parser(t_tokens **list);
+char		*replace_var(char *token);
+void		expand_varibles(t_tokens **token);
+void		my_free(void);
+void		*my_malloc(size_t	size);
 t_command	*to_strcuct(t_tokens *tokens);
-void	join_token_syblings(t_tokens **token);
+void		join_token_syblings(t_tokens **token);
 //parser
 
 // builtins
@@ -96,7 +103,7 @@ int			arg_valid(char *str);
 int			ft_env(t_env_list *list, char **str);
 int			ft_unset(char **argv, t_env_list **list);
 int			ft_echo(char **argv);
-int 		ft_pwd();
+int 		ft_pwd(void);
 int			ft_cd(char **arg);
 int			ft_exit(char **arg);
 int			run_builts(t_command *cmd);
@@ -108,15 +115,19 @@ t_env_list	*check_if_exit(t_env_list *list, char *str, int mode);
 //builtins
 
 //excution
+int			check_path(t_command *cmd);
+int			counter(void *count, int mode);
+char		*get_redarct(t_command *cmd, int *pipe, int input);
+int			one_cmd(t_command *cmd, int input, int *pipe);
+int			excute_pipe(t_command *cmd);
 void		ft_env_i(void);
 char   		*find_path(char *cmd);
-int			count_pipe(void *count, int mode);
 int			excution(t_command *cmd);
 char		**env_to_ary(t_env_list *envp);
 //excution
 
 //string_utils
-size_t		ft_strlen(const char *str);
+int			ft_strlen(const char *str);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char		*ft_strdup(char *s1);
 char		*ft_strnstr(const char	*big, const char *little, size_t len);
@@ -136,6 +147,7 @@ void		ft_bzero(void *s, size_t n);
 //string_utils
 
 //syscall
+void		init_status(int status);
 void		save_stdfd(void);
 void	 	ft_dup(int old_fd, int new_fd);
 void		revert_stdfd(void);
@@ -143,19 +155,35 @@ void		revert_stdfd(void);
 
 //errors
 void		clean_exit(int exit_status);
-void		err_n_exit(char *err_msg, char *err_cmd, char *err_name, int status);
-void		pr_err_msg(char *err_msg, char *err_cmd, char *err_name);
+void		err_n_exit(char *err_mesg, char *err_cmd, char *err_name, int status);
+void		err_msg(char *err_mesg, char *err_cmd, char *err_name);
 //errors
 
 //file
+void		free_ary(char	**str);
+int			ft_herdoc(t_command	*cmd);
+int			check_ambiguous(char *filename);
 int			is_a_directory(char *filename, int bltn);
 //file
 
+//signals
+void		sigint_handler_main(int num);
+void		sigint_handler_cmd(int num);
+void		sigint_handler_hd(int num);
+void		sigquit_handler_cmd(int num);
+//signals
+
 //node
+void		update_env(char *name, char *value);
 void		node_check(char	*str, t_env_list *node);
 void		free_env(t_env_list *env);
 t_env_list	*env_to_list(char	**env);
 t_env_list	*ft_create_node(char *str);
 t_env_list	*ft_last_node(t_env_list *head);
 //node
+
 # endif
+/* FUNCTIONS */
+
+
+

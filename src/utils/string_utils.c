@@ -48,6 +48,10 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
+	if (s1 == NULL)
+		return (ft_strdup(s2));
+	if (s2 == NULL)
+		return (ft_strdup(s1));
 	len = ft_strlen(s1) + ft_strlen(s2);
 	b = malloc((len + 1) * sizeof(char));
 	if (b == NULL)
@@ -63,9 +67,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (b);
 }
 
-size_t	ft_strlen(const char *str)
+int	ft_strlen(const char *str)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -94,26 +98,28 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 int	ft_isalnum(char c)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
-		(c >= '0' && c <= '9'))
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')
+		|| (c >= '0' && c <= '9'))
 		return (1);
 	return (0);
 }
 
 int	ft_isalpha(char c)
 {
-	if (((c >= 'a') && (c <= 'z')) ||
-		((c >= 'A') && (c <= 'Z')))
+	if (((c >= 'a') && (c <= 'z'))
+		|| ((c >= 'A') && (c <= 'Z')))
 		return (1);
 	return (0);
 }
 
 char	*ft_strdup(char *s1)
 {
-	size_t	i;
-	size_t	dupsize;
+	int		i;
+	int		dupsize;
 	char	*dup;
 
+	if (s1 == NULL)
+		return (NULL);
 	dupsize = ft_strlen(s1) + 1;
 	dup = (char *)malloc(dupsize);
 	if (dup == NULL)
@@ -193,4 +199,3 @@ int	ft_putendl_fd(char *s, int fd)
 		return (1);
 	return (0);
 }
-

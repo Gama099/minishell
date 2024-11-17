@@ -12,7 +12,6 @@ void	add_new_var(char *str, t_env_list *list)
 	if (check_value(str) == 2)
 		new_node->value = ft_strdup("");
 	ft_last_node(current)->next = new_node;//add new var to env linked list
-	free(str);
 }
 
 void	join_var(char *str, t_env_list *node)
@@ -27,6 +26,7 @@ void	join_var(char *str, t_env_list *node)
 	}
 	else
 		node->value = ft_strjoin(node->value, splited[1]);
+	free_ary(splited);
 }
 
 void	change_var(char	*str, t_env_list *node)
@@ -51,16 +51,17 @@ void	check_var(t_env_list *list, int i, char *str)
 	if (node != NULL)
 	{
 		if (i == 5)
-			return ;//dont do anything
+			return ; //dont do anything
 		else if (i == 6)
 			node->value = ft_strdup("");
 		else if (i == 4)
 			join_var(str, node); //appeand value
 		else if (i == 3)
-			change_var(str, node); //change value
+			change_var(str, node);//change value
 	}
 	else
 		add_new_var(str, list);
+	//free(str);
 }
 
 int	ft_export(char **str)// fix var var1 var2
@@ -83,5 +84,7 @@ int	ft_export(char **str)// fix var var1 var2
 			printf("bash: export: `%s': not a valid identifier\n", str[j]);
 		j++;
 	}
+	free(str);
+	str = NULL;
 	return (0);
 }

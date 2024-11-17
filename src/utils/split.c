@@ -21,7 +21,7 @@ int	allocating(char **str, int index, int len)
 
 	i = 0;
 	str[index] = malloc(len);
-	if (str == NULL)
+	if (str[index] == NULL)
 	{
 		while (i < index)
 			free(str[i++]);
@@ -85,7 +85,7 @@ char	**ft_split(char const *s, char c)
 	len = count(s, c);
 	if (!len)
 		exit(1);
-	str = malloc((len + 1) * sizeof(char *));
+	str = (char **)malloc((len + 1) * sizeof(char *));
 	if (!str)
 		err_n_exit("syscall failed", "malloc", NULL, 1);
 	str[len] = NULL;

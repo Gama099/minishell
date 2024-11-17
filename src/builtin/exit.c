@@ -27,14 +27,14 @@ int	ft_exit(char **arg)
 	i = 1;
 	write(1, "exit\n", 6);
 	if (arg[i] == NULL) //one arg = exit
-		ft_exit_helper(0);
+		ft_exit_helper(ft_bash()->exit_status);
 	while (arg[i])
 	{
 		if (i > 1)
-			return (pr_err_msg("too many arguments", "exit", NULL), 1);
+			return (err_msg("too many arguments", "exit", NULL), 1);
 		if (str_is_digit(arg[i]) == 1)
 		{
-			pr_err_msg("numeric argument required", "exit", NULL);
+			err_msg("numeric argument required", "exit", arg[i]);
 			exit(2);//free to do
 		}
 		i++;

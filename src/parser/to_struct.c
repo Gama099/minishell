@@ -153,8 +153,6 @@ t_command	*init_cmd_node(void)
 	command->files->name = NULL;
 	command->files->next = NULL;
 	command->files->redirec = NULL;
-	command->files->fd[0] = -1;
-	command->files->fd[1] = -1;
 	return (command);
 }
 
@@ -244,7 +242,8 @@ t_command	*to_strcuct(t_tokens *tokens)
 			add_another_one(&command);
 		else if((!ft_strncmp(tokens->tokenType, "input", ft_strlen("input")))
 			|| (!ft_strncmp(tokens->tokenType, "output", ft_strlen("output"))) ||
-			(!ft_strncmp(tokens->tokenType, "appaned", ft_strlen("appaned"))))
+			(!ft_strncmp(tokens->tokenType, "appaned", ft_strlen("appaned")))
+			|| (!ft_strncmp(tokens->tokenType, "herdoc", ft_strlen("herdoc"))))
 			handle_rediration(command, &tokens);
 		tokens = tokens->next;
 	}
