@@ -2,10 +2,10 @@
 
 void	update_env(char *name, char *value)//tempo
 {
-	char	*tmp;
+	char		*tmp;
 	t_env_list	*var;
 
-	var = check_if_exit(ft_bash()->list, name);
+	var = check_if_exit(ft_bash()->list, name, 0);
 	if (var)
 	{
 		if (value)
@@ -14,15 +14,8 @@ void	update_env(char *name, char *value)//tempo
 			var->value = value;
 			free(tmp);
 		}
+		free(name);
 	}
-	// else
-	// {
-	// 	tmp = ft_strdup(name);
-	// 	if (tmp == NULL)
-	// 		err_n_die("syscall failed", "malloc", NULL, 1);
-	// 	var = ft_envnew(tmp, value, 1);
-	// 	ft_envadd_back(&shell()->env, var);
-	// }
 }
 
 int	ft_cd_helper(char *path)
@@ -36,24 +29,26 @@ int	ft_cd_helper(char *path)
 	if (code != 0)
 	{
 		free(oldpwd);
-		return (pr_err_msg("No such file or directory", "cd", NULL), 1);
+		return (err_msg("No such file or directory", "cd", path), 1);
 	}
 	pwd = getcwd(NULL, 0);
-	update_env("PWD", pwd);
-	update_env("OLDPWD", oldpwd);
+	update_env(ft_strdup("PWD"), pwd);
+	update_env(ft_strdup("OLDPWD"), oldpwd);
 	return (0);
 }
 
-int		ft_cd(char **arg)
+int	ft_cd(char **arg)
 {
-	int j;
+	int			j;
 	t_env_list	*homes;
+	char		*home;
 
 	j = 1;
-
-	if (arg[j] == NULL)//cd home if one arg
+	if (arg[j] == NULL) //arg contain only cd
 	{
-		homes = check_if_exit(ft_bash()->list, "HOME");
+		home = ft_strdup("HOME");
+		homes = check_if_exit(ft_bash()->list, home, 0);
+		free(home);
 		if (homes != NULL)
 			return (ft_cd_helper(homes->value));
 		return (printf("HOME not set\n"), 1);

@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	ft_is_digit(char a)
+int	ft_isdigit(char a)
 {
 	if (a < '0' || a > '9')
 		return (EXIT_FAILURE);
@@ -13,7 +13,7 @@ int	cheking_int(char *str, int i)
 		return (EXIT_FAILURE);
 	while (str[i])
 	{
-		if (ft_is_digit(str[i]))
+		if (ft_isdigit(str[i]))
 			return (EXIT_FAILURE);
 		i++;
 	}

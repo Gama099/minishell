@@ -26,7 +26,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	unsigned int	i;
 
-	if (n == 0)
+	if (n == 0 || s1 == NULL)
 		return (-1);
 	i = 0;
 	while ((s1[i] && s2[i]) && i < n - 1)
@@ -48,6 +48,10 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
+	if (s1 == NULL)
+		return (ft_strdup(s2));
+	if (s2 == NULL)
+		return (ft_strdup(s1));
 	len = ft_strlen(s1) + ft_strlen(s2);
 	b = malloc((len + 1) * sizeof(char));
 	if (b == NULL)
@@ -63,9 +67,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (b);
 }
 
-size_t	ft_strlen(char *str)
+int	ft_strlen(const char *str)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -73,42 +77,49 @@ size_t	ft_strlen(char *str)
 	return (i);
 }
 
-char    *ft_strcpy(char *s1, char *s2)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	int i;
+	size_t	len;
+	size_t	i;
 
-	i = 0;
-	while (s2[i])
+	len = ft_strlen(src);
+	if (dstsize != 0)
 	{
-		s1[i] = s2[i]; // so this will make s1 = to whatever s2 is looping through the string
-		i++;
+		i = 0;
+		while (i < dstsize - 1 && src[i])
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
 	}
-	s1[i] = s2[i];  // now that we are finsihing looping though s1[i] will equal s2[i]
-	return (s1);
+	return (len);
 }
 
 int	ft_isalnum(char c)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
-		(c >= '0' && c <= '9'))
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')
+		|| (c >= '0' && c <= '9'))
 		return (1);
 	return (0);
 }
 
 int	ft_isalpha(char c)
 {
-	if (((c >= 'a') && (c <= 'z')) ||
-		((c >= 'A') && (c <= 'Z')))
+	if (((c >= 'a') && (c <= 'z'))
+		|| ((c >= 'A') && (c <= 'Z')))
 		return (1);
 	return (0);
 }
 
 char	*ft_strdup(char *s1)
 {
-	size_t	i;
-	size_t	dupsize;
+	int		i;
+	int		dupsize;
 	char	*dup;
 
+	if (s1 == NULL)
+		return (NULL);
 	dupsize = ft_strlen(s1) + 1;
 	dup = (char *)malloc(dupsize);
 	if (dup == NULL)
@@ -188,4 +199,3 @@ int	ft_putendl_fd(char *s, int fd)
 		return (1);
 	return (0);
 }
-
