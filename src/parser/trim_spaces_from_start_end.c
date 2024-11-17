@@ -27,7 +27,7 @@ void	trimSpaces(char **buffer)
 	while (is_white_space(*end) && end > start)
 		end--;
 	//MALLOC1
-	newStr = malloc(end - start + 1);
+	newStr = malloc(end - start + 2);
 	//TODO: handle error //buffer maybe i can exit from here and clean up
 	//and add the the exit function can have enum ERRMALLOC
 	if (!newStr)

@@ -250,3 +250,4 @@ t_command	*to_strcuct(t_tokens *tokens)
 	}
 	return (command_list);
 }
+

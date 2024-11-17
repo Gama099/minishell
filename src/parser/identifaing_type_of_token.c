@@ -1,4 +1,3 @@
-
 #include "../../includes/minishell.h"
 
 
@@ -44,8 +43,9 @@ int is_env_var(char *token)
 static int checkcommand(char *token)
 {
     if (!is_word(token) && !is_path(token)){
-            printf("entre valid command\n");
-            exit(1);
+            //printf("entre valid command\n");
+            //exit(1);
+			return (0);
     }
     else
         return(1);
@@ -98,6 +98,15 @@ void    parser(t_tokens **list)
                 current->tokenType = "file";
             }
         }
+		else if (!ft_strncmp(current->token, "<<", ft_strlen(current->token)))
+		{
+			current->tokenType = "herdoc";
+			if (current->next)
+			{
+				current = current->next;
+				current->tokenType = "file";
+			}
+		}
         else
             current->tokenType = "argurment";
         current = current->next;
