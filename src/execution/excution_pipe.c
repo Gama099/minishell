@@ -26,13 +26,13 @@ int	ft_wait(t_pipes	*var)
 
 	status = 0;
 	i = 0;
-	while (i < var->j)
+	while (i <= var->j)
 		waitpid(var->pid[i++], &status, 0);
 	free(var->pid);
 	var->pid = NULL;
 	free(var);
 	var = NULL;
-	return (status);
+	return (status = (((status) & 0xff00) >> 8));
 }
 
 int	pipe_helper(int input, t_command *cmd, int *pipe)

@@ -51,11 +51,11 @@ int	ft_cd(char **arg)
 		free(home);
 		if (homes != NULL)
 			return (ft_cd_helper(homes->value));
-		return (printf("HOME not set\n"), 1);
+		return (err_msg("HOME not set", "cd", NULL), 1);
 	}
 	while (arg[j])
 		j++;
 	if (j > 2)
-		return (printf("too many arguments\n"), 1);
+		return (err_msg("too many arguments", "cd", NULL), 1);
 	return (ft_cd_helper(arg[1]));
 }

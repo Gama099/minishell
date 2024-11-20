@@ -33,18 +33,20 @@ int	one_cmd(t_command *cmd, int input, int *pipe)
 	pid = fork();
 	if (pid == -1)
 		err_n_exit("error with fork", "fork", NULL, 1);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sigint_handler_cmd);
-	signal(SIGQUIT, sigquit_handler_cmd);
+	//signal(SIGQUIT, sigquit_handler_cmd);
 	if (pid == 0)
 	{
-		env = env_to_ary(ft_bash()->list);
 		child_builtin_helper(cmd, input, pipe); //if not exit from child prossec that mean its not builtin
 		command = get_redarct(cmd, pipe, input);
 		if (command == NULL) //get path and redirct
-			return (free_ary(env), pid);
+			return (pid);
+		env = env_to_ary(ft_bash()->list);
 		status = execve(command, cmd->argumants, env); //excute the cmd
 		if (status == -1)
 		{
+			perror("error");
 			free_ary(env);
 			clean_exit(status); //free if execve failed
 		}
@@ -52,11 +54,39 @@ int	one_cmd(t_command *cmd, int input, int *pipe)
 	return (pid);
 }
 
+int	spaces(t_command *cmd)
+{
+	if (cmd->argumants[0][0] == '\0' || is_white_space(cmd->argumants[0][0]))
+		return (1);
+	return (0);
+}
+
+int	no_cmd(t_command *cmd)
+{
+	int		pid;
+	int		status;
+
+	pid = fork();
+	if (pid == -1)
+		err_n_exit("syscall failed", "fork", NULL, 1); //exit program
+	if (pid == 0)
+	{
+		redirect_no_cmd(cmd->files);
+		exit(0);
+	}
+	waitpid(pid, &status, 0);
+	return ((((status) & 0xff00) >> 8));
+}
+
 int	excution(t_command *cmd)
 {
 	int			status;
 	int			pid;
 
+	if (cmd->argumants == NULL)
+		return (no_cmd(cmd));
+	if (spaces(cmd) == 1)
+		return (0);
 	if (cmd->next == NULL)
 	{
 		if (check_if_builts(cmd->argumants[0]) == 0)
@@ -70,5 +100,5 @@ int	excution(t_command *cmd)
 	}
 	else
 		status = excute_pipe(cmd);
-	return (status);
+	return ((((status) & 0xff00) >> 8));
 }

@@ -23,6 +23,7 @@ SRC =	src/main.c \
 		src/builtin/redirection_builtins.c \
 		src/builtin/redirection_utils.c \
 		src/utils/node.c \
+		src/utils/itoa.c \
 		src/utils/atoi.c \
 		src/utils/split.c \
 		src/utils/string_utils.c \

@@ -1,11 +1,14 @@
 #include "../../includes/minishell.h"
 
-char	*buffer_glue(char **buffer, char **input)
+char	*buffer_glue(char **buffer, char **input, t_files *files)
 {
 	char	*tmp;
 	char	*new_buffer;
 
-	new_buffer = ft_strjoin(*buffer, *input);
+	if (files->flag == 0)//delimi is var and no quotes mean expand
+		new_buffer = ft_strjoin(*buffer, expand_word(*input));
+	else
+		new_buffer = ft_strjoin(*buffer, *input);
 	tmp = new_buffer;
 	new_buffer = ft_strjoin(tmp, "\n");
 	free(tmp);
@@ -41,13 +44,14 @@ int	run_herdoc_child(t_files *files)
 	char	*buffer;
 	char	*input;
 
-	signal(SIGINT, sigint_handler_hd);
 	buffer = ft_strdup("");
 	close(files->fd[0]);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, sigint_handler_hd);
 	input = readline(">");
 	while (strcmp(files->name, input) != 0) //change strcmp later
 	{
-		buffer = buffer_glue(&buffer, &input);
+		buffer = buffer_glue(&buffer, &input, files);
 		input = readline(">");
 	}
 	write(files->fd[1], buffer, ft_strlen(buffer));
@@ -65,16 +69,14 @@ int	herdoc_helper(t_files	*files)
 	status = 0;
 	if (pipe(files->fd) == -1)
 		err_n_exit("syscall failed", "pipe", NULL, 1);
-	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)
 		err_n_exit("syscall failed", "fork", NULL, 1);
 	if (pid == 0)
 		run_herdoc_child(files);
 	waitpid(pid, &status, 0);
-	signal(SIGINT, sigint_handler_hd);
 	close(files->fd[1]);
-	return (status);
+	return ((((status) & 0xff00) >> 8));
 }
 
 int	ft_herdoc(t_command	*cmd)
@@ -85,11 +87,11 @@ int	ft_herdoc(t_command	*cmd)
 	t_command	*tmp;
 
 	tmp = cmd;
-	if (ft_strncmp(cmd->files->redirec, "<<", INT_MAX))
-		return (0);
 	i = red_counter(cmd);
 	if (i > 16)
 		return (err_msg("maximum here-document count exceeded", NULL, NULL), 1);
+	else if (i == 0)
+		return (0);
 	while (cmd != NULL)
 	{
 		file = cmd->files;
@@ -103,5 +105,5 @@ int	ft_herdoc(t_command	*cmd)
 		cmd = cmd->next;
 	}
 	cmd = tmp;
-	return (0);
+	return (status);
 }

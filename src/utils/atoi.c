@@ -42,9 +42,9 @@ int	ft_atoi(char *str)
 	while (str[i])
 	{
 		res = res * 10 +(str[i] - 48);
-		if ((res * sign) > 2147483647 || (res * sign) < 0)
+		if ((res * sign) > 2147483647 || (res * sign) < -2147483648)
 			return (-1);
 		i++;
 	}
-	return (res);
+	return (res * sign);
 }

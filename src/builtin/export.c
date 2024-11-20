@@ -68,8 +68,10 @@ int	ft_export(char **str)// fix var var1 var2
 {
 	int	j;
 	int	i;
+	int	status;
 
 	j = 1;
+	status = 0;
 	if (str[j] == NULL) // no args mean sort and print
 	{
 		print_export(ft_bash()->list);
@@ -81,10 +83,13 @@ int	ft_export(char **str)// fix var var1 var2
 		if (i != 1)
 			check_var(ft_bash()->list, i, str[j]);
 		else
-			printf("bash: export: `%s': not a valid identifier\n", str[j]);
+		{
+			err_msg("not a valid identifier", "export", str[j]);
+			status = 1;
+		}
 		j++;
 	}
 	free(str);
 	str = NULL;
-	return (0);
+	return (status);
 }

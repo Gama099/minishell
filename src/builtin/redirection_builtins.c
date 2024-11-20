@@ -1,8 +1,8 @@
 #include "../../includes/minishell.h"
 
-int	check_file_b(char *filename, int mode)
+int	check_file_b(char *filename, int mode, int flag)
 {
-	if (check_ambiguous(filename) == 1)
+	if (check_ambiguous(&filename, flag) == 1)
 		return (1);
 	if (mode == 1)
 	{
@@ -23,12 +23,12 @@ int	check_file_b(char *filename, int mode)
 	return (0);
 }
 
-int	redirect_in_file_b(char *filename)
+int	redirect_in_file_b(char *filename, int flag)
 {
 	int	fd;
 
 	fd = -1;
-	if (check_file_b(filename, 0))
+	if (check_file_b(filename, 0, flag))
 		return (1);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
@@ -37,12 +37,14 @@ int	redirect_in_file_b(char *filename)
 	return (0);
 }
 
-int	redirect_out_b(char *filename, int append)
+int	redirect_out_b(char *filename, int append, int flag)
 {
 	int	fd;
 
-	if (check_file_b(filename, 1) == 0)
+	if (check_file_b(filename, 1, flag) == 0)
 	{
+		if (filename[0] == '$' && (flag == 0 || flag == 2))
+			filename = expand_word(filename);
 		if (append == 1)
 			fd = open(filename, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		else
@@ -63,13 +65,13 @@ int	redirect_builtin(t_command *cmd)
 		if (!ft_strncmp(cmd->files->redirec, "<<", INT_MAX))
 			ft_dup(cmd->files->fd[0], STDIN_FILENO);
 		if (!ft_strncmp(cmd->files->redirec, "<", INT_MAX))
-			if (redirect_in_file_b(cmd->files->name) == 1)
+			if (redirect_in_file_b(cmd->files->name, cmd->files->flag) == 1)
 				return (1);
 		if (!ft_strncmp(cmd->files->redirec, ">", INT_MAX))
-			if (redirect_out_b(cmd->files->name, 0) == 1)
+			if (redirect_out_b(cmd->files->name, 0, cmd->files->flag) == 1)
 				return (1);
 		if (!ft_strncmp(cmd->files->redirec, ">>", INT_MAX))
-			if (redirect_out_b(cmd->files->name, 1) == 1)
+			if (redirect_out_b(cmd->files->name, 1, cmd->files->flag) == 1)
 				return (1);
 		cmd->files = cmd->files->next;
 	}
