@@ -16,8 +16,9 @@ typedef struct s_tokens
 {
 	char	*token;
 	char	*tokenType;
-	int		sing_qoute;
+	int		qoute_type;
 	int		join_with_next;
+	int		expand_env;
 	struct s_tokens *next;
 } t_tokens;
 
@@ -37,16 +38,17 @@ typedef struct s_env_var
 
 typedef struct s_file
   {
-  char    *name;
-  char    *redirec;
-  int     fd[2];
+  char    	*name;
+  char    	*redirec;
+  int     	fd[2];
+  int		expand_flag;
   struct s_file *next;
   } t_files;
 
   typedef struct s_pipes
   {
-	int	*pid;
-	int	j;
+	int		*pid;
+	int		j;
   } t_pipes;
 
   typedef struct s_command
@@ -181,7 +183,12 @@ t_env_list	*env_to_list(char	**env);
 t_env_list	*ft_create_node(char *str);
 t_env_list	*ft_last_node(t_env_list *head);
 //node
+int			is_meta(char c);
 
+//syntax
+int	handle_syntax_errors(t_tokens *tokens);
+
+void tokenaze_var(t_tokens **tokens);
 # endif
 /* FUNCTIONS */
 

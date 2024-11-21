@@ -1,9 +1,45 @@
 #include "../../includes/minishell.h"
 
 
+/*int check_syntax(const char *input) {
+    int quote_count = 0;
+    char last_char = '\0';
 
+    while (*input) {
+        // Check for quotes
+        if (*input == '\'' || *input == '\"') {
+            quote_count++;
+        }
 
-/*void print_files(t_files *files) {
+        // Check for consecutive meta-characters
+        if (is_meta(*input) && is_meta(last_char)) {
+            printf("Syntax error: Consecutive meta-characters detected.\n");
+            return 0;
+        }
+
+        // Check for redirection errors
+        if (is_meta(*input) && (last_char == '\0' || lat_char == ' ')) {
+            printf("Syntax error: Redirection operator used incorrectly.\n");
+            return 0;
+        }
+
+        // Update last character
+        last_char = *input;
+        input++;
+    }
+
+    // Check for unmatched quotes
+    if (quote_count % 2 != 0) {
+        printf("Syntax error: Unmatched quotes detected.\n");
+        return 0;
+    }
+
+    return 1; // No syntax errors found
+}
+*/
+
+void print_files(t_files *files)
+{
     while (files) {
         printf("    File:\n");
         printf("      Name: %s\n", files->name ? files->name : "NULL");
@@ -11,9 +47,10 @@
         printf("      FD: [%d, %d]\n", files->fd[0], files->fd[1]);
         files = files->next;
     }
-}*/
+}
 
-/*void print_command(t_command *cmd) {
+void print_command(t_command *cmd)
+{
     int i = 0;
     while (cmd) {
         printf("Command %d:\n", ++i);
@@ -27,8 +64,8 @@
         }
 
         printf("  Files:\n");
-        if (cmd->files.name || cmd->files.redirec) {
-            print_files(&cmd->files);
+        if (cmd->files->name || cmd->files->redirec) {
+            print_files(cmd->files);
         } else {
             printf("    None\n");
         }
@@ -39,7 +76,7 @@
         }
     }
 }
-*/
+
 
 t_bash	*ft_bash(void)
 {
@@ -84,18 +121,73 @@ int main(int ac, char **av, char **envp)
 			clean_exit(ft_bash()->exit_status);
 		if (!ft_strncmp(input, "exit", ft_strlen(input)))
 			clean_exit(ft_bash()->exit_status);
+		/*if (!check_syntax(input))
+		{
+			free (input);
+			write(1, "\n", 1);
+		}*/
 		buffer = ft_strdup(input);
 		add_history(input);
 		tokens = getTokens(buffer);
+		//  printf("tokenaziatoin:\n");
+		//  for (t_tokens *i = tokens; i; i = i->next)
+        //      {
+		//  		if (i->next == NULL)
+		//  			printf("null\n");
+		//  		printf("\t\t[%s]\n", i->token);
+		//  	}
+
 		expand_varibles(&tokens);
+		//  printf("expand:\n");
+		//  for (t_tokens *i = tokens; i; i = i->next)
+        //      printf("\t\t[%s]\n", i->token);
+
 		join_token_syblings(&tokens);
+		// printf("joining:\n");
+		// for (t_tokens *i = tokens; i; i = i->next)
+        //     printf("\t\t[%s]\n", i->token);
+
 		parser(&tokens);
-		cmd = to_strcuct(tokens);
-		status = ft_herdoc(cmd);
-		if (status == 0)
-			init_status(excution(cmd));
-		else
+		// printf("parsing:\n");
+		// for (t_tokens *i = tokens; i; i = i->next)
+		// {
+        //     printf("\t\t[%s]\n", i->token);
+		// 	if (i->tokenType == NULL)
+		// 		printf("\t\ttokentype = (null)\n\n");
+		// 	else
+		// 		printf("\t\ttokentype[%s]\n", i->tokenType);
+		// }
+		//sleep(10);
+		//printf("befooooooore:\n");
+		// for (t_tokens *i = tokens; i; i = i->next)
+		// {
+		// 	printf("\t\t[%s]\n", i->token);
+		// 	printf("\t\texpnad == [%d]\n", i->expand_env);
+		// 	printf("\t\t[%s]\n", i->tokenType);
+		// 	printf("\t\t[%s]\n", i->join_with_next);
+		// }
+		tokenaze_var(&tokens);
+		// printf("aaaaaaaaaaaaaafter:\n");
+		// for (t_tokens *i = tokens; i; i = i->next)
+		// {
+		// 	printf("\t\t[%s]\n", i->token);
+		// 	printf("\t\texpnad == [%d]\n", i->expand_env);
+		// 	printf("\t\t[%s]\n", i->tokenType);
+
+		// }
+		if (handle_syntax_errors(tokens))
 			init_status(status);
+		else
+		{
+			cmd = to_strcuct(tokens);
+			// print_command(cmd);
+			//sleep(10);
+			status = ft_herdoc(cmd);
+			if (status == 0)
+				init_status(excution(cmd));
+			else
+				init_status(status);
+		}
     }
 		// printf("cmd = %s\n", cmd->argumants[0]);
 		// printf("cmd = %s\n", cmd->argumants[1]);
@@ -110,7 +202,6 @@ int main(int ac, char **av, char **envp)
 			// printf("cmd = %s\n", command->argumants[1]);
 			// printf("file = %s\n", command->files->name);
 			// printf("red = %s\n", command->files->redirec);
-		//print_command(command);
         /*while (tokens)
         {
             printf("\n[%s]\n", tokens->token);

@@ -24,7 +24,7 @@ void	createTokensmeta(t_tokens **token, char str)
 	if (str == '|')
 		newNode->token = ft_strdup("|");
 	newNode->next = NULL;
-	newNode->sing_qoute = 0;
+	newNode->qoute_type = 0;
 	newNode->tokenType = NULL;
 	newNode->join_with_next = 0;
 	if (!*token)
@@ -47,9 +47,10 @@ void	createTokens(t_tokens **token, char *str, int qoute, int to_join)
 	t_tokens	*last = NULL;
 	newNode->token = ft_strdup(str);
 	newNode->next = NULL;
-	newNode->sing_qoute = qoute;
+	newNode->qoute_type = qoute;
 	newNode->join_with_next = to_join;
 	newNode->tokenType = NULL;
+	newNode->expand_env = 0;
 	if (!*token)
 		*token = newNode;
 	else
@@ -134,10 +135,11 @@ t_tokens *getTokens(char *buffer)
 				to_join = 1;
 			}
 			*iter = '\0';
+			// single qoute ' = 1
 			if (whichQoute == '\'')
 				createTokens(&tokens, tokenBegin, 1, to_join);
 			else
-				createTokens(&tokens, tokenBegin, 0, to_join);
+				createTokens(&tokens, tokenBegin, 2, to_join);
 			tokenBegin = iter + 1;
 			if (*tokenBegin == '\0')
 				return tokens;
@@ -185,7 +187,6 @@ t_tokens *getTokens(char *buffer)
 		createTokens(&tokens, tokenBegin, 0, 0);
 	return tokens;
 }
-
 
 
 void	token_meta(t_tokens **token, char **iter, char **tokenBegin)

@@ -12,7 +12,7 @@ t_tokens	*create_node_join(t_tokens *token_a, t_tokens *token_b)
 	//TODO
 	new_node->token = ft_strjoin(token_a->token, token_b->token);
 	new_node->tokenType = NULL;
-	new_node->sing_qoute = 0;
+	new_node->qoute_type = 0;
 	new_node->join_with_next = token_b->join_with_next;
 	new_node->next = token_b->next;
 	return (new_node);

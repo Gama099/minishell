@@ -36,8 +36,6 @@ int	ft_echo(char **argv)
 		flag = 1;
 	else
 		flag = 0;
-	if (argv[i][0] == '$' && argv[i][1] == '?')
-		return (printf("%d\n",ft_bash()->exit_status), 0);
 	while (argv[i])
 	{
 		write(1, argv[i], ft_strlen(argv[i]));

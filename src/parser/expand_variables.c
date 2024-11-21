@@ -1,5 +1,65 @@
 #include "../../includes/minishell.h"
 
+
+static size_t	count_nbr(int nbr)
+{
+	size_t	count;
+
+	count = 0;
+	if (nbr < 0)
+	{
+		if (nbr == -2147483648)
+			return (11);
+		nbr *= -1;
+		count++;
+	}
+	if (nbr < 10)
+		return (++count);
+	while (nbr > 0)
+	{
+		nbr /= 10;
+		count++;
+	}
+	return (count);
+}
+
+static void	fill(char *str, int n, size_t len)
+{
+	if (n == 0)
+		str[0] = '0';
+	if (n == -2147483648)
+	{
+		str[0] = '-';
+		str[--len] = '8';
+		n = 214748364;
+	}
+	if (n < 0)
+	{
+		str[0] = '-';
+		n *= -1;
+	}
+	while (n > 0)
+	{
+		str[--len] = (n % 10) + '0';
+		n /= 10;
+	}
+}
+
+char	*ft_itoa(int n)
+{
+	char	*str;
+	size_t	len;
+
+	len = count_nbr(n);
+	str = malloc(len + 1);
+	if (!str)
+		return (NULL);
+	str[len] = '\0';
+	fill(str, n, len);
+	return (str);
+}
+
+
 /*void	creat_list(t_env_var **list, char *token)
 {
 	t_env_var	*env_var;
@@ -39,7 +99,8 @@ char	*ft_getenv(char *token)
 	return (NULL);
 }
 
-void creat_list(t_env_list **list, char *token) {
+void creat_list(t_env_list **list, char *token)
+{
     t_env_list *env_var;
     char *tmp_env;
 
@@ -176,54 +237,67 @@ int	get_env_len(char *env_var_start, t_env_list **env_list)
 {
     if (!env_var_start || !*env_var_start)
         return 0;
-
     char *iter = env_var_start;
     int len = 0;
-
-    // Count length of environment variable name
     while (iter[len] && (isalpha(iter[len]) || isdigit(iter[len]) || iter[len] == '_'))
-	{
-		//printf("%c\n", iter[len]);
 		len++;
-	}
-
-
     if (len == 0)
         return 0;
-
-    // Allocate and copy the environment variable name
     char *env_var = malloc(len + 1);  // +1 for null terminator
     if (!env_var)
         return 0;
-
     strncpy(env_var, env_var_start, len);  // Use strncpy instead of strcpy
     env_var[len] = '\0';  // Ensure null termination
-
     creat_list(env_list, env_var);
     return len;
+}
+
+void creat_list_state(t_env_list **list, char *token)
+{
+    t_env_list *env_var;
+    char *tmp_env;
+
+    env_var = malloc(sizeof(t_env_list));
+    if (!env_var) {
+        // Handle memory allocation failure
+        return;
+    }
+
+    env_var->name = ft_strdup("exit_state"); // Ensure you duplicate the token
+    printf("in struct %d\n", ft_bash()->exit_status);
+	env_var->value = ft_strdup(ft_itoa(ft_bash()->exit_status));
+    env_var->next = NULL;
+
+    if (!*list) {
+        *list = env_var;
+    } else {
+        t_env_list *tmp = *list;
+        while (tmp->next) {
+            tmp = tmp->next;
+        }
+        tmp->next = env_var;
+    }
 }
 
 char *get_new_token(char *token_str)
 {
     if (!token_str)
         return NULL;
-
-    //t_env_var *env_list = NULL;
 	t_env_list *env_list = NULL;
     char *token_iter = token_str;
     int count_token_len = 0;
-
     // First pass: calculate length and create env list
     while (*token_iter)
     {
 		if (*token_iter == '$' && *(token_iter + 1) == '?')
 		{
+			// add to env_list and count
+			creat_list_state(&env_list, ft_itoa(ft_bash()->exit_status));
+			count_token_len += strlen(ft_itoa(ft_bash()->exit_status));
 			token_iter += 2;
-			count_token_len++;
 		}
         else if (*token_iter == '$' && *(token_iter + 1))
         {
-			//printf("here we found %s\n", token_iter);
             int env_len = get_env_len(token_iter + 1, &env_list);
             if (env_len > 0)
                 token_iter += env_len + 1;  // +1 for the '$'
@@ -240,16 +314,9 @@ char *get_new_token(char *token_str)
         }
     }
     if (!env_list)
-        {
-			//printf("dodo\n");
 			return NULL;
-		}
-
     // Allocate new token with exact size needed
-
-
     int env_vars_len = count_evn_vars_len(env_list);
-
     char *new_token = malloc(count_token_len + env_vars_len + 1);  // +1 for null terminator
     if (!new_token)
     {
@@ -257,10 +324,8 @@ char *get_new_token(char *token_str)
         // Add cleanup code here
         return NULL;
     }
-
     // Write the new token
     write_new_token(new_token, token_str, env_list);
-
     // Cleanup env_list
     /*while (env_list)
     {
@@ -270,7 +335,6 @@ char *get_new_token(char *token_str)
         free(temp->real_value);
         free(temp);
     }*/
-
     return new_token;
 }
 
@@ -299,19 +363,34 @@ void	expand_varibles(t_tokens **token)
 {
 	t_tokens	*token_iter;
 	char		*token_holder;
+	int			is_herdoc;
 
 	token_iter = *token;
+	is_herdoc = 0;
 	while (token_iter)
 	{
-		if (!token_iter->sing_qoute)
+		if (!ft_strncmp(token_iter->token, "<<", ft_strlen("<<")) ||
+			!ft_strncmp(token_iter->token, "<", ft_strlen("<")) ||
+			!ft_strncmp(token_iter->token, ">", ft_strlen(">")) ||
+			!ft_strncmp(token_iter->token, ">>", ft_strlen(">>")))
+		{
+			is_herdoc = 1;
+			if (token_iter->next)
+				token_iter = token_iter->next;
+			else
+				break;
+		}
+		else if ((token_iter->qoute_type == 0 || token_iter->qoute_type == 2) && !is_herdoc)
 		{
 			token_holder = get_new_token(token_iter->token);
 			if (token_holder != NULL)
 			{
+				token_iter->expand_env = 1;
 				free(token_iter->token);
 				token_iter->token = token_holder;
 			}
 		}
+		is_herdoc = 0;
 		token_iter = token_iter->next;
 	}
 }
