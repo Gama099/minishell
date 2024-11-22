@@ -129,58 +129,82 @@ int main(int ac, char **av, char **envp)
 		buffer = ft_strdup(input);
 		add_history(input);
 		tokens = getTokens(buffer);
+
 		//  printf("tokenaziatoin:\n");
 		//  for (t_tokens *i = tokens; i; i = i->next)
         //      {
-		//  		if (i->next == NULL)
-		//  			printf("null\n");
-		//  		printf("\t\t[%s]\n", i->token);
+		//  		printf("\t\ttoken [%s]\n", i->token);
+		//  		printf("\t\t expnad [%d]\n", i->expand_env);
+		//  		printf("\t\t  join[%d]\n", i->join_with_next);
+		//  		printf("\t\t   qoute[%d]\n", i->qoute_type);
+		//  		printf("\t\t    type[%s]\n", i->tokenType);
 		//  	}
 
 		expand_varibles(&tokens);
+
 		//  printf("expand:\n");
-		//  for (t_tokens *i = tokens; i; i = i->next)
-        //      printf("\t\t[%s]\n", i->token);
+		//   for (t_tokens *i = tokens; i; i = i->next)
+        //      {
+		//  		printf("\t\ttoken [%s]\n", i->token);
+		//  		printf("\t\t expnad [%d]\n", i->expand_env);
+		//  		printf("\t\t  join[%d]\n", i->join_with_next);
+		//  		printf("\t\t   qoute[%d]\n", i->qoute_type);
+		//  		printf("\t\t    type[%s]\n", i->tokenType);
+		//  	}
 
 		join_token_syblings(&tokens);
+
 		// printf("joining:\n");
-		// for (t_tokens *i = tokens; i; i = i->next)
-        //     printf("\t\t[%s]\n", i->token);
+		//  for (t_tokens *i = tokens; i; i = i->next)
+        //      {
+		//  		printf("\t\ttoken [%s]\n", i->token);
+		//  		printf("\t\t expnad [%d]\n", i->expand_env);
+		//  		printf("\t\t  join[%d]\n", i->join_with_next);
+		//  		printf("\t\t   qoute[%d]\n", i->qoute_type);
+		//  		printf("\t\t    type[%s]\n", i->tokenType);
+		//  	}
 
 		parser(&tokens);
-		// printf("parsing:\n");
-		// for (t_tokens *i = tokens; i; i = i->next)
-		// {
-        //     printf("\t\t[%s]\n", i->token);
-		// 	if (i->tokenType == NULL)
-		// 		printf("\t\ttokentype = (null)\n\n");
-		// 	else
-		// 		printf("\t\ttokentype[%s]\n", i->tokenType);
-		// }
-		//sleep(10);
-		//printf("befooooooore:\n");
-		// for (t_tokens *i = tokens; i; i = i->next)
-		// {
-		// 	printf("\t\t[%s]\n", i->token);
-		// 	printf("\t\texpnad == [%d]\n", i->expand_env);
-		// 	printf("\t\t[%s]\n", i->tokenType);
-		// 	printf("\t\t[%s]\n", i->join_with_next);
-		// }
-		tokenaze_var(&tokens);
-		// printf("aaaaaaaaaaaaaafter:\n");
-		// for (t_tokens *i = tokens; i; i = i->next)
-		// {
-		// 	printf("\t\t[%s]\n", i->token);
-		// 	printf("\t\texpnad == [%d]\n", i->expand_env);
-		// 	printf("\t\t[%s]\n", i->tokenType);
 
-		// }
+		// printf("parsing:\n");
+		//  for (t_tokens *i = tokens; i; i = i->next)
+        //      {
+		//  		printf("\t\ttoken [%s]\n", i->token);
+		//  		printf("\t\t expnad [%d]\n", i->expand_env);
+		//  		printf("\t\t  join[%d]\n", i->join_with_next);
+		//  		printf("\t\t   qoute[%d]\n", i->qoute_type);
+		//  		printf("\t\t    type[%s]\n", i->tokenType);
+		//  	}
+		//sleep(10);
+
+		// printf("befooooooore:\n");
+		//  for (t_tokens *i = tokens; i; i = i->next)
+        //      {
+		//  		printf("\t\ttoken [%s]\n", i->token);
+		//  		printf("\t\t expnad [%d]\n", i->expand_env);
+		//  		printf("\t\t  join[%d]\n", i->join_with_next);
+		//  		printf("\t\t   qoute[%d]\n", i->qoute_type);
+		//  		printf("\t\t    type[%s]\n", i->tokenType);
+		//  	}
+
+		tokenaze_var(&tokens);
+
+		// printf("aaaaaaaaaaaaaafter:\n");
+		//  for (t_tokens *i = tokens; i; i = i->next)
+        //      {
+		//  		printf("\t\ttoken [%s]\n", i->token);
+		//  		printf("\t\t expnad [%d]\n", i->expand_env);
+		//  		printf("\t\t  join[%d]\n", i->join_with_next);
+		//  		printf("\t\t   qoute[%d]\n", i->qoute_type);
+		//  		printf("\t\t    type[%s]\n", i->tokenType);
+		//  	}
+
 		if (handle_syntax_errors(tokens))
 			init_status(status);
 		else
 		{
 			cmd = to_strcuct(tokens);
-			// print_command(cmd);
+			//print_command(cmd);
 			//sleep(10);
 			status = ft_herdoc(cmd);
 			if (status == 0)

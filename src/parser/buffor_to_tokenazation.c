@@ -63,7 +63,7 @@ void	createTokens(t_tokens **token, char *str, int qoute, int to_join)
 	return ;
 }
 
-void	token_meta(t_tokens **token, char **iter, char **tokenBegin);
+void	token_meta(t_tokens **token, char **iter, char **tokenBegin, char *start);
 
 t_tokens *getTokens(char *buffer)
 {
@@ -152,7 +152,7 @@ t_tokens *getTokens(char *buffer)
 		// when we are at
 		else if (is_meta(*iter) && !inQoutes)
 		{
-			token_meta(&tokens, &iter, &tokenBegin);
+			token_meta(&tokens, &iter, &tokenBegin, buffer);
 			if (*tokenBegin == '\0')
 				return tokens;
 			/*tmp_meta = *iter;
@@ -173,7 +173,7 @@ t_tokens *getTokens(char *buffer)
 		}
 		else if (*iter == '$' && !inQoutes)
 		{
-			if (*(iter - 1))
+			if ((iter - 1) >= buffer && *(iter - 1))
 			{
 			*iter = '\0';
 			createTokens(&tokens, tokenBegin, 0, 1);
@@ -189,12 +189,12 @@ t_tokens *getTokens(char *buffer)
 }
 
 
-void	token_meta(t_tokens **token, char **iter, char **tokenBegin)
+void	token_meta(t_tokens **token, char **iter, char **tokenBegin, char *start)
 {
 	char tmp_iter;
 
 	tmp_iter = **iter;
-	if (*(*iter - 1))
+	if (start <= (*iter - 1) && *(*iter - 1))
 	{
 		**iter = '\0';
 		createTokens(token, *tokenBegin, 0, 0);
