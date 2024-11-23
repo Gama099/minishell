@@ -190,8 +190,8 @@ void		sigquit_handler_cmd(int num);
 //signals
 
 //node
+void		free_struct(t_command	*cmd);
 void		update_env(char *name, char *value);
-void		node_check(char	*str, t_env_list *node);
 void		free_env(t_env_list *env);
 t_env_list	*env_to_list(char	**env);
 t_env_list	*ft_create_node(char *str);

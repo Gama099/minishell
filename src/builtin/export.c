@@ -61,7 +61,6 @@ void	check_var(t_env_list *list, int i, char *str)
 	}
 	else
 		add_new_var(str, list);
-	//free(str);
 }
 
 int	ft_export(char **str)// fix var var1 var2
@@ -89,7 +88,5 @@ int	ft_export(char **str)// fix var var1 var2
 		}
 		j++;
 	}
-	free(str);
-	str = NULL;
 	return (status);
 }

@@ -26,6 +26,7 @@ void	err_msg(char *err_mesg, char *err_cmd, char *err_name)
 void	clean_exit(int exit_status)
 {
 	free_env(ft_bash()->list);
+	// free_struct(&ft_bash()->cmd);
 	exit(exit_status);
 }
 

@@ -12,7 +12,7 @@ int	ft_pwd(void)
 		printf("%s\n", node->value);
 		return (EXIT_SUCCESS);
 	}
-	printf("%s\n", pwd);
+	ft_putstr_fd(pwd, 1);
 	free(pwd);
 	return (EXIT_SUCCESS);
 }

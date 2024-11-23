@@ -40,18 +40,16 @@ int	handle_syntax_errors(t_tokens *tokens)
 	while (tokens)
 	{
 		if (tokens == start && !ft_strcmps(tokens->tokenType, "pipe"))
-			return (printf("syntax error near unexpected token `%s'\n", tokens->token) ,2);
-		if (!tokens->next && is_special_operator(tokens->tokenType))
-			return (err_msg("syntax error near unexpected token`newline' ", NULL, NULL), 2);
-		else if (is_special_operator(tokens->tokenType) && is_special_operator(tokens->next->tokenType))
 		{
-			ft_putstr_fd("syntax error near unexpected token ", 2);
-			ft_putstr_fd(tokens->next->token, 2);
+			ft_putstr_fd("syntax error near unexpected tokennn ", 2);
+			ft_putstr_fd(tokens->token, 2);
 			return (ft_putstr_fd("\n", 2), 2);
 		}
-		else if (is_special_operator(tokens->tokenType) && ft_strcmps(tokens->next->tokenType, "file"))
+		else if (!tokens->next && is_special_operator(tokens->tokenType))
+			return (err_msg("syntax error near unexpected tokennnn`newline' ", NULL, NULL), 2);
+		else if (is_special_operator(tokens->tokenType) && is_special_operator(tokens->next->tokenType))
 		{
-			ft_putstr_fd("syntax error near unexpected token ", 2);
+			ft_putstr_fd("syntax error near unexpected tokennn ", 2);
 			ft_putstr_fd(tokens->next->token, 2);
 			return (ft_putstr_fd("\n", 2), 2);
 		}

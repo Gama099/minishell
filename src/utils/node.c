@@ -112,3 +112,30 @@ void	free_env(t_env_list *env)
 	}
 	env = NULL;
 }
+
+void	free_struct(t_command	*cmd)
+{
+	t_command	*tmp;
+	t_files		*tmp2;
+
+	while (cmd != NULL)
+	{
+		while(cmd->files != NULL)
+		{
+			tmp2 = cmd->files;
+			cmd->files = cmd->files->next;
+			free(tmp2->name);
+			tmp2->name = NULL;
+			free(tmp2->redirec);
+			tmp2->redirec = NULL;
+			free(tmp2);
+			tmp2 = NULL;
+		}
+		tmp = cmd;
+		cmd = cmd->next;
+		free_ary(tmp->args);
+		free(tmp);
+		tmp = NULL;
+	}
+	cmd = NULL;
+}
