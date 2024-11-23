@@ -23,18 +23,18 @@ void	free_ary(char	**str)
 
 void	fill_node(t_env_list *node, char *str)
 {
-	char	**splited;
-	char	*name;
-	char	*value;
+	int i = 0;
 
-	splited = ft_split(str, '=');
-	value = ft_strdup(splited[1]);
-	node->value = value;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			break ;
+		i++;
+	}
+	node->value = ft_substr_h(str, i + 1, ft_strlen(str));
 	if (!there_is_plus(str))
-		splited[0][ft_strlen(splited[0]) - 1] = '\0'; //remove + from 1 array after the split
-	name = ft_strdup(splited[0]);
-	node->name = name;
-	free_ary(splited);
+		node->name = ft_substr_h(str, 0, i - 1); //remove + from 1 array after the split
+	node->name = ft_substr_h(str, 0, i);
 }
 
 t_env_list	*ft_create_node(char *str)
@@ -53,6 +53,21 @@ t_env_list	*ft_create_node(char *str)
 		new_node->type = 0;
 	new_node->next = NULL;
 	return (new_node);
+}
+
+void	update_sh(t_env_list *list)
+{
+	t_env_list	*node;
+	char		*tmp;
+
+	node = check_if_exit(list, "SHLVL", 2);
+	if (node != NULL)
+	{
+		tmp = node->value;
+		node->value = ft_itoa(ft_atoi(node->value) + 1);
+		free(tmp);
+		tmp = NULL;
+	}
 }
 
 t_env_list	*env_to_list(char	**env)
@@ -76,6 +91,7 @@ t_env_list	*env_to_list(char	**env)
 			ft_last_node(current)->next = new_node;
 		i++;
 	}
+	update_sh(first);
 	return (first);
 }
 

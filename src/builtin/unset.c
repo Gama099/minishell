@@ -13,6 +13,23 @@ void	node_del(t_env_list *node)
 	node = NULL;
 }
 
+void	ft_unset_helper(t_env_list *node, t_env_list *prev, t_env_list **list)
+{
+	if (node != NULL)
+	{
+		if (prev == NULL) //first node
+			*list = node->next;
+		else
+		{
+			if (node->next != NULL)
+				prev->next = node->next;
+			else
+				prev->next = NULL;
+		}
+		node_del(node);
+	}
+}
+
 int	ft_unset(char **argv, t_env_list **list)//more than 25line
 {
 	t_env_list	*new_node;
@@ -29,19 +46,7 @@ int	ft_unset(char **argv, t_env_list **list)//more than 25line
 			prev = new_node;
 			new_node = new_node->next;
 		}
-		if (new_node != NULL)
-		{
-			if (prev == NULL) //first node
-				*list = new_node->next;
-			else
-			{
-				if (new_node->next != NULL)
-					prev->next = new_node->next;
-				else
-					prev->next = NULL;
-			}
-			node_del(new_node);
-		}
+		ft_unset_helper(new_node, prev, list);
 		j++;
 	}
 	return (0);

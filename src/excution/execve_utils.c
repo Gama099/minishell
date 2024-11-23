@@ -1,37 +1,17 @@
 #include "../../includes/minishell.h"
 
-int	check_path(t_command *cmd)
+int	dot_only(char *cmd)
 {
-	int	check;
-
-	check = 0;
-	if (ft_strchrr(cmd->argumants[0], '/') != -1)
-	{
-		if (is_a_directory(cmd->argumants[0], 1))
-			clean_exit(126);
-		check = check_access(cmd->argumants[0]);
-		if (check == 1) // not found
-			err_n_exit(NULL, NULL, cmd->argumants[0], 127);
-		else if (check == 2) //not excutable
-			err_n_exit(NULL, NULL, cmd->argumants[0], 126);
-		else
-			return (3); //path is valid
-	}
-	return (check);
-}
-
-int	set_under_score(char **argv) //to be fixed
-{
-	char		*value;
-	int			i;
+	int	i;
 
 	i = 0;
-	while (argv[i])
+	while (cmd[i])
+	{
+		if (cmd[i] != '.')
+			return (1);
 		i++;
-	if (i == 0)
-		return (1);
-	value = ft_strdup(argv[i - 1]);
-	update_env(ft_strdup("_"), value);
+	}
+	err_n_exit("command not found", NULL, cmd, 127);
 	return (0);
 }
 
@@ -50,11 +30,11 @@ int	check_access(char *path)
 
 char	*get_path(void)
 {
-	char	**env;
-	char	*path;
-	char	*tmp;
+	char		**env;
+	char		*path;
+	char		*tmp;
 	t_env_list	*node;
-	int		i;
+	int			i;
 
 	i = 0;
 	env = env_to_ary(ft_bash()->list);
@@ -73,8 +53,11 @@ char	*get_path(void)
 	return (free_ary(env), NULL);
 }
 
-void	check_exit(int check, char *cmd)
+void	check_exit(int check, char *cmd, char *tmp, char **splited)
 {
+	free_ary(splited);
+	free(tmp);
+	tmp = NULL;
 	if (check == 1)
 		err_n_exit("command not found", NULL, cmd, 127);
 	else if (check == 2)
@@ -90,7 +73,7 @@ char	*find_path(char *cmd)
 	int		check;
 
 	i = 0;
-	check = 0;
+	dot_only(cmd);
 	tmp = get_path();
 	if (tmp == NULL)
 		return (free(tmp), NULL);
@@ -106,6 +89,6 @@ char	*find_path(char *cmd)
 			free(path);
 		i++;
 	}
-	check_exit(check, cmd);
+	check_exit(check, cmd, tmp, splited_path);
 	return (NULL);
 }

@@ -37,20 +37,20 @@ int	check_if_builts(char *cmd)
 
 int	run_builts(t_command *cmd)
 {
-	if (!ft_strncmp(cmd->argumants[0], "echo", INT_MAX))
-		return (ft_echo(cmd->argumants));
-	else if (!ft_strncmp(cmd->argumants[0], "pwd", INT_MAX))
+	if (!ft_strncmp(cmd->args[0], "echo", INT_MAX))
+		return (ft_echo(cmd->args));
+	else if (!ft_strncmp(cmd->args[0], "pwd", INT_MAX))
 		return (ft_pwd());
-	else if (!ft_strncmp(cmd->argumants[0], "env", INT_MAX))
-		return (ft_env(ft_bash()->list, cmd->argumants));
-	else if (!ft_strncmp(cmd->argumants[0], "export", INT_MAX))
-		return (ft_export(cmd->argumants));
-	else if (!ft_strncmp(cmd->argumants[0], "unset", INT_MAX))
-		return (ft_unset(cmd->argumants, &ft_bash()->list));
-	else if (!ft_strncmp(cmd->argumants[0], "exit", INT_MAX))
-		return (ft_exit(cmd->argumants));
-	else if (!ft_strncmp(cmd->argumants[0], "cd", INT_MAX))
-		return (ft_cd(cmd->argumants));
+	else if (!ft_strncmp(cmd->args[0], "env", INT_MAX))
+		return (ft_env(ft_bash()->list, cmd->args));
+	else if (!ft_strncmp(cmd->args[0], "export", INT_MAX))
+		return (ft_export(cmd->args));
+	else if (!ft_strncmp(cmd->args[0], "unset", INT_MAX))
+		return (ft_unset(cmd->args, &ft_bash()->list));
+	else if (!ft_strncmp(cmd->args[0], "exit", INT_MAX))
+		return (ft_exit(cmd->args));
+	else if (!ft_strncmp(cmd->args[0], "cd", INT_MAX))
+		return (ft_cd(cmd->args));
 	return (1);
 }
 
@@ -58,7 +58,7 @@ void	child_builtin_helper(t_command *cmd, int input, int *pipe)
 {
 	int	status;
 
-	if (check_if_builts(cmd->argumants[0]) == 0)
+	if (check_if_builts(cmd->args[0]) == 0)
 	{
 		if (input != 0)
 			ft_dup(input, STDIN_FILENO);
@@ -78,7 +78,7 @@ int	builtin_helper(t_command *cmd)
 	int	status;
 
 	save_stdfd();
-	set_under_score(cmd->argumants);
+	set_under_score(cmd->args);
 	status = redirect_builtin(cmd);
 	if (status != 0)
 		return (revert_stdfd(), status);

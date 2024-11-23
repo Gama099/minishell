@@ -28,7 +28,7 @@ void	sigint_handler_hd(int num)
 
 void	sigquit_handler_cmd(int num)
 {
-	(void) num;
+	(void)num;
 	write(2, "Quit (core dumped)\n", 19);
 	rl_on_new_line();
 	rl_replace_line("", 0);

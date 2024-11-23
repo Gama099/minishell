@@ -71,7 +71,6 @@ t_tokens *getTokens(char *buffer)
 	int			inQoutes = 0;
 	char		whichQoute = '\0';
 	char		*tokenBegin;
-	char		tmp_meta;
     t_tokens *tokens = NULL;
 
 	int to_join;
@@ -104,7 +103,7 @@ t_tokens *getTokens(char *buffer)
 			inQoutes = 1;
 			whichQoute = *iter;
 			*iter = '\0';
-			if (*(iter - 1))
+			if ((iter - 1) >= buffer && *(iter - 1))
 				createTokens(&tokens, tokenBegin, 0, 1);
 			tokenBegin = iter + 1;
 		}

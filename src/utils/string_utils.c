@@ -133,6 +133,21 @@ char	*ft_strdup(char *s1)
 	return (dup);
 }
 
+char	*ft_substr_h(char *s, int start, int end)
+{
+	int		i;
+	char	*res;
+
+	res = (char *)malloc((end - start + 1) * sizeof(char));
+	if (!res)
+		err_n_exit("syscall failed", "malloc", NULL, 1);
+	i = 0;
+	while (start < end)
+		res[i++] = s[start++];
+	res[i] = '\0';
+	return (res);
+}
+
 int	ft_strchrr(char *s, int c)
 {
 	int	i;

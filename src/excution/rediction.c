@@ -1,16 +1,36 @@
 #include "../../includes/minishell.h"
 
-int	check_ambiguous_child(char *filename)
+char	*check_ambiguous_child(char *filename, int flag)
 {
-	if ((filename == NULL || ft_strchrr(filename, ' ') != -1))
-		err_n_exit("ambiguous redirection", NULL, NULL, 1);
-	return (0);
+	char	**ex_str;
+	int		var;
+
+	var = 0;
+	if (filename[0] == '$')
+		var = 1;
+	if (flag == 1) //in single quote no ambiguos no expand
+		return (filename); // work in all redirection
+	else if (flag == 2) //in double quote no ambiguos just expand
+	{
+		if (expand_name(filename) != NULL)
+			return (expand_name(filename));
+		return (ft_strdup(""));
+	}
+	else if (flag == 0) //in no quotes no expand if var not exists just ambiguos//in no quotes no ambiguos just expand if var exists
+	{
+		ex_str = ambigous_helper(filename, var);
+		if (ex_str != NULL)
+		{
+			filename = ft_strdup(ex_str[0]);
+			return (free_ary(ex_str), filename); //work in all
+		}
+	}
+	return (filename);
 }
 
-int	check_file_b_child(char *filename, int mode)
+int	check_file_b_child(char *filename, int mode, int flag)
 {
-	if (check_ambiguous_child(filename) == 1)
-		return (1);
+	filename = check_ambiguous_child(filename, flag);
 	if (mode == 1)
 	{
 		if (is_a_directory(filename, 0))
@@ -30,12 +50,12 @@ int	check_file_b_child(char *filename, int mode)
 	return (0);
 }
 
-int	redirect_in_file_b_child(char *filename)
+int	redirect_in_file_b_child(char *filename, int flag)
 {
 	int	fd;
 
 	fd = -1;
-	if (check_file_b_child(filename, 0))
+	if (check_file_b_child(filename, 0, flag))
 		return (1);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
@@ -44,12 +64,14 @@ int	redirect_in_file_b_child(char *filename)
 	return (0);
 }
 
-int	redirect_out_b_child(char *filename, int append)
+int	redirect_out_b_child(char *filename, int append, int flag)
 {
 	int	fd;
 
-	if (check_file_b_child(filename, 1) == 0)
+	if (check_file_b_child(filename, 1, flag) == 0)
 	{
+		if (filename[0] == '$' && (flag == 0 || flag == 2))
+			filename = expand_name(filename);
 		if (append == 1)
 			fd = open(filename, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		else
@@ -70,13 +92,13 @@ int	redirect_file(t_command *cmd)
 		if (!ft_strncmp(cmd->files->redirec, "<<", INT_MAX))
 			ft_dup(cmd->files->fd[0], STDIN_FILENO);
 		if (!ft_strncmp(cmd->files->redirec, "<", INT_MAX))
-			if (redirect_in_file_b_child(cmd->files->name))
+			if (redirect_in_file_b_child(cmd->files->name, cmd->files->flag))
 				return (1);
 		if (!ft_strncmp(cmd->files->redirec, ">", INT_MAX))
-			if (redirect_out_b_child(cmd->files->name, 0))
+			if (redirect_out_b_child(cmd->files->name, 0, cmd->files->flag))
 				return (1);
 		if (!ft_strncmp(cmd->files->redirec, ">>", INT_MAX))
-			if (redirect_out_b_child(cmd->files->name, 1))
+			if (redirect_out_b_child(cmd->files->name, 1, cmd->files->flag))
 				return (1);
 		cmd->files = cmd->files->next;
 	}

@@ -4,7 +4,7 @@ int	ft_pwd(void)
 {
 	char		*pwd;
 	t_env_list	*node;
-	
+
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
 	{

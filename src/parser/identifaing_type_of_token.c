@@ -14,10 +14,9 @@ int is_word(char *token)
 
 int is_path(char *token)
 {
-    int i = 0;
-    char    *iter = token;
-    if (!token || !ft_strlen(token))
-        return 0;
+    char	*iter;
+
+	iter = token;
     // Check if it starts with '/' for absolute paths
     if (token[0] != '/' && token[0] != '.') {
         return 0; // Not a valid path
@@ -25,20 +24,21 @@ int is_path(char *token)
     }
     while (*iter)
     {
-        if (!(ft_isalnum(*iter) || *iter == '/' || *iter == '.' || *iter == '_' || *iter == '-' || *iter == ' '))
-            return 0;
+        if (!(ft_isalnum(*iter) || *iter == '/' || *iter == '.' || *iter == '_'
+			|| *iter == '-' || *iter == ' '))
+			return 0;
         iter++;
     }
     return 1;
 
 }
 
-int is_env_var(char *token)
-{
-    if (!token || token[0] != '$')
-        return (0);
-    return(1);
-}
+// int is_env_var(char *token)
+// {
+//     if (!token || token[0] != '$')
+//         return (0);
+//     return(1);
+// }
 
 static int checkcommand(char *token)
 {
@@ -61,7 +61,7 @@ void    parser(t_tokens **list)
         //check if it a word or path
         if (current == *list && (checkcommand(current->token)))
             current->tokenType = "command";
-        else if (!ft_strncmp(current->token, "|", ft_strlen(current->token))){
+        else if (!ft_strncmp(current->token, "|", ft_strlen(current->token)) && !current->qoute_type){
             current->tokenType = "pipe";
             //calling the function again so it should check if after pipe there's a command
             parser(&current->next);
@@ -71,37 +71,37 @@ void    parser(t_tokens **list)
         {
             current->tokenType = "env_var";
         }*/
-        else if (!ft_strncmp(current->token, ">", ft_strlen(current->token)))
+        else if (!ft_strncmp(current->token, ">", ft_strlen(current->token)) && !current->qoute_type)
         {
             current->tokenType = "output";
-            if (current->next)
+			if (current->next && !is_operator(current->next->token))
             {
                 current = current->next;
                 current->tokenType = "file";
             }
         }
-        else if (!ft_strncmp(current->token, "<", ft_strlen(current->token)))
+        else if (!ft_strncmp(current->token, "<", ft_strlen(current->token)) && !current->qoute_type)
         {
             current->tokenType = "input";
-            if (current->next)
+            if (current->next && !is_operator(current->next->token))
             {
                 current = current->next;
                 current->tokenType = "file";
             }
         }
-        else if (!ft_strncmp(current->token, ">>", ft_strlen(current->token)))
+        else if (!ft_strncmp(current->token, ">>", ft_strlen(current->token)) && !current->qoute_type)
         {
             current->tokenType = "appaned";
-            if (current->next)
+            if (current->next && !is_operator(current->next->token))
             {
                 current = current->next;
                 current->tokenType = "file";
             }
         }
-		else if (!ft_strncmp(current->token, "<<", ft_strlen(current->token)))
+		else if (!ft_strncmp(current->token, "<<", ft_strlen(current->token)) && !current->qoute_type)
 		{
 			current->tokenType = "herdoc";
-			if (current->next)
+			if (current->next && !is_operator(current->next->token))
 			{
 				current = current->next;
 				current->tokenType = "file";

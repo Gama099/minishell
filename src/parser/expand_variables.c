@@ -1,89 +1,6 @@
 #include "../../includes/minishell.h"
 
 
-static size_t	count_nbr(int nbr)
-{
-	size_t	count;
-
-	count = 0;
-	if (nbr < 0)
-	{
-		if (nbr == -2147483648)
-			return (11);
-		nbr *= -1;
-		count++;
-	}
-	if (nbr < 10)
-		return (++count);
-	while (nbr > 0)
-	{
-		nbr /= 10;
-		count++;
-	}
-	return (count);
-}
-
-static void	fill(char *str, int n, size_t len)
-{
-	if (n == 0)
-		str[0] = '0';
-	if (n == -2147483648)
-	{
-		str[0] = '-';
-		str[--len] = '8';
-		n = 214748364;
-	}
-	if (n < 0)
-	{
-		str[0] = '-';
-		n *= -1;
-	}
-	while (n > 0)
-	{
-		str[--len] = (n % 10) + '0';
-		n /= 10;
-	}
-}
-
-char	*ft_itoa(int n)
-{
-	char	*str;
-	size_t	len;
-
-	len = count_nbr(n);
-	str = malloc(len + 1);
-	if (!str)
-		return (NULL);
-	str[len] = '\0';
-	fill(str, n, len);
-	return (str);
-}
-
-
-/*void	creat_list(t_env_var **list, char *token)
-{
-	t_env_var	*env_var;
-	t_env_var	*tmp;
-	char		*tmp_env;
-
-	env_var = malloc(sizeof(t_env_var));
-	env_var->var = token;
-	tmp_env = getenv(token);
-	if (tmp_env == NULL)
-		env_var->real_value = ft_strdup(" ");
-	else
-		env_var->real_value = ft_strdup(tmp_env);
-	env_var->next = NULL;
-	if (!*list)
-		*list = env_var;
-	else
-	{
-		tmp = *list;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = env_var;
-	}
-}*/
 
 char	*ft_getenv(char *token)
 {
@@ -252,10 +169,9 @@ int	get_env_len(char *env_var_start, t_env_list **env_list)
     return len;
 }
 
-void creat_list_state(t_env_list **list, char *token)
+void creat_list_state(t_env_list **list)
 {
     t_env_list *env_var;
-    char *tmp_env;
 
     env_var = malloc(sizeof(t_env_list));
     if (!env_var) {
@@ -264,7 +180,7 @@ void creat_list_state(t_env_list **list, char *token)
     }
 
     env_var->name = ft_strdup("exit_state"); // Ensure you duplicate the token
-    printf("in struct %d\n", ft_bash()->exit_status);
+    //printf("in struct %d\n", ft_bash()->exit_status);
 	env_var->value = ft_strdup(ft_itoa(ft_bash()->exit_status));
     env_var->next = NULL;
 
@@ -281,8 +197,6 @@ void creat_list_state(t_env_list **list, char *token)
 
 char *get_new_token(char *token_str)
 {
-    if (!token_str)
-        return NULL;
 	t_env_list *env_list = NULL;
     char *token_iter = token_str;
     int count_token_len = 0;
@@ -292,7 +206,7 @@ char *get_new_token(char *token_str)
 		if (*token_iter == '$' && *(token_iter + 1) == '?')
 		{
 			// add to env_list and count
-			creat_list_state(&env_list, ft_itoa(ft_bash()->exit_status));
+			creat_list_state(&env_list);
 			count_token_len += strlen(ft_itoa(ft_bash()->exit_status));
 			token_iter += 2;
 		}
@@ -394,51 +308,3 @@ void	expand_varibles(t_tokens **token)
 		token_iter = token_iter->next;
 	}
 }
-
-/*char	*get_new_token(char *token)
-{
-	char		*token_iter;
-	int			count_token_len;
-	t_env_var	*paste_list;
-
-	paste_list = NULL;
-	token_iter = token;
-	while (*token_iter)
-	{
-		if (*token_iter == '$' && *(token_iter + 1) == '?')
-			printf("to handle retuning last state\n");
-		else if (*token_iter == '$' && *(token_iter + 1))
-		{
-			set_var_name_paste_list(token_iter, paste_list);
-			get_env_len(count_token_len, envs_list);// i have to give the var name
-		}
-		else
-			token_iter++;
-	}
-}
-
-void	set_var_name_paste_list(char *var_name, t_env_var *paste_list)
-{
-	char	*start;
-
-	start = var_name;
-	while (*var_name && (ft_isalpha(*var_name) || ft_isdigit(*var_name) || *var_name == '_'))
-                var_name++;
-
-}
-
-void	get_env_len(int len, t_env_var *paste_list)
-{
-	t_env_list	*iter_list;
-
-	iter_list = ft_bash()->list;
-	while (iter_list->next)
-	{
-		if (ft_strncmp(iter_list->name, paste_list->var,
-			ft_strlen(iter_list->name)))
-		{
-
-		}
-	}
-}
-*/

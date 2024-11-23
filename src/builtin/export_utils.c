@@ -37,7 +37,6 @@ int	valid_plus(char *str)
 	int	i;
 
 	i = 0;
-
 	while (str[i])
 	{
 		if (str[i] == '+' && str[i + 1] != '=')
@@ -69,6 +68,8 @@ int	arg_valid(char *str)
 {
 	char	**splited;
 
+	if (!str[0])
+		return (EXIT_FAILURE);
 	if (!there_is_plus(str))
 		return (arg_helper(str));
 	else

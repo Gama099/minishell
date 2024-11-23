@@ -82,9 +82,11 @@ char	**ft_split(char const *s, char c)
 	char	**str;
 	int		len;
 
+	if (s == NULL)
+		return (NULL);
 	len = count(s, c);
 	if (!len)
-		exit(1);
+		clean_exit(1);
 	str = (char **)malloc((len + 1) * sizeof(char *));
 	if (!str)
 		err_n_exit("syscall failed", "malloc", NULL, 1);

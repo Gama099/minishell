@@ -4,7 +4,6 @@ int	counter(void *count, int mode)
 {
 	int			i;
 	t_command	*cmd;
-	t_env_list	*env;
 
 	i = 0;
 	if (mode == 1)
@@ -26,7 +25,7 @@ int	ft_wait(t_pipes	*var)
 
 	status = 0;
 	i = 0;
-	while (i < var->j)
+	while (i <= var->j)
 		waitpid(var->pid[i++], &status, 0);
 	free(var->pid);
 	var->pid = NULL;

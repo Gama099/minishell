@@ -27,7 +27,8 @@ void tokenaze_var(t_tokens **tokens)
 
     while (iter)
 	{
-        if (iter->expand_env) {
+        if (iter->expand_env && iter->qoute_type != 2)
+		{
             tmp_holder = getTokens(ft_strdup(iter->token));
 
             if (!tmp_holder) {
@@ -49,7 +50,9 @@ void tokenaze_var(t_tokens **tokens)
             to_free = iter;
             iter = iter->next;
             free(to_free);
-        } else {
+        }
+		else
+		{
             prev = iter;
             iter = iter->next;
         }
