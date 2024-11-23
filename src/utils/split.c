@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	ft_strlcpy(char *dst, const char *src, int size)
+void	ft_strlcpyy(char *dst, const char *src, int size)
 {
 	int	i;
 
@@ -21,7 +21,7 @@ int	allocating(char **str, int index, int len)
 
 	i = 0;
 	str[index] = malloc(len);
-	if (str == NULL)
+	if (str[index] == NULL)
 	{
 		while (i < index)
 			free(str[i++]);
@@ -51,7 +51,7 @@ int	ft_write(char **str, char const *s, char c)
 		{
 			if (allocating(str, index, j + 1))
 				return (1);
-			ft_strlcpy(str[index], s - j, j + 1);
+			ft_strlcpyy(str[index], s - j, j + 1);
 			index++;
 		}
 	}
@@ -85,9 +85,9 @@ char	**ft_split(char const *s, char c)
 	len = count(s, c);
 	if (!len)
 		exit(1);
-	str = malloc((len + 1) * sizeof(char *));
+	str = (char **)malloc((len + 1) * sizeof(char *));
 	if (!str)
-		return (NULL);
+		err_n_exit("syscall failed", "malloc", NULL, 1);
 	str[len] = NULL;
 	if (ft_write(str, s, c))
 		return (NULL);
