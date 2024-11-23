@@ -7,7 +7,7 @@ t_bash	*ft_bash(void)
 	return (&shell);
 }
 
-void   init_global_data(char **envp)
+void	init_global_data(char **envp)
 {
 	ft_bash()->exit_status = 0;
 	if (!envp[0])
@@ -37,18 +37,18 @@ char	*prompt(void)
 	return (ft_strdup(input));
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
-    t_tokens    *tokens;
-    char        *buffer;
+	t_tokens	*tokens;
+	char		*buffer;
 	t_command	*cmd;
 	int			status;
 
 	(void)ac;
 	(void)av;
 	init_global_data(envp);
-    while (1)
-    {
+	while (1)
+	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, sigint_handler_main);
 		buffer = prompt();
@@ -66,12 +66,10 @@ int main(int ac, char **av, char **envp)
 				init_status(excution(cmd));
 			else
 				init_status(status);
+			free_struct(cmd);
 		}
 		else
 			init_status(status);
-		free_struct(cmd);
-    }
-		return (0);
+	}
+	return (0);
 }
-
-

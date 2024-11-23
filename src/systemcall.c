@@ -30,6 +30,7 @@ void	revert_stdfd(void)
 	ft_dup(ft_bash()->fd_stdin, STDIN_FILENO);
 	ft_dup(ft_bash()->fd_stdout, STDOUT_FILENO);
 }
+
 int	ft_fork(void)
 {
 	int	pid;

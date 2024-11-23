@@ -84,7 +84,7 @@ int	excution(t_command *cmd)
 	if (cmd->next == NULL)
 	{
 		if (check_if_builts(cmd->args[0]) == 0)
-			return(builtin_helper(cmd));
+			return (builtin_helper(cmd));
 		else
 		{
 			set_under_score(cmd->args);

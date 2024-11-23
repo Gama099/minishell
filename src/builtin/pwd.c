@@ -13,6 +13,7 @@ int	ft_pwd(void)
 		return (EXIT_SUCCESS);
 	}
 	ft_putstr_fd(pwd, 1);
+	write(1, "\n", 1);
 	free(pwd);
 	return (EXIT_SUCCESS);
 }

@@ -9,7 +9,7 @@ char	*ft_getenv(char *token)
 	iter = ft_bash()->list;
 	while (iter)
 	{
-		if (!strncmp(iter->name, token, strlen(iter->name)))
+		if (!strncmp(iter->name, token, ft_strlen(iter->name)))
 			return(iter->value);
 		iter = iter->next;
 	}
@@ -156,7 +156,7 @@ int	get_env_len(char *env_var_start, t_env_list **env_list)
         return 0;
     char *iter = env_var_start;
     int len = 0;
-    while (iter[len] && (isalpha(iter[len]) || isdigit(iter[len]) || iter[len] == '_'))
+    while (iter[len] && (ft_isalpha(iter[len]) || !ft_isdigit(iter[len]) || iter[len] == '_'))
 		len++;
     if (len == 0)
         return 0;
@@ -207,7 +207,7 @@ char *get_new_token(char *token_str)
 		{
 			// add to env_list and count
 			creat_list_state(&env_list);
-			count_token_len += strlen(ft_itoa(ft_bash()->exit_status));
+			count_token_len += ft_strlen(ft_itoa(ft_bash()->exit_status));
 			token_iter += 2;
 		}
         else if (*token_iter == '$' && *(token_iter + 1))
@@ -258,7 +258,7 @@ void write_new_token(char *new_token, char *token_str, t_env_list *env_list) {
     while (*token_str) {
         if (*token_str == '$' && env_list) {
             strcpy(write_ptr, env_list->value);
-            write_ptr += strlen(env_list->value);
+            write_ptr += ft_strlen(env_list->value);
             token_str++;  // Skip the '$'
 
             // Skip the environment variable name

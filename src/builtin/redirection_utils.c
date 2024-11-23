@@ -1,4 +1,3 @@
-
 #include "../../includes/minishell.h"
 
 int	is_a_directory(char *filename, int bltn)
@@ -39,7 +38,7 @@ int	ambigous_helper_builtins(char	**file, int is_var)
 		return (err_msg("ambiguous redirection", NULL, *file), 1);
 	}
 	*file = ft_strdup(spl_ex_file[0]);
-	return (free_ary(spl_ex_file) ,0);
+	return (free_ary(spl_ex_file), 0);
 }
 
 int	check_ambiguous(char **filename, int flag)

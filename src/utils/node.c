@@ -23,8 +23,9 @@ void	free_ary(char	**str)
 
 void	fill_node(t_env_list *node, char *str)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '=')
@@ -120,7 +121,7 @@ void	free_struct(t_command	*cmd)
 
 	while (cmd != NULL)
 	{
-		while(cmd->files != NULL)
+		while (cmd->files != NULL)
 		{
 			tmp2 = cmd->files;
 			cmd->files = cmd->files->next;
