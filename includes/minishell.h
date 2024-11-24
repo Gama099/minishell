@@ -156,6 +156,7 @@ char		*ft_itoa(int n);
 //string_utils
 
 //syscall
+void		ft_close(int fd);
 int			ft_fork(void);
 void		init_status(int status);
 void		save_stdfd(void);

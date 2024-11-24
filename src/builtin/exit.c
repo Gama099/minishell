@@ -45,13 +45,6 @@ int	ft_exit(char **arg)
 	write(1, "exit\n", 6);
 	if (arg[i] == NULL) //one arg = exit
 		ft_exit_helper(ft_bash()->exit_status);
-	// while (arg[i])
-	// {
-	// 	if (i > 1)
-	// 		return (err_msg("too many arguments", "exit", NULL), 1);
-	// 	i++;
-	// }
-	// i = 1;
 	while (arg[i])
 	{
 		if (i > 1)

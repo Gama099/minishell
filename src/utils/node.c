@@ -15,7 +15,7 @@ void	free_ary(char	**str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 		free(str[i++]);
 	free(str);
 	str = NULL;
@@ -135,7 +135,6 @@ void	free_struct(t_command	*cmd)
 		tmp = cmd;
 		cmd = cmd->next;
 		free_ary(tmp->args);
-		free(tmp);
 		tmp = NULL;
 	}
 	cmd = NULL;

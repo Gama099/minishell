@@ -8,7 +8,7 @@ char	*get_redarct(t_command *cmd, int *pipe, int input)
 		ft_dup(input, STDIN_FILENO);
 	if (pipe != NULL)
 	{
-		close(pipe[0]);
+		ft_close(pipe[0]);
 		ft_dup(pipe[1], STDOUT_FILENO);
 	}
 	command = NULL;

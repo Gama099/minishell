@@ -64,7 +64,7 @@ void	child_builtin_helper(t_command *cmd, int input, int *pipe)
 			ft_dup(input, STDIN_FILENO);
 		if (pipe != NULL)
 		{
-			close(pipe[0]);
+			ft_close(pipe[0]);
 			ft_dup(pipe[1], STDOUT_FILENO);
 		}
 		redirect_file(cmd);

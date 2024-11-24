@@ -43,7 +43,7 @@ int	pipe_helper(int input, t_command *cmd, int *pipe)
 	else
 		pid = one_cmd(cmd, input, pipe);
 	if (input != 0)
-		close (input);
+		ft_close(input);
 	return (pid);
 }
 
@@ -82,7 +82,7 @@ int	excute_pipe(t_command *cmd)
 		if (cmd->next != NULL)
 		{
 			old_input = fd[0];
-			close (fd[1]);
+			ft_close(fd[1]);
 		}
 		cmd = cmd->next;
 		i++;

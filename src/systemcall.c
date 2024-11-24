@@ -5,10 +5,7 @@ void	ft_dup(int old_fd, int new_fd)
 	if (dup2(old_fd, new_fd) == -1)
 		err_msg("syscall failed", "dup2", NULL);
 	else
-	{
-		if (close(old_fd) == -1)
-			err_msg("syscall failed", "close", NULL);
-	}
+		ft_close(old_fd);
 }
 
 void	save_stdfd(void)
@@ -39,4 +36,10 @@ int	ft_fork(void)
 	if (pid == -1)
 		err_n_exit("error with fork", "fork", NULL, 1);
 	return (pid);
+}
+
+void	ft_close(int fd)
+{
+	if (close(fd) == -1)
+		err_n_exit("syscall failed", "close", NULL, 1);
 }

@@ -1,7 +1,5 @@
 #include "../../includes/minishell.h"
 
-
-
 char	*ft_getenv(char *token)
 {
 	t_env_list	*iter;
@@ -60,95 +58,7 @@ int	count_evn_vars_len(t_env_list *list)
 	return (count);
 }
 
-//void	write_new_token(char *new_token, char *token_str, t_env_list *env_list);
-void	write_new_token(char *new_token, char *token_str, t_env_list *env_list);/*
-{
-	while (*token_str)
-	{
-		if (*token_str == '$')
-		{
-			printf("real_value = %s\n", env_list->real_value);
-			strcpy(new_token, env_list->real_value);
-			new_token = &new_token[ft_strlen(env_list->real_value)];
-			printf("new_token = [%s]\n", new_token);
-			token_str++;
-			while ((ft_isalpha(*token_str)) || ft_isdigit(*token_str) || *token_str == '_')//u need to check for null!!!!!
-				token_str++;
-			env_list = env_list->next;
-		}
-		else
-			*new_token++ = *token_str++;
-	}
-	*new_token = '\0';
-}*/
-/*
-int	find_metachar(char *iter)
-{
-	while (*iter)
-	{
-		if (*iter == '$'){
-			return (1);
-		}
-		iter++;
-	}
-	return (0);
-}
-
-
-int	is_meta_char(char character)
-{
-	if (character == '$' || character == '>' || character == '<')
-		return (1);
-	return (0);
-}
-
-
-
-int	get_env_len(char *env_var_start, t_env_var **env_list)
-{
-	char	*iter;
-	char	*env_var;
-	int		env_var_len;
-	char	char_holder;
-
-	iter = env_var_start;
-	while (*iter && (ft_isalpha(*iter) || ft_isdigit(*iter) || *iter == '_'))
-		iter++;
-	char_holder = *iter;
-	*iter = '\0';
-	env_var_len = iter - env_var_start + 1;
-	env_var = malloc(env_var_len);
-	strcpy(env_var, env_var_start);
-	creat_list(env_list, env_var);
-	*iter = char_holder;
-	return (env_var_len);
-}
-
-char	*get_new_token(char *token_str)
-{
-	char		*token_iter;
-	t_env_var	*env_list;
-	int			count_token_len;
-	char		*new_token;
-
-	env_list = NULL;
-	token_iter = token_str;
-	count_token_len = 0;
-	while (*token_iter)
-	{
-		if ((*token_iter == '$') && *(token_iter + 1))
-			token_iter = &token_iter[(get_env_len(token_iter+1, &env_list)) - 1];
-		else
-			count_token_len++;
-		token_iter++;
-	}
-	if (env_list == NULL)
-		return (NULL);
-	new_token = malloc(count_token_len + 1 + count_evn_vars_len(env_list));
-	write_new_token(new_token, token_str, env_list);
-	//TODO free the t_env that i did create
-	return (new_token);
-}*/
+void	write_new_token(char *new_token, char *token_str, t_env_list *env_list);
 
 int	get_env_len(char *env_var_start, t_env_list **env_list)
 {
@@ -180,7 +90,7 @@ void creat_list_state(t_env_list **list)
     }
 
     env_var->name = ft_strdup("exit_state"); // Ensure you duplicate the token
-    //printf("in struct %d\n", ft_bash()->exit_status);
+
 	env_var->value = ft_strdup(ft_itoa(ft_bash()->exit_status));
     env_var->next = NULL;
 

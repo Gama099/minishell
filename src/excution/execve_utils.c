@@ -64,6 +64,18 @@ void	check_exit(int check, char *cmd, char *tmp, char **splited)
 		err_n_exit("permission denied", NULL, cmd, 126);
 }
 
+char	**split_env(void)
+{
+	char	**splited_path;
+	char	*tmp;
+
+	tmp = get_path();
+	if (tmp == NULL)
+		splited_path = ft_split("./:", ':');
+	else
+		splited_path = ft_split(tmp, ':');
+	return (splited_path);
+}
 char	*find_path(char *cmd)
 {
 	char	*path;
@@ -74,10 +86,7 @@ char	*find_path(char *cmd)
 
 	i = 0;
 	dot_only(cmd);
-	tmp = get_path();
-	if (tmp == NULL)
-		return (free(tmp), NULL);
-	splited_path = ft_split(tmp, ':');
+	splited_path = split_env();
 	tmp = ft_strjoin("/", cmd);
 	while (splited_path[i])
 	{

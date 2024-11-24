@@ -25,8 +25,7 @@ void	handle_rediration(t_command *command, t_tokens **tokens)
 	{
 		new_file = malloc(sizeof(t_files));
 		//TODO
-		new_file->fd[0] = -1;
-		new_file->fd[1] = -1;
+		new_file->flag = 0;
 		while (current->next)
 			current = current->next;
 		current->next = new_file;
