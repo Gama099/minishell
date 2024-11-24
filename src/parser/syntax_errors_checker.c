@@ -41,20 +41,14 @@ int	handle_syntax_errors(t_tokens *tokens)
 	start = tokens;
 	while (tokens)
 	{
-		//if (tokens == start && is_special_operator(tokens->tokenType))
-		//	return (printf("syntax error near unexpected token `%s'\n", tokens->token) ,2);
-		if (!tokens->next && is_special_operator(tokens->tokenType))
+		if (tokens == start && !ft_strcmps(tokens->tokenType, "pipe"))
+			return (printf("syntax error near unexpected token `%s'\n", tokens->token) ,2);
+		else if (!tokens->next && is_special_operator(tokens->tokenType))
 			return (printf("syntax error near unexpected token `newline'\n"), 2);
 		else if (is_special_operator(tokens->tokenType) && is_special_operator(tokens->next->tokenType))
 			return (printf("syntax error near unexpected token `%s'\n", tokens->next->token), 2);
 		else if (is_special_operator(tokens->tokenType) && ft_strcmps(tokens->next->tokenType, "file"))
 			return (printf("syntax error near unexpected token `%s'\n", tokens->next->token), 2);
-		else if (!ft_strcmps(tokens->tokenType, "herdoc"))
-		{
-			herdoc--;
-			if (!herdoc)
-				return (printf("maximum here-document count exceeded\n", tokens->next->token), 2);
-		}
 		tokens = tokens->next;
 	}
 	return (0);

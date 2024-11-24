@@ -209,7 +209,7 @@ int main(int ac, char **av, char **envp)
 			if (status == 0)
 			{
 				cmd = to_strcuct(tokens);
-				//print_command(cmd);
+				print_command(cmd);
 				//sleep(10);
 				status = ft_herdoc(cmd);
 				if (status == 0)

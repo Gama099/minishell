@@ -92,7 +92,7 @@ char	*ft_getenv(char *token)
 	iter = ft_bash()->list;
 	while (iter)
 	{
-		if (!strncmp(iter->name, token, strlen(iter->name)))
+		if (!ft_strcmps(iter->name, token))
 			return(iter->value);
 		iter = iter->next;
 	}
@@ -263,7 +263,7 @@ void creat_list_state(t_env_list **list, char *token)
         return;
     }
 
-    env_var->name = ft_strdup("exit_state"); // Ensure you duplicate the token
+    env_var->name = ft_strdup("?"); // Ensure you duplicate the token
     //printf("in struct %d\n", ft_bash()->exit_status);
 	env_var->value = ft_strdup(ft_itoa(ft_bash()->exit_status));
     env_var->next = NULL;
@@ -294,12 +294,9 @@ char *get_new_token(char *token_str)
 			// add to env_list and count
 			creat_list_state(&env_list, ft_itoa(ft_bash()->exit_status));
 			count_token_len += strlen(ft_itoa(ft_bash()->exit_status));
-			printf("here [%s]\n", token_iter);
+			//printf("here [%s]\n", token_iter);
 			token_iter += 2;
-			if (*token_iter)
-				printf("here [%s]\n", token_iter);
-			else if (*token_iter == '\0')
-				printf("null\n");
+
 
 		}
         else if (*token_iter == '$' && *(token_iter + 1))
@@ -323,7 +320,7 @@ char *get_new_token(char *token_str)
 			return NULL;
     // Allocate new token with exact size needed
     int env_vars_len = count_evn_vars_len(env_list);
-	printf("env_vars_len = %d\n", env_vars_len);
+	//printf("env_vars_len = %d\n", env_vars_len);
     char *new_token = malloc(count_token_len + env_vars_len + 1);  // +1 for null terminator
     if (!new_token)
     {
@@ -345,18 +342,19 @@ char *get_new_token(char *token_str)
     return new_token;
 }
 
-void write_new_token(char *new_token, char *token_str, t_env_list *env_list) {
+void write_new_token(char *new_token, char *token_str, t_env_list *env_list)
+{
     char *write_ptr = new_token;
 
     while (*token_str) {
-		printf("hnaya [%c]\n", *token_str);
+		//printf("hnaya [%c]\n", *token_str);
         if (*token_str == '$' && env_list) {
             strcpy(write_ptr, env_list->value);
             write_ptr += strlen(env_list->value);
             token_str++;  // Skip the '$'
 
             // Skip the environment variable name
-            while (*token_str && (isalpha(*token_str) || isdigit(*token_str) || *token_str == '_')) {
+            while (*token_str && (isalpha(*token_str) || isdigit(*token_str) || *token_str == '_') || *token_str == '?') {
                 token_str++;
             }
             env_list = env_list->next; // Move to the next environment variable
@@ -377,10 +375,10 @@ void	expand_varibles(t_tokens **token)
 	is_herdoc = 0;
 	while (token_iter)
 	{
-		if (!ft_strncmp(token_iter->token, "<<", ft_strlen("<<")) ||
-			!ft_strncmp(token_iter->token, "<", ft_strlen("<")) ||
-			!ft_strncmp(token_iter->token, ">", ft_strlen(">")) ||
-			!ft_strncmp(token_iter->token, ">>", ft_strlen(">>")))
+		if (!ft_strcmps(token_iter->token, "<<") ||
+            !ft_strcmps(token_iter->token, "<") ||
+            !ft_strcmps(token_iter->token, ">") ||
+            !ft_strcmps(token_iter->token, ">>"))
 		{
 			is_herdoc = 1;
 			if (token_iter->next)
