@@ -38,7 +38,6 @@ void	handle_rediration(t_command *command, t_tokens **tokens)
 		current->name = ft_strdup((*tokens)->token);
 	if ((*tokens)->qoute_type)
 		command->files->flag = (*tokens)->qoute_type;
-	//printf("[command->files->expand_flag == %d]\n", command->files->expand_flag);
 }
 
 void	set_as_command(t_command *command, char *arg)

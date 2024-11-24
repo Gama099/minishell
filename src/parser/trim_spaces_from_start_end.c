@@ -40,9 +40,3 @@ void	trimSpaces(char **buffer)
 	*buffer = newStr;
 }
 
-// int main()
-// {
-// 	char *str = ft_strdup("ff     ");
-// 	trimSpaces(&str);
-// 	printf("[%s]\n", str);
-// }

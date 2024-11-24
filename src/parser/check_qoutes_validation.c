@@ -27,11 +27,3 @@ int is_qoute_valid(char *buffer)
 	return (0);
 }
 
-// int main()
-// {
-// 	char *str = ft_strdup("\"hello\"");
-//     if (!is_qoute_valid(str))
-//         printf("valid\n");
-//     else
-//         printf("invalid\n");
-// }

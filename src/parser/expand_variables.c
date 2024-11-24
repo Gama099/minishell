@@ -7,7 +7,7 @@ char	*ft_getenv(char *token)
 	iter = ft_bash()->list;
 	while (iter)
 	{
-		if (!strncmp(iter->name, token, ft_strlen(iter->name)))
+		if (!ft_strcmps(iter->name, token))
 			return(iter->value);
 		iter = iter->next;
 	}
@@ -89,7 +89,7 @@ void creat_list_state(t_env_list **list)
         return;
     }
 
-    env_var->name = ft_strdup("exit_state"); // Ensure you duplicate the token
+    env_var->name = ft_strdup("?");  // Ensure you duplicate the token
 
 	env_var->value = ft_strdup(ft_itoa(ft_bash()->exit_status));
     env_var->next = NULL;
@@ -172,13 +172,12 @@ void write_new_token(char *new_token, char *token_str, t_env_list *env_list) {
             token_str++;  // Skip the '$'
 
             // Skip the environment variable name
-            while (*token_str && (isalpha(*token_str) || isdigit(*token_str) || *token_str == '_')) {
+            while (*token_str && ((isalpha(*token_str) || isdigit(*token_str) || *token_str == '_') || *token_str == '?'))
                 token_str++;
-            }
             env_list = env_list->next; // Move to the next environment variable
-        } else {
-            *write_ptr++ = *token_str++;
         }
+		else
+            *write_ptr++ = *token_str++;
     }
     *write_ptr = '\0';  // Null-terminate the new token
 }
@@ -193,10 +192,10 @@ void	expand_varibles(t_tokens **token)
 	is_herdoc = 0;
 	while (token_iter)
 	{
-		if (!ft_strncmp(token_iter->token, "<<", ft_strlen("<<")) ||
-			!ft_strncmp(token_iter->token, "<", ft_strlen("<")) ||
-			!ft_strncmp(token_iter->token, ">", ft_strlen(">")) ||
-			!ft_strncmp(token_iter->token, ">>", ft_strlen(">>")))
+		if (!ft_strcmps(token_iter->token, "<<") ||
+            !ft_strcmps(token_iter->token, "<") ||
+            !ft_strcmps(token_iter->token, ">") ||
+            !ft_strcmps(token_iter->token, ">>"))
 		{
 			is_herdoc = 1;
 			if (token_iter->next)

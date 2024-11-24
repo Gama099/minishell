@@ -79,6 +79,7 @@ typedef struct s_bash
 
 
 //parser
+int			ft_strcmps(const char *s1, const char *s2);
 int			is_operator(char *token);
 int			handle_syntax_errors(t_tokens *tokens);
 void		tokenaze_var(t_tokens **tokens);

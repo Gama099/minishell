@@ -37,8 +37,6 @@ void	join_token_syblings(t_tokens **token)
 			merged_nodes = create_node_join(list_iter, list_iter->next);
             if (!merged_nodes)
 				return ;
-			//printf("merged[%s]\n", merged_nodes->token);
-            //sleep(5);
             garb_node = list_iter;
             list_iter = list_iter->next;
             free(garb_node);

@@ -7,7 +7,7 @@ char	*expand_name(char *file)
 	if (ft_strchrr(file, '$') == -1)
 		return (file);
 	str = get_new_token(file);
-	if (str[0] == ' ')
+	if (str == NULL || str[0] == ' ') // erorr here
 		return (NULL);
 	return (str);
 }
@@ -28,12 +28,12 @@ char	**ambigous_helper(char	*file, int is_var)
 			err_n_exit("ambiguous redirection", NULL, file, 1);
 		}
 	}
-	else if (is_var && ex_file == NULL) // if both != NULL that mean there was space
+	else if (is_var && ex_file == NULL && ft_strlen(file) > 1) // if both != NULL that mean there was space
 	{
 		free(ex_file);
 		err_n_exit("ambiguous redirection", NULL, file, 1);
 	}
-	return (spl_ex_file);
+	return (NULL);
 }
 
 int	check_path(t_command *cmd)

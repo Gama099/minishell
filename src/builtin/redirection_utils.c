@@ -18,27 +18,29 @@ int	is_a_directory(char *filename, int bltn)
 
 int	ambigous_helper_builtins(char	**file, int is_var)
 {
-	char	*ex_file;
-	char	**spl_ex_file;
+	char	*ex_fi;
+	char	**spl_ex_fi;
 
-	ex_file = expand_name(*file);
-	if (ex_file != NULL)
+	spl_ex_fi = NULL;
+	ex_fi = expand_name(*file);
+	if (ex_fi != NULL)
 	{
-		spl_ex_file = ft_split(ex_file, ' ');
-		if (is_var && (spl_ex_file[0] != NULL && spl_ex_file[1] != NULL)) // if both != NULL that mean there was space
+		spl_ex_fi = ft_split(ex_fi, ' ');
+		if (is_var && (spl_ex_fi[0] != NULL && spl_ex_fi[1] != NULL)) // if both != NULL that mean there was space
 		{
-			free(ex_file);
-			free_ary(spl_ex_file);
+			free(ex_fi);
+			free_ary(spl_ex_fi);
 			return (err_msg("ambiguous redirection", NULL, *file), 1);
 		}
 	}
-	else if (is_var && ex_file == NULL) // if both != NULL that mean there was space
+	else if (is_var && ex_fi == NULL && ft_strlen(*file) > 1) // if both != NULL that mean there was space
+		return (free(ex_fi), err_msg("ambiguous redirection", NULL, *file), 1);
+	if (spl_ex_fi != NULL)
 	{
-		free(ex_file);
-		return (err_msg("ambiguous redirection", NULL, *file), 1);
+		*file = ft_strdup(spl_ex_fi[0]);
+		return (free_ary(spl_ex_fi), 0);
 	}
-	*file = ft_strdup(spl_ex_file[0]);
-	return (free_ary(spl_ex_file), 0);
+	return (0);
 }
 
 int	check_ambiguous(char **filename, int flag)

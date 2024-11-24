@@ -81,7 +81,7 @@ t_tokens *getTokens(char *buffer)
 	if (is_qoute_valid(buffer))
     {
 		//exit function and enum ERR_INVALID_QOUTES
-		printf("not valid\n");
+		write(2, "not valid\n", 11);
 		return (NULL);
     }
 	while (*iter)
@@ -218,12 +218,10 @@ void	token_meta(t_tokens **token, char **iter, char **tokenBegin, char *start)
 		createTokens(token, "|", 0, 0);
 	**iter = '\0';
 	*tokenBegin = (*iter + 1);
-	//printf("tokebegin at iter + 1 %s\n", *tokenBegin);
 	if (**tokenBegin == '\0')
 		return ;
 	else{
 		while (is_white_space(**tokenBegin))
 				(*tokenBegin)++;
 		}
-	//printf("tokebegin at iter + 100 %s\n", *tokenBegin);
 }

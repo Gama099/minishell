@@ -32,8 +32,8 @@ void tokenaze_var(t_tokens **tokens)
             tmp_holder = getTokens(ft_strdup(iter->token));
 
             if (!tmp_holder) {
-                printf("Error: Variable expansion failed.\n");
-                return;
+				write(2, "Error: Variable expansion failed.\n", 35);
+                return ;
             }
 
             // Update the token types and connect the new tokens

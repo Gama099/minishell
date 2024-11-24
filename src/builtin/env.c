@@ -37,14 +37,14 @@ int	ft_env(t_env_list *list, char **str)
 	new_node = list;
 	i = ft_check_arg(str);
 	if (i != 0)
-		return (printf("env: '%s': No such file or directory\n", str[i]), 127);
+		return (printf("env:'%s':No such file or directory\n", str[i]), 127); // to change to write
 	while (new_node != NULL)
 	{
 		if (new_node->type == 1)
 		{
-			printf("%s", new_node->name);
+			write(1, new_node->name, ft_strlen(new_node->name));
 			if (!ft_strcmp(new_node->name, "_"))
-				printf("=/usr/bin/env\n");
+				write(1, "=/usr/bin/env\n", 14);
 			else
 				printf("=%s\n", new_node->value);
 		}
