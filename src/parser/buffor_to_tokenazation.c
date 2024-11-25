@@ -71,25 +71,20 @@ t_tokens *getTokens(char *buffer)
 	int			inQoutes = 0;
 	char		whichQoute = '\0';
 	char		*tokenBegin;
+	int			to_join;
     t_tokens *tokens = NULL;
 
-	int to_join;
 
 	trimSpaces(&buffer);
     iter = buffer;
     tokenBegin = buffer;
 	if (is_qoute_valid(buffer))
     {
-		//exit function and enum ERR_INVALID_QOUTES
 		write(2, "not valid\n", 11);
 		return (NULL);
     }
 	while (*iter)
 	{
-		// frist thin is to check the joining flag and reset it
-		//if (the things has to be colling)
-		//{ set join with 1
-		//}
 		to_join = 0;
 		// tokenbeging is the ptr that passed as the start of the toknen
 		if (*tokenBegin == '\0')
@@ -107,12 +102,6 @@ t_tokens *getTokens(char *buffer)
 				createTokens(&tokens, tokenBegin, 0, 1);
 			tokenBegin = iter + 1;
 		}
-		// echo hello"world";
-
-		// when there's space out side of the qoute it do
-		// set to '\0' then
-		// create the token and give the 0 as a flag for envirement varibles
-		//
 		else if ((*iter == ' ' && !inQoutes) && *(iter - 1) != '\0'){
 			*iter = '\0';
 			createTokens(&tokens, tokenBegin, 0, to_join);
@@ -154,21 +143,6 @@ t_tokens *getTokens(char *buffer)
 			token_meta(&tokens, &iter, &tokenBegin, buffer);
 			if (*tokenBegin == '\0')
 				return tokens;
-			/*tmp_meta = *iter;
-			if (*(iter - 1))
-			{
-				*iter = '\0';
-				createTokens(&tokens, tokenBegin, 0);
-			}
-			*iter = '\0';
-			createTokensmeta(&tokens, tmp_meta);
-			tokenBegin = iter + 1;
-			if (*tokenBegin == '\0')
-				return tokens;
-			else {
-			while (is_white_space(*tokenBegin))
-				tokenBegin++;
-			}*/
 		}
 		else if (*iter == '$' && !inQoutes)
 		{

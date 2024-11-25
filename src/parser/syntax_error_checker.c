@@ -35,7 +35,7 @@ int	handle_syntax_errors(t_tokens *tokens)
 	t_tokens	*start;
 
 	if (!tokens)
-		return (1);
+		return (0);
 	start = tokens;
 	while (tokens)
 	{

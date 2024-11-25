@@ -20,23 +20,20 @@ void creat_list(t_env_list **list, char *token)
     char *tmp_env;
 
     env_var = malloc(sizeof(t_env_list));
-    if (!env_var) {
-        // Handle memory allocation failure
+    if (!env_var)
         return;
-    }
-
     env_var->name = ft_strdup(token); // Ensure you duplicate the token
     tmp_env = ft_getenv(token);
-    if (tmp_env == NULL) {
+	free(token);
+    if (tmp_env == NULL)
         env_var->value = ft_strdup(" "); // Consider using an empty string instead
-    } else {
-        env_var->value = ft_strdup(tmp_env);
-    }
+	else
+		env_var->value = ft_strdup(tmp_env);
     env_var->next = NULL;
-
-    if (!*list) {
+    if (!*list)
         *list = env_var;
-    } else {
+    else
+	{
         t_env_list *tmp = *list;
         while (tmp->next) {
             tmp = tmp->next;
@@ -62,6 +59,8 @@ void	write_new_token(char *new_token, char *token_str, t_env_list *env_list);
 
 int	get_env_len(char *env_var_start, t_env_list **env_list)
 {
+	char	*env_var;
+
     if (!env_var_start || !*env_var_start)
         return 0;
     char *iter = env_var_start;
@@ -70,7 +69,7 @@ int	get_env_len(char *env_var_start, t_env_list **env_list)
 		len++;
     if (len == 0)
         return 0;
-    char *env_var = malloc(len + 1);  // +1 for null terminator
+    env_var = malloc(len + 1);  // +1 for null terminator
     if (!env_var)
         return 0;
     strncpy(env_var, env_var_start, len);  // Use strncpy instead of strcpy
@@ -84,38 +83,33 @@ void creat_list_state(t_env_list **list)
     t_env_list *env_var;
 
     env_var = malloc(sizeof(t_env_list));
-    if (!env_var) {
-        // Handle memory allocation failure
+    if (!env_var)
         return;
-    }
-
     env_var->name = ft_strdup("?");  // Ensure you duplicate the token
-
 	env_var->value = ft_strdup(ft_itoa(ft_bash()->exit_status));
     env_var->next = NULL;
-
-    if (!*list) {
+    if (!*list)
         *list = env_var;
-    } else {
+	else
+	{
         t_env_list *tmp = *list;
-        while (tmp->next) {
+        while (tmp->next)
             tmp = tmp->next;
-        }
         tmp->next = env_var;
     }
 }
 
 char *get_new_token(char *token_str)
 {
+	if (!token_str)
+        return NULL;
 	t_env_list *env_list = NULL;
     char *token_iter = token_str;
     int count_token_len = 0;
-    // First pass: calculate length and create env list
     while (*token_iter)
     {
 		if (*token_iter == '$' && *(token_iter + 1) == '?')
 		{
-			// add to env_list and count
 			creat_list_state(&env_list);
 			count_token_len += ft_strlen(ft_itoa(ft_bash()->exit_status));
 			token_iter += 2;
@@ -138,31 +132,17 @@ char *get_new_token(char *token_str)
         }
     }
     if (!env_list)
-			return NULL;
-    // Allocate new token with exact size needed
+		return NULL;
     int env_vars_len = count_evn_vars_len(env_list);
     char *new_token = malloc(count_token_len + env_vars_len + 1);  // +1 for null terminator
     if (!new_token)
-    {
-        // Free env_list before returning
-        // Add cleanup code here
-        return NULL;
-    }
-    // Write the new token
+        return (free_env(env_list), NULL);
     write_new_token(new_token, token_str, env_list);
-    // Cleanup env_list
-    /*while (env_list)
-    {
-        t_env_var *temp = env_list;
-        env_list = env_list->next;
-        free(temp->var);
-        free(temp->real_value);
-        free(temp);
-    }*/
-    return new_token;
+    return (free_env(env_list), new_token);
 }
 
-void write_new_token(char *new_token, char *token_str, t_env_list *env_list) {
+void write_new_token(char *new_token, char *token_str, t_env_list *env_list)
+{
     char *write_ptr = new_token;
 
     while (*token_str) {
@@ -170,10 +150,11 @@ void write_new_token(char *new_token, char *token_str, t_env_list *env_list) {
             strcpy(write_ptr, env_list->value);
             write_ptr += ft_strlen(env_list->value);
             token_str++;  // Skip the '$'
-
+			while ((*token_str) && (is_white_space(*token_str) || *token_str != '$'))
+                 token_str++;
             // Skip the environment variable name
-            while (*token_str && ((isalpha(*token_str) || isdigit(*token_str) || *token_str == '_') || *token_str == '?'))
-                token_str++;
+            // while (*token_str && ((isalpha(*token_str) || isdigit(*token_str) || *token_str == '_'|| *token_str == '?')) )
+            //     token_str++;
             env_list = env_list->next; // Move to the next environment variable
         }
 		else
@@ -216,4 +197,33 @@ void	expand_varibles(t_tokens **token)
 		is_herdoc = 0;
 		token_iter = token_iter->next;
 	}
+	clean_list_spaces(token);
+}
+
+void    clean_list_spaces(t_tokens **token)
+{
+    t_tokens    *current;
+    t_tokens    *prev;
+    t_tokens    *to_free;
+
+    current = *token;
+    prev = NULL;
+    while (current)
+    {
+        if (!is_spaces(current->token) && current->qoute_type != 2)
+        {
+            to_free = current;
+            current = current->next;
+            if (prev)
+                prev->next = current;
+            else
+                *token = current->next;
+            free(to_free);
+        }
+        else
+		{
+            prev = current;
+            current = current->next;
+		}
+    }
 }

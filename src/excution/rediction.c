@@ -2,9 +2,8 @@
 
 char	*check_ambiguous_child(char *filename, int flag)
 {
-	char	**ex_str;
 	int		var;
-
+	
 	var = 0;
 	if (filename[0] == '$')
 		var = 1;
@@ -18,12 +17,8 @@ char	*check_ambiguous_child(char *filename, int flag)
 	}
 	else if (flag == 0) //in no quotes no expand if var not exists just ambiguos//in no quotes no ambiguos just expand if var exists
 	{
-		ex_str = ambigous_helper(filename, var);
-		if (ex_str != NULL)
-		{
-			filename = ft_strdup(ex_str[0]);
-			return (free_ary(ex_str), filename); //work in all
-		}
+		ambigous_helper(filename, var);
+		return (expand_name(filename));
 	}
 	return (filename);
 }

@@ -1,6 +1,5 @@
 #include "../../includes/minishell.h"
 
-
 int is_word(char *token)
 {
     while (*token)
@@ -16,6 +15,8 @@ int is_path(char *token)
 {
     char	*iter;
 
+	if (!token || !ft_strlen(token))
+        return 0;
 	iter = token;
     // Check if it starts with '/' for absolute paths
     if (token[0] != '/' && token[0] != '.') {
@@ -33,12 +34,17 @@ int is_path(char *token)
 
 }
 
-// int is_env_var(char *token)
-// {
-//     if (!token || token[0] != '$')
-//         return (0);
-//     return(1);
-// }
+int	is_spaces(char *str)
+{
+	while (*str)
+	{
+		if (*str == ' ' || (*str >= '\r' && *str <='\t'))
+			str++;
+		else
+			return (1);
+	}
+	return (0);
+}
 
 static int checkcommand(char *token)
 {
@@ -50,32 +56,57 @@ static int checkcommand(char *token)
     else
         return(1);
 }
-// iterate through list and only difind that it type
+
 void    parser(t_tokens **list)
 {
     t_tokens    *current;
+	t_tokens	*prev;
+	int 		skip_flag;
+	t_tokens 	*tmp;
 
+	skip_flag = 0;
+	prev = NULL;
     current = *list;
     while (current)
     {
-        //check if it a word or path
-        if (current == *list && (checkcommand(current->token)))
+        if (!is_spaces(current->token))
+		{
+			tmp = current;
+			if (prev)
+			{
+				tmp = current;
+				current = current->next;
+				prev->next = current;
+				free(tmp);
+				if (current == NULL)
+					break;
+				skip_flag = 1;
+			}
+			else
+			{
+				tmp = current;
+				current = current->next;
+				free(tmp);
+				*list = current;
+				if (*list == NULL)
+					break;
+				skip_flag = 1;
+			}
+		}
+        else if (current == *list && (checkcommand(current->token)))
             current->tokenType = "command";
-        else if (!ft_strncmp(current->token, "|", ft_strlen(current->token)) && !current->qoute_type){
+        else if (!ft_strncmp(current->token, "|", ft_strlen(current->token)) && !current->qoute_type)
+		{
             current->tokenType = "pipe";
-            //calling the function again so it should check if after pipe there's a command
             parser(&current->next);
             return ;
         }
-        /*else if(is_env_var(current->token))
-        {
-            current->tokenType = "env_var";
-        }*/
         else if (!ft_strncmp(current->token, ">", ft_strlen(current->token)) && !current->qoute_type)
         {
             current->tokenType = "output";
 			if (current->next && !is_operator(current->next->token))
             {
+				prev = current;
                 current = current->next;
                 current->tokenType = "file";
             }
@@ -85,6 +116,7 @@ void    parser(t_tokens **list)
             current->tokenType = "input";
             if (current->next && !is_operator(current->next->token))
             {
+				prev = current;
                 current = current->next;
                 current->tokenType = "file";
             }
@@ -94,6 +126,7 @@ void    parser(t_tokens **list)
             current->tokenType = "appaned";
             if (current->next && !is_operator(current->next->token))
             {
+				prev = current;
                 current = current->next;
                 current->tokenType = "file";
             }
@@ -103,12 +136,18 @@ void    parser(t_tokens **list)
 			current->tokenType = "herdoc";
 			if (current->next && !is_operator(current->next->token))
 			{
+				prev = current;
 				current = current->next;
 				current->tokenType = "file";
 			}
 		}
         else
             current->tokenType = "argurment";
-        current = current->next;
+        if (!skip_flag)
+		{
+			prev = current;
+			current = current->next;
+		}
+		skip_flag = 0;
     }
 }

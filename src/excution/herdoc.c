@@ -6,7 +6,11 @@ char	*buffer_glue(char **buffer, char **input, t_files *files)
 	char	*new_buffer;
 
 	if (files->flag == 0 && to_expand(*input)) //delimi is var and no quotes mean expand
-		new_buffer = ft_strjoin(*buffer, expand_name(*input));
+	{
+		tmp = expand_name(*input);
+		new_buffer = ft_strjoin(*buffer, tmp);
+		free(tmp);
+	}
 	else
 		new_buffer = ft_strjoin(*buffer, *input);
 	tmp = new_buffer;
@@ -50,10 +54,10 @@ void	run_herdoc_child(t_files *files)
 
 	buffer = ft_strdup("");
 	ft_close(files->fd[0]);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGINT, sigint_handler_hd);
 	input = readline(">");
-	while (strcmp(files->name, input) != 0) //change strcmp later
+	if (input == NULL)
+		return ;
+	while (ft_strcmp(files->name, input) != 0) //change strcmp later
 	{
 		buffer = buffer_glue(&buffer, &input, files);
 		input = readline(">");
@@ -76,6 +80,7 @@ int	herdoc_helper(t_command	*cmd)
 	pid = ft_fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, sigint_handler_hd);
 		while (cmd != NULL)
 		{
 			file = cmd->files;

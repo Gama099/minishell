@@ -4,13 +4,19 @@ void	add_new_var(char *str, t_env_list *list)
 {
 	t_env_list	*new_node;
 	t_env_list	*current;
+	char	*tmp;
 
 	current = list;
 	new_node = ft_create_node(str);
 	if (new_node == NULL)
 		return ;
 	if (check_value(str) == 2)
+	{
+		tmp = new_node->value;
 		new_node->value = ft_strdup("");
+		free(tmp);
+		tmp = NULL;
+	}
 	ft_last_node(current)->next = new_node; //add new var to env linked list
 }
 
@@ -32,15 +38,24 @@ void	join_var(char *str, t_env_list *node)
 void	change_var(char	*str, t_env_list *node)
 {
 	char	**splited;
+	char	*tmp;
 
 	splited = ft_split(str, '=');
 	if (check_value(str) == 2)
+	{
+		tmp = node->value;
 		node->value = ft_strdup("");
+		free(tmp);
+	}
 	if (check_value(str) == 0)
 	{
 		node->type = 1;
-		node->value = splited[1];
+		tmp = node->value;
+		node->value = ft_strdup(splited[1]);
+		free(tmp);
 	}
+	free_ary(splited);
+	tmp = NULL;
 }
 
 void	check_var(t_env_list *list, int i, char *str)

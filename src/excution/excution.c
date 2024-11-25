@@ -62,6 +62,8 @@ int	no_cmd(t_command *cmd)
 	int		pid;
 	int		status;
 
+	// if (cmd == NULL || cmd->files == NULL)
+	// 	return (0);
 	pid = ft_fork();
 	if (pid == 0)
 	{

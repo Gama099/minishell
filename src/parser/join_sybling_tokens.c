@@ -25,14 +25,32 @@ void	join_token_syblings(t_tokens **token)
 	t_tokens	*merged_nodes;
 	t_tokens	*garb_node;
 	t_tokens	*prev;
+	t_tokens	*tmp;
 
-	//if (token || *token)
-	//	return ;
 	list_iter = *token;
 	prev = NULL;
 	while (list_iter)
 	{
-		if (list_iter->join_with_next)
+		if ((!ft_strcmps(list_iter->token, "$") && list_iter->join_with_next))
+		{
+			if (prev)
+			{
+				tmp = list_iter;
+				list_iter = list_iter->next;
+				prev->next = list_iter;
+				free(tmp);
+			}
+			else
+			{
+				tmp = list_iter;
+				list_iter = list_iter->next;
+				*token = list_iter;
+				free(tmp);
+			}
+			if (!*token)
+				break;
+		}
+		else if (list_iter->join_with_next)
 		{
 			merged_nodes = create_node_join(list_iter, list_iter->next);
             if (!merged_nodes)

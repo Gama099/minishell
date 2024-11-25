@@ -79,6 +79,7 @@ typedef struct s_bash
 
 
 //parser
+int			is_spaces(char *str);
 int			ft_strcmps(const char *s1, const char *s2);
 int			is_operator(char *token);
 int			handle_syntax_errors(t_tokens *tokens);
@@ -96,6 +97,7 @@ void		*my_malloc(size_t	size);
 t_command	*to_strcuct(t_tokens *tokens);
 void		join_token_syblings(t_tokens **token);
 char		*get_new_token(char *token_str);
+void    	clean_list_spaces(t_tokens **token);
 //parser
 
 // builtins
@@ -173,7 +175,7 @@ void		err_msg(char *err_mesg, char *err_cmd, char *err_name);
 
 //file
 int			to_expand(char *input);
-char		**ambigous_helper(char	*file, int var);
+void		ambigous_helper(char	*file, int is_var);
 int			redirect_no_cmd(t_files *file);
 int			redirect_in_file_b_child(char *filename, int flag);
 int			redirect_out_b_child(char *filename, int append, int flag);
@@ -190,6 +192,8 @@ void		sigint_handler_cmd(int num);
 void		sigint_handler_hd(int num);
 void		sigquit_handler_cmd(int num);
 //signals
+
+
 
 //node
 void		free_struct(t_command	*cmd);

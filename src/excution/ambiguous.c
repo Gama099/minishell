@@ -8,11 +8,11 @@ char	*expand_name(char *file)
 		return (file);
 	str = get_new_token(file);
 	if (str == NULL || str[0] == ' ') // erorr here
-		return (NULL);
+		return (free(str), NULL);
 	return (str);
 }
 
-char	**ambigous_helper(char	*file, int is_var)
+void	ambigous_helper(char	*file, int is_var)
 {
 	char	*ex_file;
 	char	**spl_ex_file;
@@ -27,13 +27,13 @@ char	**ambigous_helper(char	*file, int is_var)
 			free_ary(spl_ex_file);
 			err_n_exit("ambiguous redirection", NULL, file, 1);
 		}
+		free_ary(spl_ex_file);
 	}
 	else if (is_var && ex_file == NULL && ft_strlen(file) > 1) // if both != NULL that mean there was space
 	{
 		free(ex_file);
 		err_n_exit("ambiguous redirection", NULL, file, 1);
 	}
-	return (NULL);
 }
 
 int	check_path(t_command *cmd)
