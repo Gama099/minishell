@@ -65,15 +65,17 @@ void	print_export(t_env_list *list)
 	current = first;
 	while (current != NULL)
 	{
-		if (current->name[0] != '_')
+		if (current->name[0] == '_' && ft_strlen(current->name) == 1)
+			current = current->next;
+		else
 		{
 			printf("declare -x ");
 			if (current->value == NULL)
 				printf("%s\n", current->name);
 			else
 				printf("%s=\"%s\"\n", current->name, current->value);
+			current = current->next;
 		}
-		current = current->next;
 	}
 	free_env(first);
 }

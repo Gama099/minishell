@@ -70,6 +70,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		else
 			init_status(status);
+		dprintf(2, "exit status = %d\n", ft_bash()->exit_status);
 	}
 	return (status);
 }

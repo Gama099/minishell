@@ -4,15 +4,10 @@ int	ft_check_arg(char **av)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	while (av[i])
-	{
-		if (!ft_strncmp(av[i], "env", INT_MAX))
 			i++;
-		else
-			return (i);
-	}
-	return (0);
+	return (i);
 }
 
 void	ft_env_i(void)
@@ -36,8 +31,8 @@ int	ft_env(t_env_list *list, char **str)
 
 	new_node = list;
 	i = ft_check_arg(str);
-	if (i != 0)
-		return (printf("env:'%s':No such file or directory\n", str[i]), 127); // to change to write
+	if (i > 1)
+		return (err_msg("Too Many arguments", "env", NULL), 1);
 	while (new_node != NULL)
 	{
 		if (new_node->type == 1)
