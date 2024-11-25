@@ -37,7 +37,7 @@ int	handle_syntax_errors(t_tokens *tokens)
 
 	herdoc = 16;
 	if (!tokens)
-		return (1);
+	 	return (1);
 	start = tokens;
 	while (tokens)
 	{

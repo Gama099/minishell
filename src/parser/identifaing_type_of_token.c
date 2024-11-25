@@ -55,15 +55,75 @@ static int checkcommand(char *token)
         return(1);
 }
 // iterate through list and only difind that it type
+
+int	is_spaces(char *str)
+{
+	while (*str)
+	{
+		if (*str == ' ' || (*str >= '\r' && *str <='\t'))
+			str++;
+		else
+			return (1);
+	}
+	return (0);
+}
+
+void	skip_token(t_tokens **list, t_tokens *current, t_tokens *prev)
+{
+	t_tokens *tmp = current;
+	if (prev)
+	{
+		tmp = current;
+		current = current->next;
+		prev->next = current;
+		free(tmp);
+	}
+	else
+	{
+		tmp = current;
+		current = current->next;
+		free(tmp);
+		*list = current;
+	}
+}
+
 void    parser(t_tokens **list)
 {
     t_tokens    *current;
+	t_tokens	*prev;
+	int 		skip_flag;
 
+	skip_flag = 0;
+	prev = NULL;
     current = *list;
     while (current)
     {
-        //check if it a word or path
-        if (current == *list && (checkcommand(current->token)))
+		// printf("[%s]---[%d]\n", current->token, is_spaces(current->token));
+		// printf("adress [%p]\n", current);
+        if (!is_spaces(current->token))
+		{
+			t_tokens *tmp = current;
+			if (prev){
+				tmp = current;
+				current = current->next;
+				prev->next = current;
+				free(tmp);
+				if (current == NULL)
+					break;
+				skip_flag = 1;
+			}
+			else
+			{
+				tmp = current;
+				current = current->next;
+				free(tmp);
+				*list = current;
+				if (*list == NULL)
+					break;
+				skip_flag = 1;
+			}
+		}
+        else if (current == *list && (checkcommand(current->token)))
             current->tokenType = "command";
         else if (!ft_strncmp(current->token, "|", ft_strlen(current->token)) && !current->qoute_type){
             current->tokenType = "pipe";
@@ -80,7 +140,7 @@ void    parser(t_tokens **list)
             current->tokenType = "output";
 			if (current->next && !is_operator(current->next->token))
             {
-				printf("\nhere [%s]\n", current->next->token);
+				prev = current;
                 current = current->next;
                 current->tokenType = "file";
             }
@@ -90,7 +150,7 @@ void    parser(t_tokens **list)
             current->tokenType = "input";
             if (current->next && !is_operator(current->next->token))
             {
-				printf("\nhere [%s]\n", current->next->token);
+				prev = current;
                 current = current->next;
                 current->tokenType = "file";
             }
@@ -100,6 +160,7 @@ void    parser(t_tokens **list)
             current->tokenType = "appaned";
             if (current->next && !is_operator(current->next->token))
             {
+				prev = current;
                 current = current->next;
                 current->tokenType = "file";
             }
@@ -109,12 +170,35 @@ void    parser(t_tokens **list)
 			current->tokenType = "herdoc";
 			if (current->next && !is_operator(current->next->token))
 			{
+				prev = current;
 				current = current->next;
 				current->tokenType = "file";
 			}
 		}
+		// else if (!is_spaces(current->token))
+		// {
+		// 	t_tokens *tmp = current;
+		// 	if (prev){
+		// 		tmp = current;
+		// 		current = current->next;
+		// 		prev->next = current;
+		// 		free(tmp);
+		// 	}
+		// 	else
+		// 	{
+		// 		tmp = current;
+		// 		current = current->next;
+		// 		free(tmp);
+		// 		*list = current;
+		// 	}
+		// }
         else
             current->tokenType = "argurment";
-        current = current->next;
+		if (!skip_flag)
+		{
+			prev = current;
+			current = current->next;
+		}
+		skip_flag = 0;
     }
 }

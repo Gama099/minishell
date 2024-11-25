@@ -14,6 +14,13 @@
 
 
 
+typedef struct MemoryBlock {
+    void* ptr;
+    size_t size;
+    struct MemoryBlock* next;
+} MemoryBlock;
+
+extern MemoryBlock *MemoryBlocklist;
 typedef struct s_tokens
 {
 	char	*token;
@@ -91,8 +98,6 @@ int			is_white_space(char charac);
 void   		parser(t_tokens **list);
 char		*replace_var(char *token);
 void		expand_varibles(t_tokens **token);
-void		my_free(void);
-void		*my_malloc(size_t	size);
 t_command	*to_strcuct(t_tokens *tokens);
 void		join_token_syblings(t_tokens **token);
 //parser
@@ -198,6 +203,10 @@ int	is_special_operator(char *tokenType);
 
 int	is_operator(char *token);
 
+
+void my_free(void* ptr);
+void* my_malloc(size_t size);
+void cleanup(void);
 # endif
 /* FUNCTIONS */
 

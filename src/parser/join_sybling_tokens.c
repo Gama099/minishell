@@ -19,6 +19,8 @@ t_tokens	*create_node_join(t_tokens *token_a, t_tokens *token_b)
 	return (new_node);
 }
 
+
+
 void	join_token_syblings(t_tokens **token)
 {
 	t_tokens	*list_iter;
@@ -32,7 +34,29 @@ void	join_token_syblings(t_tokens **token)
 	prev = NULL;
 	while (list_iter)
 	{
-		if (list_iter->join_with_next)
+		// printf("adress = %p\n", list_iter);
+		if ((!ft_strcmps(list_iter->token, "$") && list_iter->join_with_next))
+		{
+			// free that token with '$'
+			t_tokens *tmp;
+			if (prev)
+			{
+				tmp = list_iter;
+				list_iter = list_iter->next;
+				prev->next = list_iter;
+				free(tmp);
+			}
+			else
+			{
+				tmp = list_iter;
+				list_iter = list_iter->next;
+				*token = list_iter;
+				free(tmp);
+			}
+			if (!*token)
+				break;
+		}
+		else if (list_iter->join_with_next)
 		{
 			merged_nodes = create_node_join(list_iter, list_iter->next);
             if (!merged_nodes)
@@ -55,4 +79,6 @@ void	join_token_syblings(t_tokens **token)
 			list_iter = list_iter->next;
 		}
 	}
+	if (!token || !*token)
+		printf(">>>>>doni\n");
 }

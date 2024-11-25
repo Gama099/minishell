@@ -39,6 +39,7 @@ SRC =	src/main.c \
 		src/parser/join_sybling_tokens.c \
 		src/parser/syntax_errors_checker.c \
 		src/parser/toknaze_env_vars.c \
+		src/memory/memory.c \
 
 OBJECT = $(SRC:.c=.o)
 
