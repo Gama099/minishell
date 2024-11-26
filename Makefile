@@ -7,6 +7,7 @@ SRC =	src/main.c \
 		src/excution/excution.c \
 		src/excution/herdoc.c \
 		src/excution/execve_utils.c \
+		src/excution/execve_utils_2.c \
 		src/excution/rediction.c \
 		src/excution/excution_pipe.c \
 		src/excution/ambiguous.c \
@@ -24,10 +25,13 @@ SRC =	src/main.c \
 		src/builtin/redirection_builtins.c \
 		src/builtin/redirection_utils.c \
 		src/utils/node.c \
+		src/utils/node_utils.c \
 		src/utils/itoa.c \
 		src/utils/atoi.c \
 		src/utils/split.c \
 		src/utils/string_utils.c \
+		src/utils/string_utils_2.c \
+		src/utils/string_utils_3.c \
 		src/systemcall.c \
 		src/error_utils.c \
 		src/signals.c \

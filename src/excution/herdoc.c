@@ -22,31 +22,6 @@ char	*buffer_glue(char **buffer, char **input, t_files *files)
 	return (new_buffer);
 }
 
-int	red_counter(t_command	*cmd)
-{
-	t_files	*file;
-	int		i;
-
-	i = 0;
-	while (cmd != NULL)
-	{
-		file = cmd->files;
-		while (cmd->files != NULL)
-		{
-			if (!ft_strncmp(cmd->files->redirec, "<<", INT_MAX))
-			{
-				if (pipe(cmd->files->fd) == -1)
-					err_n_exit("syscall failed", "pipe", NULL, 1);
-				i++;
-			}
-			cmd->files = cmd->files->next;
-		}
-		cmd->files = file;
-		cmd = cmd->next;
-	}
-	return (i);
-}
-
 void	run_herdoc_child(t_files *files)
 {
 	char	*buffer;
@@ -62,7 +37,7 @@ void	run_herdoc_child(t_files *files)
 		buffer = buffer_glue(&buffer, &input, files);
 		input = readline(">");
 		if (input == NULL)
-			break;
+			break ;
 	}
 	write(files->fd[1], buffer, ft_strlen(buffer));
 	free(buffer);
@@ -87,7 +62,7 @@ int	herdoc_helper(t_command	*cmd)
 			while (cmd->files != NULL)
 			{
 				if (!ft_strncmp(cmd->files->redirec, "<<", INT_MAX))
-					run_herdoc_child(cmd->files );
+					run_herdoc_child(cmd->files);
 				cmd->files = cmd->files->next;
 			}
 			cmd->files = file;
@@ -132,6 +107,7 @@ int	ft_herdoc(t_command	*cmd)
 	}
 	else if (i == 0)
 		return (0);
+	signal(SIGINT, SIG_IGN);
 	status = herdoc_helper(cmd);
 	cmd = tmp;
 	close_pipes(cmd);

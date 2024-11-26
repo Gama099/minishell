@@ -98,7 +98,7 @@ int	excution(t_command *cmd)
 		status = excute_pipe(cmd);
 	if (status == 131)
 		return (status);
-	if (WTERMSIG(status) == 2)
+	if (((status) & 0x7f) == 2)
 		return (130);
 	return ((((status) & 0xff00) >> 8));
 }

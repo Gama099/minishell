@@ -22,15 +22,23 @@ int	ft_wait(t_pipes	*var)
 {
 	int	i;
 	int	status;
+	int	tmp;
 
 	status = 0;
 	i = 0;
+	tmp = 0;
 	while (i <= var->j)
+	{
 		waitpid(var->pid[i++], &status, 0);
+		if (status != 0)
+			tmp = status;
+	}
 	free(var->pid);
 	var->pid = NULL;
 	free(var);
 	var = NULL;
+	if (tmp != 0)
+		return (tmp);
 	return (status);
 }
 

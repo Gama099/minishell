@@ -3,7 +3,7 @@
 char	*check_ambiguous_child(char *filename, int flag)
 {
 	int		var;
-	
+
 	var = 0;
 	if (filename[0] == '$')
 		var = 1;

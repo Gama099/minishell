@@ -122,6 +122,8 @@ t_env_list	*check_if_exit(t_env_list *list, char *str, int mode);
 //builtins
 
 //excution
+int			red_counter(t_command	*cmd);
+char		**split_env(void);
 t_bash		*ft_bash(void);
 int			redirect_file(t_command *cmd);
 int			check_path(t_command *cmd);
@@ -133,6 +135,7 @@ void		ft_env_i(void);
 char		*find_path(char *cmd);
 int			excution(t_command *cmd);
 char		**env_to_ary(t_env_list *envp);
+int			check_access(char *path);
 //excution
 
 //string_utils
@@ -151,7 +154,6 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_isalnum(char c);
 int			ft_isalpha(char c);
 int			ft_isdigit(char a);
-int			check_access(char *path);
 int			ft_putstr_fd(char *s, int fd);
 void		ft_bzero(void *s, size_t n);
 int			ft_strcmp(char *s1, char *s2);
@@ -193,9 +195,8 @@ void		sigint_handler_hd(int num);
 void		sigquit_handler_cmd(int num);
 //signals
 
-
-
 //node
+void		fill_node(t_env_list *node, char *str);
 void		free_struct(t_command	*cmd);
 void		update_env(char *name, char *value);
 void		free_env(t_env_list *env);

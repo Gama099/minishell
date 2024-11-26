@@ -6,7 +6,7 @@ int	ft_check_arg(char **av)
 
 	i = 0;
 	while (av[i])
-			i++;
+		i++;
 	return (i);
 }
 
