@@ -7,7 +7,7 @@ void	add_new_var(char *str, t_env_list *list)
 	char	*tmp;
 
 	current = list;
-	new_node = ft_create_node(str);
+	new_node = ft_create_node(str, 1);
 	if (new_node == NULL)
 		return ;
 	if (check_value(str) == 2)

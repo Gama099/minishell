@@ -122,6 +122,7 @@ t_env_list	*check_if_exit(t_env_list *list, char *str, int mode);
 //builtins
 
 //excution
+char		*get_path(void);
 int			red_counter(t_command	*cmd);
 char		**split_env(void);
 t_bash		*ft_bash(void);
@@ -196,12 +197,12 @@ void		sigquit_handler_cmd(int num);
 //signals
 
 //node
-void		fill_node(t_env_list *node, char *str);
+void		fill_node(t_env_list *node, char *str, int mode);
 void		free_struct(t_command	*cmd);
 void		update_env(char *name, char *value);
 void		free_env(t_env_list *env);
 t_env_list	*env_to_list(char	**env);
-t_env_list	*ft_create_node(char *str);
+t_env_list	*ft_create_node(char *str, int mode);
 t_env_list	*ft_last_node(t_env_list *head);
 //node
 #endif

@@ -15,19 +15,6 @@ int	dot_only(char *cmd)
 	return (0);
 }
 
-int	check_access(char *path)
-{
-	if (access(path, F_OK) == 0)
-	{
-		if (access(path, X_OK) == 0)
-			return (0);
-		else
-			return (2);
-	}
-	else
-		return (1);
-}
-
 char	*get_path(void)
 {
 	char		**env;

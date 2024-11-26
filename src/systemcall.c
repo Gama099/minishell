@@ -13,13 +13,13 @@ void	save_stdfd(void)
 	ft_bash()->fd_stdin = dup(STDIN_FILENO);
 	if (ft_bash()->fd_stdin == -1)
 		err_msg("syscall failed", "dup", NULL);
-	// if (close(ft_bash()->fd_stdin) == -1)
-	// 		err_msg("syscall failed", "close", NULL);
+	// else
+	// 	ft_close(ft_bash()->fd_stdin);
 	ft_bash()->fd_stdout = dup(STDOUT_FILENO);
 	if (ft_bash()->fd_stdout == -1)
 		err_msg("syscall failed", "dup", NULL);
-	// if (close(ft_bash()->fd_stdout) == -1)
-	// 		err_msg("syscall failed", "close", NULL);
+	// else
+	// 	ft_close(ft_bash()->fd_stdout);
 }
 
 void	revert_stdfd(void)

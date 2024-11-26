@@ -42,7 +42,10 @@ char	*ft_substr_h(char *s, int start, int end)
 	int		i;
 	char	*res;
 
-	res = (char *)malloc((end - start + 1) * sizeof(char));
+	if ((end - start + 1) < 1)
+		res = (char *)malloc((1) * sizeof(char));
+	else
+		res = (char *)malloc((end - start + 1) * sizeof(char));
 	if (!res)
 		err_n_exit("syscall failed", "malloc", NULL, 1);
 	i = 0;

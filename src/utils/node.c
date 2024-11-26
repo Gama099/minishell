@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-t_env_list	*ft_create_node(char *str)
+t_env_list	*ft_create_node(char *str, int mode)
 {
 	t_env_list	*new_node;
 	int			flag;
@@ -8,7 +8,7 @@ t_env_list	*ft_create_node(char *str)
 	new_node = malloc(sizeof(t_env_list));
 	if (!new_node)
 		err_n_exit("syscall failed", "malloc", NULL, 1);
-	fill_node(new_node, str);
+	fill_node(new_node, str, mode);
 	flag = check_value(str);
 	if (flag == 0 || flag == 2) // there is = sometimes with value sometimes not
 		new_node->type = 1;
@@ -44,7 +44,7 @@ t_env_list	*env_to_list(char	**env)
 	current = NULL;
 	while (env[i])
 	{
-		new_node = ft_create_node(env[i]);
+		new_node = ft_create_node(env[i], 0);
 		if (current == NULL)
 		{
 			current = new_node;

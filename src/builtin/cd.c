@@ -11,7 +11,7 @@ void	add_var(char *name, char *value, t_env_list *list)
 	str = ft_strjoin(tmp, value);
 	free(tmp);
 	current = list;
-	new_node = ft_create_node(str);
+	new_node = ft_create_node(str, 0);
 	if (new_node == NULL)
 		return ;
 	ft_last_node(current)->next = new_node; //add new var to env linked list

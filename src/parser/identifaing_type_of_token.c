@@ -21,7 +21,6 @@ int is_path(char *token)
     // Check if it starts with '/' for absolute paths
     if (token[0] != '/' && token[0] != '.') {
         return 0; // Not a valid path
-        printf("%c\n", token[0]);
     }
     while (*iter)
     {
