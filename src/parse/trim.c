@@ -8,14 +8,14 @@ int	is_white_space(char charac)
 	return (0);
 }
 
-void	trimSpaces(char **buffer)
+void	trim_spaces(char **buffer)
 {
 	char	*start;
 	char	*end;
 	int		len;
 	char	*newStr;
 
-	if (!*buffer[0]) // for empty line so u dont get error in is is_white_space(start[len - 1])
+	if (!*buffer[0])
 		return ;
 	start = *buffer;
 	len = ft_strlen(start);
@@ -28,11 +28,14 @@ void	trimSpaces(char **buffer)
 		return ;
 	while (is_white_space(*end) && end > start)
 		end--;
-	newStr = malloc(end - start + 2);
+	//MALLOC1
+	newStr = malloc(end - start + 1);
+	//TODO: handle error //buffer maybe i can exit from here and clean up
+	//and add the the exit function can have enum ERRMALLOC
 	if (!newStr)
 		return ;
 	ft_strlcpy(newStr, start, (end - start) + 2);
+	//free using
 	free (*buffer);
 	*buffer = newStr;
 }
-

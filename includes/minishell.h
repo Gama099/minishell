@@ -77,9 +77,47 @@ typedef struct s_bash
 	int			exit_status;
 }	t_bash;
 
+typedef struct s_params
+{
+	char		*iter;
+	int			in_qoutes;
+	char		which_qoute;
+	char		*token_begin;
+	t_tokens	*tokens;
+	int			to_join;
+} t_params;
+
 
 //parser
+int			is_word(char *token);
+int			is_path(char *token);
+int			checkcommand(char *token);
 int			is_spaces(char *str);
+void		hanlde_red(t_tokens **current, char *type);
+void		parser(t_tokens **list);
+t_tokens	*create_node_join(t_tokens *token_a, t_tokens *token_b);
+int			free_token(t_tokens **token, t_tokens **iter, t_tokens **prev);
+void		handle_join_with_next(t_tokens **token, t_tokens **iter, t_tokens **prev);
+int			is_meta(char c);
+int			is_qoute(char c);
+void		create_tokens(t_tokens **token, char *str, int qoute, int to_join);
+void		init_params(t_params *params, char *buffer);
+void		start_qoute(t_params *params, char *buffer);
+void		reach_space(t_params *params);
+void		close_qoute(t_params *params);
+void		reach_operator_a(t_params *params, char tmp);
+void		reach_operator_b(t_params *params);
+void		reach_operator(t_params *params);
+void		reach_dollar(t_params *params, char *buffer);
+t_tokens	*get_tokens(char *buffer);
+char 		*ft_getenv(char *token);
+void		creat_list(t_env_list **list, char *token);
+int 		count_evn_vars_len(t_env_list *list);
+void 		write_new_token(char *new_token, char *token_str, t_env_list *env_list);
+int 		get_env_len(char *env_var_start, t_env_list **env_list);
+void 		creat_list_state(t_env_list **list);
+void 		get_new_token_a(char **token_iter, t_env_list **env_list, int *token_len);
+void		update_token(t_tokens *iter);
 int			ft_strcmps(const char *s1, const char *s2);
 int			is_operator(char *token);
 int			handle_syntax_errors(t_tokens *tokens);
@@ -87,9 +125,8 @@ void		tokenaze_var(t_tokens **tokens);
 void		createTokens(t_tokens **token, char *str, int qoute, int to_join);
 t_tokens	*getTokens(char *buffer);
 int			is_qoute_valid(char *buffer);
-void		trimSpaces(char **buffer);
+void		trim_spaces(char **buffer);
 int			is_white_space(char charac);
-void		parser(t_tokens **list);
 char		*replace_var(char *token);
 void		expand_varibles(t_tokens **token);
 void		my_free(void);
@@ -98,6 +135,7 @@ t_command	*to_strcuct(t_tokens *tokens);
 void		join_token_syblings(t_tokens **token);
 char		*get_new_token(char *token_str);
 void    	clean_list_spaces(t_tokens **token);
+int	handle_syntax_errors(t_tokens *tokens);
 //parser
 
 // builtins

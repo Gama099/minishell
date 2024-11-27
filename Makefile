@@ -35,15 +35,19 @@ SRC =	src/main.c \
 		src/systemcall.c \
 		src/error_utils.c \
 		src/signals.c \
-		src/parser/toknaze_env_var.c \
-		src/parser/syntax_error_checker.c \
-		src/parser/buffor_to_tokenazation.c \
-		src/parser/check_qoutes_validation.c \
-		src/parser/expand_variables.c \
-		src/parser/identifaing_type_of_token.c \
-		src/parser/to_struct.c \
-		src/parser/trim_spaces_from_start_end.c \
-		src/parser/join_sybling_tokens.c \
+		src/parse/expand_norm.c \
+		src/parse/trim.c \
+		src/parse/to_strcut.c \
+		src/parse/syntax_error.c \
+		src/parse/qoute.c \
+		src/parse/expand_variables.c \
+		src/parse/id_token.c \
+		src/parse/id_token_p.c \
+		src/parse/join_sybling_tokens.c \
+		src/parse/tokenaze.c \
+		src/parse/tokenaze_p.c \
+		src/parse/tokenaze_pp.c \
+		src/parse/tokenaze_var.c \
 
 OBJECT = $(SRC:.c=.o)
 
