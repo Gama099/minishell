@@ -44,6 +44,7 @@ t_command	*parsing_process(void)
 	t_tokens	*tokens;
 	t_command	*cmd;
 
+	status = 0;
 	buffer = prompt();
 	trim_spaces(&buffer);
 	if (is_qoute_valid(buffer))
