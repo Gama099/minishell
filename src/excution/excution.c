@@ -60,18 +60,16 @@ int	spaces(t_command *cmd)
 int	no_cmd(t_command *cmd)
 {
 	int		pid;
-	int		status;
 
 	if (cmd->files->name == NULL)
-	 	return (ft_bash()->exit_status);
+		return (ft_bash()->exit_status);
 	pid = ft_fork();
 	if (pid == 0)
 	{
 		redirect_no_cmd(cmd->files);
 		clean_exit(0);
 	}
-	waitpid(pid, &status, 0);
-	return ((((status) & 0xff00) >> 8));
+	return (pid);
 }
 
 int	excution(t_command *cmd)
@@ -79,13 +77,16 @@ int	excution(t_command *cmd)
 	int			status;
 	int			pid;
 
-	if (cmd->args == NULL)
-		return (no_cmd(cmd));
-	if (spaces(cmd) == 1)
+	if (excution_parse(cmd) != 0)
 		return (ft_bash()->exit_status);
 	if (cmd->next == NULL)
 	{
-		if (check_if_builts(cmd->args[0]) == 0)
+		if (cmd->args == NULL)
+		{
+			pid = no_cmd(cmd);
+			waitpid(pid, &status, 0);
+		}
+		else if (check_if_builts(cmd->args[0]) == 0)
 			return (builtin_helper(cmd));
 		else
 		{
@@ -95,10 +96,6 @@ int	excution(t_command *cmd)
 		}
 	}
 	else
-		status = excute_pipe(cmd);
-	if (status == 131)
-		return (status);
-	if (((status) & 0x7f) == 2)
-		return (130);
-	return ((((status) & 0xff00) >> 8));
+		status = excution_pipe(cmd);
+	return (excution_status(status));
 }

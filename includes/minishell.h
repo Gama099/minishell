@@ -122,6 +122,10 @@ t_env_list	*check_if_exit(t_env_list *list, char *str, int mode);
 //builtins
 
 //excution
+int			spaces(t_command *cmd);
+int			excution_parse(t_command *cmd);
+int			excution_status(int status);
+int			no_cmd(t_command *cmd);
 char		*get_path(void);
 int			red_counter(t_command	*cmd);
 char		**split_env(void);
@@ -131,7 +135,7 @@ int			check_path(t_command *cmd);
 int			counter(void *count, int mode);
 char		*get_redarct(t_command *cmd, int *pipe, int input);
 int			one_cmd(t_command *cmd, int input, int *pipe);
-int			excute_pipe(t_command *cmd);
+int			excution_pipe(t_command *cmd);
 void		ft_env_i(void);
 char		*find_path(char *cmd);
 int			excution(t_command *cmd);

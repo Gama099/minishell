@@ -50,3 +50,21 @@ char	**split_env(void)
 		splited_path = ft_split(tmp, ':');
 	return (splited_path);
 }
+
+int	excution_parse(t_command *cmd)
+{
+	if (cmd->args == NULL && cmd->files->name == NULL)
+		return (1);
+	else if (cmd->args != NULL && spaces(cmd) == 1)
+		return (1);
+	return (0);
+}
+
+int	excution_status(int status)
+{
+	if (status == 131)
+		return (status);
+	if (((status) & 0x7f) == 2)
+		return (130);
+	return ((((status) & 0xff00) >> 8));
+}

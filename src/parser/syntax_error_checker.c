@@ -14,8 +14,7 @@ int ft_strcmps(const char *s1, const char *s2)
 
 int	is_special_operator(char *tokenType)
 {
-    return (!ft_strcmps(tokenType, "pipe") ||
-            !ft_strcmps(tokenType, "output") ||
+    return (!ft_strcmps(tokenType, "output") ||
             !ft_strcmps(tokenType, "input") ||
             !ft_strcmps(tokenType, "appaned") ||
             !ft_strcmps(tokenType, "herdoc"));

@@ -66,9 +66,11 @@ void	check_var(t_env_list *list, int i, char *str)
 	if (node != NULL)
 	{
 		if (i == 5)
+		{
+			if (node->value == NULL)
+				node->value = ft_strdup("");
 			return ; //dont do anything
-		else if (i == 6)
-			node->value = ft_strdup("");
+		}
 		else if (i == 4)
 			join_var(str, node); //appeand value
 		else if (i == 3)

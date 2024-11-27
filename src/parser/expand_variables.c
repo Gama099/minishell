@@ -197,7 +197,7 @@ void	expand_varibles(t_tokens **token)
 		is_herdoc = 0;
 		token_iter = token_iter->next;
 	}
-	//clean_list_spaces(token);
+	clean_list_spaces(token);
 }
 
 void    clean_list_spaces(t_tokens **token)
@@ -206,6 +206,8 @@ void    clean_list_spaces(t_tokens **token)
     t_tokens    *prev;
     t_tokens    *to_free;
 
+	if(!*(*token)->token)
+		return ;
     current = *token;
     prev = NULL;
     while (current)

@@ -22,23 +22,15 @@ int	ft_wait(t_pipes	*var)
 {
 	int	i;
 	int	status;
-	int	tmp;
 
 	status = 0;
 	i = 0;
-	tmp = 0;
 	while (i <= var->j)
-	{
 		waitpid(var->pid[i++], &status, 0);
-		if (status != 0)
-			tmp = status;
-	}
 	free(var->pid);
 	var->pid = NULL;
 	free(var);
 	var = NULL;
-	if (tmp != 0)
-		return (tmp);
 	return (status);
 }
 
@@ -46,7 +38,9 @@ int	pipe_helper(int input, t_command *cmd, int *pipe)
 {
 	int	pid;
 
-	if (cmd->next == NULL)
+	if (cmd->args == NULL)
+		pid = no_cmd(cmd);
+	else if (cmd->next == NULL)
 		pid = one_cmd(cmd, input, NULL);
 	else
 		pid = one_cmd(cmd, input, pipe);
@@ -69,7 +63,7 @@ t_pipes	*pipe_call(t_command *cmd)
 	return (var);
 }
 
-int	excute_pipe(t_command *cmd)
+int	excution_pipe(t_command *cmd)
 {
 	int		fd[2];
 	int		old_input;

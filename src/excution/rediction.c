@@ -37,7 +37,7 @@ int	check_file_b_child(char *filename, int mode, int flag)
 		}
 		return (0);
 	}
-	if (access(filename, F_OK | R_OK) == -1)
+	if (access(filename, R_OK) == -1)
 	{
 		err_n_exit(NULL, NULL, filename, 1);
 		return (1);
