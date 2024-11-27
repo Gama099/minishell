@@ -30,6 +30,12 @@ void	reach_operator_b(t_params *params)
 	params->iter++;
 }
 
+void	reach_operator_c(t_params *params)
+{
+	create_tokens(&params->tokens, "<<", 0, 0);
+	params->iter++;
+}
+
 void	reach_operator(t_params *params)
 {
 	char	tmp_iter;
@@ -40,7 +46,7 @@ void	reach_operator(t_params *params)
 	if (*params->iter == '>' && *(params->iter + 1) == '>')
 		reach_operator_b(params);
 	else if (*params->iter == '<' && *(params->iter + 1) == '<')
-		reach_operator_b(params);
+		reach_operator_c(params);
 	else if (*params->iter == '>')
 		create_tokens(&params->tokens, ">", 0, 0);
 	else if (*params->iter == '<')
