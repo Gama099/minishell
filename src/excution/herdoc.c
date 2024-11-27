@@ -14,9 +14,6 @@ char	*buffer_glue(char **buffer, char **input, t_files *files)
 		new_buffer = ft_strjoin(*buffer, *input);
 	tmp = new_buffer;
 	new_buffer = ft_strjoin(tmp, "\n");
-	free(tmp);
-	free(*buffer);
-	free(*input);
 	tmp = NULL;
 	return (new_buffer);
 }
@@ -39,7 +36,6 @@ void	run_herdoc_child(t_files *files)
 			break ;
 	}
 	write(files->fd[1], buffer, ft_strlen(buffer));
-	free(buffer);
 	buffer = NULL;
 	ft_close(files->fd[1]);
 }

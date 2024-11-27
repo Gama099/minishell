@@ -1,28 +1,38 @@
 #include "../../includes/minishell.h"
 
-void* my_malloc(size_t size)
+void	*my_malloc(size_t size)
 {
-    void* ptr = malloc(size);
+	void		*ptr;
+	memoryblock	*block;
+
+	ptr = malloc(size);
 	if (ptr == NULL)
 		err_n_exit("syscall failed", "malloc", NULL, 1);
-	memoryblock* block = (memoryblock*)malloc(sizeof(memoryblock));
+	block = (memoryblock*)malloc(sizeof(memoryblock));
 	if (block == NULL)
 		err_n_exit("syscall failed", "malloc", NULL, 1);
 	block->ptr = ptr;
 	block->size = size;
-	block->next = head; // Add to the front of the list
+	block->next = head;
 	head = block;
-    return ptr;
+	return (ptr);
 }
 
-void cleanup(void)
+void	cleanup(void)
 {
-    memoryblock* current = head;
-    while (current != NULL) {
-        memoryblock* next = current->next;
-        free(current->ptr);
-        free(current);
-        current = next;
-    }
-    head = NULL; // Reset the list
+	memoryblock	*tmp2;
+	memoryblock	*tmp;
+
+	tmp = head;
+	while (tmp != NULL)
+	{
+		tmp2 = tmp;
+		tmp = tmp->next;
+		free(tmp2->ptr);
+		tmp2->ptr = NULL;
+		free(tmp2);
+		tmp2 = NULL;
+	}
+	tmp = NULL;
+	head = NULL;
 }

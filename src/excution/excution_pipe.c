@@ -27,10 +27,6 @@ int	ft_wait(t_pipes	*var)
 	i = 0;
 	while (i <= var->j)
 		waitpid(var->pid[i++], &status, 0);
-	free(var->pid);
-	var->pid = NULL;
-	free(var);
-	var = NULL;
 	return (status);
 }
 
@@ -53,11 +49,11 @@ t_pipes	*pipe_call(t_command *cmd)
 {
 	t_pipes	*var;
 
-	var = malloc(sizeof(t_pipes));
+	var = (t_pipes *)my_malloc(sizeof(t_pipes));
 	if (var == NULL)
 		err_n_exit("syscall failed", "malloc", NULL, 1);
 	var->j = counter(cmd, 1);
-	var->pid = malloc(sizeof(int) * (var->j + 1));
+	var->pid = (int *)malloc(sizeof(int) * (var->j + 1));
 	if (var->pid == NULL)
 		err_n_exit("syscall failed", "malloc", NULL, 1);
 	return (var);

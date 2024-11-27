@@ -1,5 +1,7 @@
 #include "../includes/minishell.h"
 
+memoryblock *head = NULL;
+
 t_bash	*ft_bash(void)
 {
 	static t_bash	shell;
@@ -47,7 +49,7 @@ t_command	*parsing_process(void)
 	status = 0;
 	buffer = prompt();
 	//trim_spaces(&buffer);
-	if (is_qoute_valid(buffer == 0))
+	if (is_qoute_valid(buffer) == 0)
 	{
 		tokens = get_tokens(buffer);
 		expand_varibles(&tokens);

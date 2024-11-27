@@ -18,15 +18,11 @@ t_tokens	*create_node_join(t_tokens *token_a, t_tokens *token_b)
 
 int	free_token(t_tokens **token, t_tokens **iter, t_tokens **prev)
 {
-	t_tokens	*tmp;
-
-	tmp = *iter;
 	*iter = (*iter)->next;
 	if (*prev)
 		(*prev)->next = *iter;
 	else
 		*token = *iter;
-	free(tmp);
 	if (*token == NULL)
 		return (1);
 	return (0);
