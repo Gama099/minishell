@@ -67,18 +67,4 @@ void	reach_dollar(t_params *params, char *buffer)
 		*params->iter = '$';
 		params->token_begin = params->iter;
 	}
-	if (*(params->iter + 1) == '?')
-	{
-		if (*(params->iter + 2) && !is_white_space(*(params->iter + 1)))
-			params->to_join = 1;
-		create_tokens(&params->tokens, "$?", 0, params->to_join);
-		params->token_begin = params->iter + 2;
-		params->iter = params->iter + 2;
-		if (*params->token_begin == '\0' || *params->iter == '\0')
-			return ;
-		while (is_white_space(*params->token_begin))
-			params->token_begin++;
-		while (is_white_space(*params->iter))
-			params->iter++;
-	}
 }

@@ -1,6 +1,5 @@
 #include "../../includes/minishell.h"
 
-
 int	is_white_space(char charac)
 {
 	if (charac == ' ' || (charac >= '\t' && charac <= '\r'))
@@ -13,7 +12,7 @@ void	trim_spaces(char **buffer)
 	char	*start;
 	char	*end;
 	int		len;
-	char	*newStr;
+	char	*new_str;
 
 	if (!*buffer[0])
 		return ;
@@ -28,14 +27,11 @@ void	trim_spaces(char **buffer)
 		return ;
 	while (is_white_space(*end) && end > start)
 		end--;
-	//MALLOC1
-	newStr = malloc(end - start + 1);
-	//TODO: handle error //buffer maybe i can exit from here and clean up
-	//and add the the exit function can have enum ERRMALLOC
-	if (!newStr)
+	new_str = malloc(end - start + 2);
+	if (!new_str)
 		return ;
-	ft_strlcpy(newStr, start, (end - start) + 2);
+	ft_strlcpy(new_str, start, (end - start) + 2);
 	//free using
 	free (*buffer);
-	*buffer = newStr;
+	*buffer = new_str;
 }
