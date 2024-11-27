@@ -14,9 +14,7 @@ void	ft_env_i(void)
 {
 	char	**env;
 
-	env = (char **)malloc((4) * sizeof(char *));
-	if (!env)
-		err_n_exit("syscall failed", "malloc", NULL, 1);
+	env = (char **)my_malloc((4) * sizeof(char *));
 	env[0] = ft_strjoin("PWD=", getcwd(NULL, 0));
 	env[1] = ft_strdup("SHLVL=1");
 	env[2] = ft_strdup("_=/usr/bin/env");

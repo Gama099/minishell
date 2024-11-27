@@ -56,12 +56,12 @@ int	arg_helper(char *str)
 	if (before_sum(splited[0]) == 1) //check if var is valid
 	{
 		if (check_value(str) == 2)
-			return (free_ary(splited), 5);
+			return (5);
 		else
-			return (free_ary(splited), 4);
+			return (4);
 	}
 	else
-		return (free_ary(splited), EXIT_FAILURE);
+		return (EXIT_FAILURE);
 }
 
 int	arg_valid(char *str)
@@ -80,13 +80,13 @@ int	arg_valid(char *str)
 		if (check_value(str) == 1)
 		{
 			if (before_sum(splited[0]) == 1) //check if var is valid
-				return (free_ary(splited), 5);
+				return (5);
 		}
 		else
 		{
 			if (before_sum(splited[0]) == 1)
-				return (free_ary(splited), 3);
+				return (3);
 		}
 	}
-	return (free_ary(splited), EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }

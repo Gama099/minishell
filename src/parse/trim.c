@@ -27,11 +27,7 @@ void	trim_spaces(char **buffer)
 		return ;
 	while (is_white_space(*end) && end > start)
 		end--;
-	new_str = malloc(end - start + 2);
-	if (!new_str)
-		return ;
+	new_str = (char *)my_malloc(end - start + 2);
 	ft_strlcpy(new_str, start, (end - start) + 2);
-	//free using
-	free (*buffer);
 	*buffer = new_str;
 }

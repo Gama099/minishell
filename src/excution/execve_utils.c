@@ -31,20 +31,16 @@ char	*get_path(void)
 		path = ft_strdup(tmp);
 		if (path != NULL)
 		{
-			free(path);
 			node = check_if_exit(ft_bash()->list, "PATH", 2);
-			return (free_ary(env), node->value);
+			return (node->value);
 		}
 		i++;
 	}
 	return (free_ary(env), NULL);
 }
 
-void	check_exit(int check, char *cmd, char *tmp, char **splited)
+void	check_exit(int check, char *cmd)
 {
-	free_ary(splited);
-	free(tmp);
-	tmp = NULL;
 	if (check == 1)
 		err_n_exit("command not found", NULL, cmd, 127);
 	else if (check == 2)
@@ -68,11 +64,9 @@ char	*find_path(char *cmd)
 		path = ft_strjoin(splited_path[i], tmp);
 		check = check_access(path);
 		if (check == 0)
-			return (free(tmp), free_ary(splited_path), path);
-		else
-			free(path);
+			return (path);
 		i++;
 	}
-	check_exit(check, cmd, tmp, splited_path);
+	check_exit(check, cmd);
 	return (NULL);
 }

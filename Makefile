@@ -48,6 +48,7 @@ SRC =	src/main.c \
 		src/parse/tokenaze_p.c \
 		src/parse/tokenaze_pp.c \
 		src/parse/tokenaze_var.c \
+				src/parse/mem.c \
 
 OBJECT = $(SRC:.c=.o)
 

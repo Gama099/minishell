@@ -52,7 +52,7 @@ int	ft_exit(char **arg)
 		if (str_is_digit(arg[i]) == 1 || arg[i][0] == '\0')
 		{
 			err_msg("numeric argument required", "exit", arg[i]);
-			clean_exit(2);//free to do
+			clean_exit(2);
 		}
 		i++;
 	}

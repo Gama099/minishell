@@ -42,10 +42,7 @@ int	one_cmd(t_command *cmd, int input, int *pipe)
 		env = env_to_ary(ft_bash()->list);
 		status = execve(command, cmd->args, env); //excute the cmd
 		if (status == -1)
-		{
-			free_ary(env);
-			clean_exit(1); //free if execve failed
-		}
+			clean_exit(1);
 	}
 	return (pid);
 }

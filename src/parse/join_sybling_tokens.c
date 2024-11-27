@@ -6,9 +6,7 @@ t_tokens	*create_node_join(t_tokens *token_a, t_tokens *token_b)
 
 	if (!token_a || !token_b)
 		return (NULL);
-	new_node = malloc(sizeof(t_tokens));
-	if (!new_node)
-		return (NULL);
+	new_node = (t_tokens *)my_malloc(sizeof(t_tokens));
 	new_node->token = ft_strjoin(token_a->token, token_b->token);
 	new_node->tokenType = NULL;
 	new_node->qoute_type = 0;

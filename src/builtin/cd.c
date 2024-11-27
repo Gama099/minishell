@@ -9,7 +9,6 @@ void	add_var(char *name, char *value, t_env_list *list)
 
 	tmp = ft_strjoin(name, "=");
 	str = ft_strjoin(tmp, value);
-	free(tmp);
 	current = list;
 	new_node = ft_create_node(str, 0);
 	if (new_node == NULL)
@@ -19,7 +18,6 @@ void	add_var(char *name, char *value, t_env_list *list)
 
 void	update_env(char *name, char *value)//tempo
 {
-	char		*tmp;
 	t_env_list	*var;
 
 	var = check_if_exit(ft_bash()->list, name, 0);
@@ -28,12 +26,7 @@ void	update_env(char *name, char *value)//tempo
 	else if (var)
 	{
 		if (value)
-		{
-			tmp = var->value;
 			var->value = value;
-			free(tmp);
-		}
-		free(name);
 	}
 }
 
@@ -69,7 +62,6 @@ int	ft_cd(char **arg)
 	{
 		home = ft_strdup("HOME");
 		env_home = check_if_exit(ft_bash()->list, home, 0);
-		free(home);
 		if (env_home != NULL)
 			return (ft_cd_helper(env_home->value));
 		return (err_msg("HOME not set", "cd", NULL), 1);

@@ -12,6 +12,14 @@
 # include <sys/stat.h>
 # include <signal.h>
 
+
+typedef struct memoryblock {
+    void* ptr;
+    size_t size;
+    struct memoryblock* next;
+} memoryblock;
+
+extern memoryblock *head;
 typedef struct s_tokens
 {
 	char			*token;
@@ -89,6 +97,7 @@ typedef struct s_params
 
 
 //parser
+void		cleanup(void);
 int			is_word(char *token);
 int			is_path(char *token);
 int			checkcommand(char *token);
@@ -129,7 +138,7 @@ void		trim_spaces(char **buffer);
 int			is_white_space(char charac);
 char		*replace_var(char *token);
 void		expand_varibles(t_tokens **token);
-void		my_free(void);
+void		my_free(void* ptr);
 void		*my_malloc(size_t	size);
 t_command	*to_strcuct(t_tokens *tokens);
 void		join_token_syblings(t_tokens **token);

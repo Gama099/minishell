@@ -9,7 +9,6 @@ char	*buffer_glue(char **buffer, char **input, t_files *files)
 	{
 		tmp = expand_name(*input);
 		new_buffer = ft_strjoin(*buffer, tmp);
-		free(tmp);
 	}
 	else
 		new_buffer = ft_strjoin(*buffer, *input);

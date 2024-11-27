@@ -5,9 +5,7 @@ void	create_tokens(t_tokens **token, char *str, int qoute, int to_join)
 	t_tokens	*new_node;
 	t_tokens	*last;
 
-	new_node = malloc(sizeof(t_tokens));
-	if (!new_node)
-		return ;
+	new_node = (t_tokens *)my_malloc(sizeof(t_tokens));
 	new_node->token = ft_strdup(str);
 	if (!new_node->token)
 		return ;

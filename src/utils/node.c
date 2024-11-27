@@ -5,9 +5,7 @@ t_env_list	*ft_create_node(char *str, int mode)
 	t_env_list	*new_node;
 	int			flag;
 
-	new_node = malloc(sizeof(t_env_list));
-	if (!new_node)
-		err_n_exit("syscall failed", "malloc", NULL, 1);
+	new_node = (t_env_list *)my_malloc(sizeof(t_env_list));
 	fill_node(new_node, str, mode);
 	flag = check_value(str);
 	if (flag == 0 || flag == 2) // there is = sometimes with value sometimes not
@@ -21,16 +19,10 @@ t_env_list	*ft_create_node(char *str, int mode)
 void	update_sh(t_env_list *list)
 {
 	t_env_list	*node;
-	char		*tmp;
 
 	node = check_if_exit(list, "SHLVL", 2);
 	if (node != NULL)
-	{
-		tmp = node->value;
 		node->value = ft_itoa(ft_atoi(node->value) + 1);
-		free(tmp);
-		tmp = NULL;
-	}
 }
 
 t_env_list	*env_to_list(char	**env)

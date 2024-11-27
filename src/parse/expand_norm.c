@@ -20,7 +20,7 @@ void	creat_list(t_env_list **list, char *token)
 	char		*tmp_env;
 	t_env_list	*tmp;
 
-	env_var = malloc(sizeof(t_env_list));
+	env_var = (t_env_list *)my_malloc(sizeof(t_env_list));
 	if (!env_var)
 		return ;
 	env_var->name = ft_strdup(token);
@@ -92,7 +92,7 @@ int	get_env_len(char *env_var_start, t_env_list **env_list)
 		len++;
 	if (len == 0)
 		return (0);
-	env_var = malloc(len + 1);
+	env_var = (char *)my_malloc(len + 1);
 	if (!env_var)
 		return (0);
 	strncpy(env_var, env_var_start, len);

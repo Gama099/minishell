@@ -25,9 +25,7 @@ char	*ft_strdup(char *s1)
 	if (s1 == NULL)
 		return (NULL);
 	dupsize = ft_strlen(s1) + 1;
-	dup = (char *)malloc(dupsize);
-	if (dup == NULL)
-		return (0);
+	dup = (char *)my_malloc(dupsize);
 	i = 0;
 	while (i < dupsize)
 	{
@@ -43,11 +41,9 @@ char	*ft_substr_h(char *s, int start, int end)
 	char	*res;
 
 	if ((end - start + 1) < 1)
-		res = (char *)malloc((1) * sizeof(char));
+		res = (char *)my_malloc((1) * sizeof(char));
 	else
-		res = (char *)malloc((end - start + 1) * sizeof(char));
-	if (!res)
-		err_n_exit("syscall failed", "malloc", NULL, 1);
+		res = (char *)my_malloc((end - start + 1) * sizeof(char));
 	i = 0;
 	while (start < end)
 		res[i++] = s[start++];

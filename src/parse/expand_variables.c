@@ -5,10 +5,7 @@ void creat_list_state(t_env_list **list)
     t_env_list	*env_var;
 	t_env_list	*tmp;
 
-    env_var = malloc(sizeof(t_env_list));
-    if (!env_var)
-        return;
-
+    env_var = (t_env_list *)my_malloc(sizeof(t_env_list));
     env_var->name = ft_strdup("?");
 	env_var->value = ft_strdup(ft_itoa(ft_bash()->exit_status));
     env_var->next = NULL;
@@ -61,19 +58,14 @@ char *get_new_token(char *token_str)
     token_iter = token_str;
     count_token_len = 0;
     while (*token_iter)
-    {
 		get_new_token_a(&token_iter, &env_list, &count_token_len);
-	}
     if (!env_list)
 			return NULL;
     env_vars_len = count_evn_vars_len(env_list);
-    new_token = malloc(count_token_len + env_vars_len + 1);
-    if (!new_token)
-        return NULL;
+     new_token = (char *)my_malloc(count_token_len + env_vars_len + 1);
     write_new_token(new_token, token_str, env_list);
     return new_token;
 }
-
 
 void	update_token(t_tokens *iter)
 {

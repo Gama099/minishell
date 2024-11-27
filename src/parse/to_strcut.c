@@ -4,10 +4,10 @@ t_command	*init_cmd_node(void)
 {
 	t_command	*command;
 
-	command = malloc(sizeof(t_command));
+	command = (t_command *)my_malloc(sizeof(t_command));
 	command->args = NULL;
 	command->next = NULL;
-	command->files = malloc(sizeof(t_files));
+	command->files = (t_files *)my_malloc(sizeof(t_files));
 	command->files->name = NULL;
 	command->files->next = NULL;
 	command->files->flag = 0;
@@ -23,7 +23,7 @@ void	handle_rediration(t_command *command, t_tokens **tokens)
 	current = command->files;
 	if (command->files->name != NULL)
 	{
-		new_file = malloc(sizeof(t_files));
+		new_file = (t_files *)my_malloc(sizeof(t_files));
 		//TODO
 		new_file->flag = 0;
 		while (current->next)
@@ -49,7 +49,7 @@ void	set_as_command(t_command *command, char *arg)
 	i = 0;
 	if (command->args == NULL)
 	{
-		command->args = malloc(sizeof(char *) * 2);
+		command->args = (char **)my_malloc(sizeof(char *) * 2);
 		{
 			command->args[0] = ft_strdup(arg);
 			command->args[1] = NULL;
@@ -60,7 +60,7 @@ void	set_as_command(t_command *command, char *arg)
 		while (command->args[i])
 			i++;
 		new_len = i + 2;
-		tmp = malloc(sizeof(char *) * new_len);
+		tmp = (char **)my_malloc(sizeof(char *) * new_len);
 		i = 0;
 		while (command->args[i])
 		{
@@ -69,11 +69,6 @@ void	set_as_command(t_command *command, char *arg)
 		}
 		tmp[i++] = ft_strdup(arg);
 		tmp[i] = NULL;
-		i = 0;
-		while (command->args[i])
-			free(command->args[i++]);
-		free(command->args[i]);
-		free(command->args);
 		command->args = tmp;
 	}
 }

@@ -25,9 +25,7 @@ static char	*n_negative(int c)
 	else
 		tol = len(b) + 1;
 	b *= -1;
-	a = malloc((tol + 1) * sizeof(char));
-	if (a == NULL)
-		return (NULL);
+	a = (char *)my_malloc((tol + 1) * sizeof(char));
 	a[0] = '-';
 	a[tol--] = '\0';
 	while (tol > 0)
@@ -47,9 +45,7 @@ char	*ft_itoa(int n)
 	if (n >= 0)
 	{
 		tol = len(n);
-		b = malloc((tol + 1) * sizeof(char));
-		if (b == NULL)
-			return (NULL);
+		b = (char *)my_malloc((tol + 1) * sizeof(char));
 		b[tol--] = '\0';
 		while (tol >= 0)
 		{

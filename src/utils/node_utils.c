@@ -45,6 +45,5 @@ void	fill_node(t_env_list *node, char *str, int mode)
 		if (!there_is_plus(str))
 			splited[0][ft_strlen(splited[0]) - 1] = '\0'; //remove + from 1 array after the split
 		node->name = ft_strdup(splited[0]);
-		free_ary(splited);
 	}
 }

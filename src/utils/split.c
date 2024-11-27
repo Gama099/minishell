@@ -17,17 +17,7 @@ void	ft_strlcpyy(char *dst, const char *src, int size)
 
 int	allocating(char **str, int index, int len)
 {
-	int	i;
-
-	i = 0;
-	str[index] = malloc(len);
-	if (str[index] == NULL)
-	{
-		while (i < index)
-			free(str[i++]);
-		free(str);
-		return (1);
-	}
+	str[index] = (char *)my_malloc(len);
 	return (0);
 }
 
@@ -87,9 +77,7 @@ char	**ft_split(char const *s, char c)
 	len = count(s, c);
 	if (!len)
 		clean_exit(1);
-	str = (char **)malloc((len + 1) * sizeof(char *));
-	if (!str)
-		err_n_exit("syscall failed", "malloc", NULL, 1);
+	str = (char **)my_malloc((len + 1) * sizeof(char *));
 	str[len] = NULL;
 	if (ft_write(str, s, c))
 		return (NULL);

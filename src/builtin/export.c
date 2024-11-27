@@ -32,7 +32,6 @@ void	join_var(char *str, t_env_list *node)
 	}
 	else
 		node->value = ft_strjoin(node->value, splited[1]);
-	free_ary(splited);
 }
 
 void	change_var(char	*str, t_env_list *node)
@@ -54,7 +53,6 @@ void	change_var(char	*str, t_env_list *node)
 		node->value = ft_strdup(splited[1]);
 		free(tmp);
 	}
-	free_ary(splited);
 	tmp = NULL;
 }
 

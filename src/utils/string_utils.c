@@ -53,9 +53,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (s2 == NULL)
 		return (ft_strdup(s1));
 	len = ft_strlen(s1) + ft_strlen(s2);
-	b = malloc((len + 1) * sizeof(char));
-	if (b == NULL)
-		return (NULL);
+	b = (char *)my_malloc((len + 1) * sizeof(char));
 	while (s1[i] && i < len)
 	{
 		b[i] = s1[i];

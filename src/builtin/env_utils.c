@@ -44,10 +44,10 @@ t_env_list	*check_if_exit(t_env_list *list, char *str, int mode)
 		while (node != NULL)
 		{
 			if ((ft_strcmp(node->name, splited[0])) == 0)
-				return (free_ary(splited), node);
+				return (node);
 			node = node->next;
 		}
-		return (free_ary(splited), NULL);
+		return (NULL);
 	}
 	while (node != NULL)
 	{
@@ -67,14 +67,11 @@ char	**env_to_ary(t_env_list *envp)
 
 	i = env_counter(envp);
 	j = 0;
-	env_ar = (char **)malloc(sizeof(char *) * (i + 2));
-	if (env_ar == NULL)
-		err_n_exit("syscall failed", "malloc", NULL, 1);
+	env_ar = (char **)my_malloc(sizeof(char *) * (i + 2));
 	while (j <= i)
 	{
 		tmp = ft_strjoin(envp->name, "=");
 		env_ar[j] = ft_strjoin(tmp, envp->value);
-		free(tmp);
 		j++;
 		envp = envp->next;
 	}
