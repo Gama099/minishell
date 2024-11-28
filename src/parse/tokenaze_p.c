@@ -4,6 +4,8 @@ void	close_qoute(t_params *params)
 {
 	if (*(params->iter + 1) && !is_white_space(*(params->iter + 1)))
 		params->to_join = 1;
+	if (is_meta(*(params->iter + 1)))
+		params->to_join = 0;
 	*params->iter = '\0';
 	if (params->which_qoute == '\'')
 		create_tokens(&params->tokens, params->token_begin, 1, params->to_join);

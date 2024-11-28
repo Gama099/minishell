@@ -44,6 +44,7 @@ t_tokens	*get_tokens(char *buffer)
 	init_params(&params, buffer);
 	while (*params.iter)
 	{
+		params.to_join = 0;
 		if (*params.token_begin == '\0')
 			return (params.tokens);
 		if ((params.iter > buffer && (is_white_space(*params.iter)
@@ -66,3 +67,4 @@ t_tokens	*get_tokens(char *buffer)
 		create_tokens(&params.tokens, params.token_begin, 0, 0);
 	return (params.tokens);
 }
+

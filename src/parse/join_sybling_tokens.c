@@ -31,15 +31,13 @@ int	free_token(t_tokens **token, t_tokens **iter, t_tokens **prev)
 void	handle_join_with_next(t_tokens **token, t_tokens **iter, t_tokens **prev)
 {
 	t_tokens	*merged_nodes;
-	t_tokens	*garb_node;
+	//t_tokens	*garb_node;
 
 	merged_nodes = create_node_join(*iter, (*iter)->next);
 	if (!merged_nodes)
 		return ;
-	garb_node = *iter;
+
 	*iter = (*iter)->next;
-	free(garb_node);
-	free(*iter);
 	if (*prev)
 		(*prev)->next = merged_nodes;
 	else

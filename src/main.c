@@ -48,7 +48,6 @@ t_command	*parsing_process(void)
 
 	status = 0;
 	buffer = prompt();
-	//trim_spaces(&buffer);
 	if (is_qoute_valid(buffer) == 0)
 	{
 		tokens = get_tokens(buffer);
@@ -83,11 +82,14 @@ int	main(int ac, char **av, char **envp)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, sigint_handler_main);
 		cmd = parsing_process();
-		status = ft_herdoc(cmd);
-		if (status == 0)
-			init_status(excution(cmd));
-		else
-			init_status(status);
+		if (cmd != NULL)
+        {
+            status = ft_herdoc(cmd);
+            if (status == 0)
+                init_status(excution(cmd));
+            else
+                init_status(status);
+        }
 		dprintf(2, "exit status = %d\n", ft_bash()->exit_status);
 	}
 	return (status);
