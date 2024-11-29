@@ -11,22 +11,24 @@ void	add_var(char *name, char *value, t_env_list *list)
 	str = ft_strjoin(tmp, value);
 	current = list;
 	new_node = ft_create_node(str, 0);
-	if (new_node == NULL)
-		return ;
-	ft_last_node(current)->next = new_node; //add new var to env linked list
+	ft_last_node(current)->next = new_node;
 }
 
-void	update_env(char *name, char *value)//tempo
+void	update_env(char *name, char *value)
 {
 	t_env_list	*var;
+	char		*tmp1;
 
-	var = check_if_exit(ft_bash()->list, name, 0);
+	tmp1 = ft_strdup(value);
+	free(value);
+	value = NULL;
+	var = check_if_exit(ft_bash()->list, ft_strdup(name), 0);
 	if (name[0] == 'O' && var == NULL)
-		add_var(name, value, ft_bash()->list);
+		add_var(ft_strdup(name), value, ft_bash()->list);
 	else if (var)
 	{
-		if (value)
-			var->value = value;
+		if (tmp1)
+			var->value = tmp1;
 	}
 }
 
@@ -46,8 +48,8 @@ int	ft_cd_helper(char *path)
 		return (err_msg("No such file or directory", "cd", path), 1);
 	}
 	pwd = getcwd(NULL, 0);
-	update_env(ft_strdup("PWD"), pwd);
-	update_env(ft_strdup("OLDPWD"), oldpwd);
+	update_env("PWD", pwd);
+	update_env("OLDPWD", oldpwd);
 	return (0);
 }
 
@@ -58,7 +60,7 @@ int	ft_cd(char **arg)
 	char		*home;
 
 	j = 1;
-	if (arg[j] == NULL) //arg contain only cd
+	if (arg[j] == NULL)
 	{
 		home = ft_strdup("HOME");
 		env_home = check_if_exit(ft_bash()->list, home, 0);

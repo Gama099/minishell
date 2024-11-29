@@ -32,6 +32,7 @@ SRC =	src/main.c \
 		src/utils/string_utils.c \
 		src/utils/string_utils_2.c \
 		src/utils/string_utils_3.c \
+		src/utils/string_utils_4.c \
 		src/systemcall.c \
 		src/error_utils.c \
 		src/signals.c \
@@ -48,7 +49,7 @@ SRC =	src/main.c \
 		src/parse/tokenaze_p.c \
 		src/parse/tokenaze_pp.c \
 		src/parse/tokenaze_var.c \
-				src/parse/mem.c \
+		src/parse/mem.c \
 
 OBJECT = $(SRC:.c=.o)
 

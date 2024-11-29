@@ -9,7 +9,11 @@ int	ft_pwd(void)
 	if (pwd == NULL)
 	{
 		node = check_if_exit(ft_bash()->list, "PWD", 1);
-		printf("%s\n", node->value);
+		if (node != NULL)
+		{
+			printf("%s\n", node->value);
+			return (EXIT_SUCCESS);
+		}
 		return (EXIT_SUCCESS);
 	}
 	ft_putstr_fd(pwd, 1);

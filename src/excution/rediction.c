@@ -7,15 +7,15 @@ char	*check_ambiguous_child(char *filename, int flag)
 	var = 0;
 	if (filename[0] == '$')
 		var = 1;
-	if (flag == 1) //in single quote no ambiguos no expand
-		return (filename); // work in all redirection
-	else if (flag == 2) //in double quote no ambiguos just expand
+	if (flag == 1)
+		return (filename);
+	else if (flag == 2)
 	{
 		if (expand_name(filename) != NULL)
 			return (expand_name(filename));
 		return (ft_strdup(""));
 	}
-	else if (flag == 0) //in no quotes no expand if var not exists just ambiguos//in no quotes no ambiguos just expand if var exists
+	else if (flag == 0)
 	{
 		ambigous_helper(filename, var);
 		return (expand_name(filename));

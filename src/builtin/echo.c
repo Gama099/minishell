@@ -33,7 +33,7 @@ int	ft_echo(char **argv)
 
 	i = echo_check(argv);
 	flag = 0;
-	if (i == 1) //no -n option
+	if (i == 1)
 		flag = 1;
 	while (argv[i])
 	{

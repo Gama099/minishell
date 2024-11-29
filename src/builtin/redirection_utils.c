@@ -29,7 +29,7 @@ int	ambigous_helper_builtins(char	**file, int is_var)
 		if (is_var && (spl_ex_fi[0] != NULL && spl_ex_fi[1] != NULL))
 			return (err_msg("ambiguous redirection", NULL, *file), 1);
 	}
-	else if (is_var && ex_fi == NULL && ft_strlen(*file) > 1) // if both != NULL that mean there was space
+	else if (is_var && ex_fi == NULL && ft_strlen(*file) > 1)
 		return (err_msg("ambiguous redirection", NULL, *file), 1);
 	if (spl_ex_fi != NULL)
 	{
@@ -46,9 +46,9 @@ int	check_ambiguous(char **filename, int flag)
 	var = 0;
 	if (*filename[0] == '$')
 		var = 1;
-	if (flag == 1) //in single quote no ambiguos no expand
+	if (flag == 1)
 		return (0);
-	else if (flag == 2) //in double quote no ambiguos just expand
+	else if (flag == 2)
 	{
 		if (expand_name(*filename) != NULL)
 		{
@@ -56,7 +56,7 @@ int	check_ambiguous(char **filename, int flag)
 			return (0);
 		}
 	}
-	else if (flag == 0) //in no quotes no expand if var not exists just ambiguos//in no quotes no ambiguos just expand if var exists
+	else if (flag == 0)
 	{
 		if (ambigous_helper_builtins(filename, var) == 1)
 			return (1);

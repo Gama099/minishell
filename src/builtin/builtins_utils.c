@@ -7,13 +7,13 @@ int	check_value(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '=' && str[i + 1] != '\0') //there is value
+		if (str[i] == '=' && str[i + 1] != '\0')
 			return (EXIT_SUCCESS);
-		else if (str[i] == '=' && str[i + 1] == '\0') //null value
+		else if (str[i] == '=' && str[i + 1] == '\0')
 			return (2);
 		i++;
 	}
-	return (EXIT_FAILURE);//no =
+	return (EXIT_FAILURE);
 }
 
 int	check_if_builts(char *cmd)

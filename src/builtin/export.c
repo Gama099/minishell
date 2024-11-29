@@ -4,7 +4,7 @@ void	add_new_var(char *str, t_env_list *list)
 {
 	t_env_list	*new_node;
 	t_env_list	*current;
-	char	*tmp;
+	char		*tmp;
 
 	current = list;
 	new_node = ft_create_node(str, 1);
@@ -17,7 +17,7 @@ void	add_new_var(char *str, t_env_list *list)
 		free(tmp);
 		tmp = NULL;
 	}
-	ft_last_node(current)->next = new_node; //add new var to env linked list
+	ft_last_node(current)->next = new_node;
 }
 
 void	join_var(char *str, t_env_list *node)
@@ -37,23 +37,15 @@ void	join_var(char *str, t_env_list *node)
 void	change_var(char	*str, t_env_list *node)
 {
 	char	**splited;
-	char	*tmp;
 
 	splited = ft_split(str, '=');
 	if (check_value(str) == 2)
-	{
-		tmp = node->value;
 		node->value = ft_strdup("");
-		free(tmp);
-	}
 	if (check_value(str) == 0)
 	{
 		node->type = 1;
-		tmp = node->value;
 		node->value = ft_strdup(splited[1]);
-		free(tmp);
 	}
-	tmp = NULL;
 }
 
 void	check_var(t_env_list *list, int i, char *str)
@@ -65,20 +57,20 @@ void	check_var(t_env_list *list, int i, char *str)
 	{
 		if (i == 5)
 		{
-			if (node->value == NULL)
+			if (node->value == NULL && check_value(str) != 1)
 				node->value = ft_strdup("");
-			return ; //dont do anything
+			return ;
 		}
 		else if (i == 4)
-			join_var(str, node); //appeand value
+			join_var(str, node);
 		else if (i == 3)
-			change_var(str, node);//change value
+			change_var(str, node);
 	}
 	else
 		add_new_var(str, list);
 }
 
-int	ft_export(char **str)// fix var var1 var2
+int	ft_export(char **str)
 {
 	int	j;
 	int	i;
@@ -86,7 +78,7 @@ int	ft_export(char **str)// fix var var1 var2
 
 	j = 1;
 	status = 0;
-	if (str[j] == NULL) // no args mean sort and print
+	if (str[j] == NULL)
 	{
 		print_export(ft_bash()->list);
 		return (0);

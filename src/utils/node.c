@@ -8,7 +8,7 @@ t_env_list	*ft_create_node(char *str, int mode)
 	new_node = (t_env_list *)my_malloc(sizeof(t_env_list));
 	fill_node(new_node, str, mode);
 	flag = check_value(str);
-	if (flag == 0 || flag == 2) // there is = sometimes with value sometimes not
+	if (flag == 0 || flag == 2)
 		new_node->type = 1;
 	else
 		new_node->type = 0;
@@ -58,10 +58,6 @@ void	free_env(t_env_list *env)
 	{
 		tmp = env;
 		env = env->next;
-		free(tmp->name);
-		tmp->name = NULL;
-		free(tmp->value);
-		tmp->value = NULL;
 		free(tmp);
 		tmp = NULL;
 	}

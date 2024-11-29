@@ -12,8 +12,8 @@ char	*get_redarct(t_command *cmd, int *pipe, int input)
 		ft_dup(pipe[1], STDOUT_FILENO);
 	}
 	command = NULL;
-	if (check_path(cmd) == 0) //user didnt give path
-		command = find_path(cmd->args[0]); //find path my self
+	if (check_path(cmd) == 0)
+		command = find_path(cmd->args[0]);
 	else
 	{
 		redirect_file(cmd);
@@ -35,12 +35,12 @@ int	one_cmd(t_command *cmd, int input, int *pipe)
 	pid = ft_fork();
 	if (pid == 0)
 	{
-		child_builtin_helper(cmd, input, pipe); //if not exit from child prossec that mean its not builtin
+		child_builtin_helper(cmd, input, pipe);
 		command = get_redarct(cmd, pipe, input);
-		if (command == NULL) //get path and redirct
+		if (command == NULL)
 			err_n_exit("No such file or directory", NULL, cmd->args[0], 127);
 		env = env_to_ary(ft_bash()->list);
-		status = execve(command, cmd->args, env); //excute the cmd
+		status = execve(command, cmd->args, env);
 		if (status == -1)
 			clean_exit(1);
 	}
@@ -49,9 +49,19 @@ int	one_cmd(t_command *cmd, int input, int *pipe)
 
 int	spaces(t_command *cmd)
 {
-	if (cmd->args[0][0] == '\0' || is_white_space(cmd->args[0][0]))
+	int	i;
+
+	i = 0;
+	if (cmd->args[0][0] == '\0')
 		return (1);
-	return (0);
+	while (cmd->args[0][i])
+	{
+		if (is_white_space(cmd->args[0][i]))
+			i++;
+		else
+			return (0);
+	}
+	return (1);
 }
 
 int	no_cmd(t_command *cmd)

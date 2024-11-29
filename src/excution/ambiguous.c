@@ -7,7 +7,7 @@ char	*expand_name(char *file)
 	if (ft_strchrr(file, '$') == -1)
 		return (file);
 	str = get_new_token(file);
-	if (str == NULL || str[0] == ' ') // erorr here
+	if (str == NULL || str[0] == ' ')
 		return (NULL);
 	return (str);
 }
@@ -24,7 +24,7 @@ void	ambigous_helper(char	*file, int is_var)
 		if (is_var && (spl_ex_file[0] != NULL && spl_ex_file[1] != NULL))
 			err_n_exit("ambiguous redirection", NULL, file, 1);
 	}
-	else if (is_var && ex_file == NULL && ft_strlen(file) > 1) // if both != NULL that mean there was space
+	else if (is_var && ex_file == NULL && ft_strlen(file) > 1)
 		err_n_exit("ambiguous redirection", NULL, file, 1);
 }
 
@@ -38,18 +38,19 @@ int	check_path(t_command *cmd)
 		if (is_a_directory(cmd->args[0], 1))
 			clean_exit(126);
 		check = check_access(cmd->args[0]);
-		if (check == 1) // not found
+		if (check == 1)
 			err_n_exit(NULL, NULL, cmd->args[0], 127);
-		else if (check == 2) //not excutable
+		else if (check == 2)
 			err_n_exit(NULL, NULL, cmd->args[0], 126);
 		else
-			return (3); //path is valid
+			return (3);
 	}
 	return (check);
 }
 
-int	set_under_score(char **argv) //to be fixed
+int	set_under_score(char **argv)
 {
+	t_env_list	*var;
 	char		*value;
 	int			i;
 
@@ -59,7 +60,12 @@ int	set_under_score(char **argv) //to be fixed
 	if (i == 0)
 		return (1);
 	value = ft_strdup(argv[i - 1]);
-	update_env(ft_strdup("_"), value);
+	var = check_if_exit(ft_bash()->list, ft_strdup("_"), 0);
+	if (var)
+	{
+		if (value)
+			var->value = value;
+	}
 	return (0);
 }
 

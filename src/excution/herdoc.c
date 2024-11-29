@@ -1,13 +1,15 @@
 #include "../../includes/minishell.h"
 
-char	*buffer_glue(char **buffer, char **input, t_files *files)
+char	*buffer_glue(char **buffer, char **input)
 {
 	char	*tmp;
 	char	*new_buffer;
+	char	*str;
 
-	if (files->flag == 0 && to_expand(*input)) //delimi is var and no quotes mean expand
+	str = ft_strrchr(*input, '$');
+	if (str != NULL)
 	{
-		tmp = expand_name(*input);
+		tmp = expand_herdoc(*input);
 		new_buffer = ft_strjoin(*buffer, tmp);
 	}
 	else
@@ -28,9 +30,9 @@ void	run_herdoc_child(t_files *files)
 	input = readline(">");
 	if (input == NULL)
 		return ;
-	while (ft_strcmp(files->name, input) != 0) //change strcmp later
+	while (ft_strcmp(files->name, input) != 0)
 	{
-		buffer = buffer_glue(&buffer, &input, files);
+		buffer = buffer_glue(&buffer, &input);
 		input = readline(">");
 		if (input == NULL)
 			break ;

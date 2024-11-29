@@ -21,11 +21,11 @@ int	before_sum(char *str)
 	int	j;
 
 	j = 1;
-	if (!ft_isalpha(str[0]) && str[0] != '_') //alpha or underscore
+	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
 	while (str[j])
 	{
-		if (!ft_isalnum(str[j]) && str[j] != '_') //alpha or numeric or underscore
+		if (!ft_isalnum(str[j]) && str[j] != '_')
 			return (0);
 		j++;
 	}
@@ -53,7 +53,7 @@ int	arg_helper(char *str)
 	if (valid_plus(str) == 1)
 		return (EXIT_FAILURE);
 	splited = ft_split(str, '+');
-	if (before_sum(splited[0]) == 1) //check if var is valid
+	if (before_sum(splited[0]) == 1)
 	{
 		if (check_value(str) == 2)
 			return (5);
@@ -79,7 +79,7 @@ int	arg_valid(char *str)
 		splited = ft_split(str, '=');
 		if (check_value(str) == 1)
 		{
-			if (before_sum(splited[0]) == 1) //check if var is valid
+			if (before_sum(splited[0]) == 1)
 				return (5);
 		}
 		else

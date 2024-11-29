@@ -1,23 +1,23 @@
 #include "../../includes/minishell.h"
 
-void	node_del(t_env_list *node)
-{
-	if (node)
-	{
-		free(node->name);
-		node->name = NULL;
-		free(node->value);
-		node->value = NULL;
-	}
-	free(node);
-	node = NULL;
-}
+// void	node_del(t_env_list *node)
+// {
+// 	if (node)
+// 	{
+// 		free(node->name);
+// 		node->name = NULL;
+// 		free(node->value);
+// 		node->value = NULL;
+// 	}
+// 	free(node);
+// 	node = NULL;
+// }
 
 void	ft_unset_helper(t_env_list *node, t_env_list *prev, t_env_list **list)
 {
 	if (node != NULL)
 	{
-		if (prev == NULL) //first node
+		if (prev == NULL)
 			*list = node->next;
 		else
 		{
@@ -26,11 +26,10 @@ void	ft_unset_helper(t_env_list *node, t_env_list *prev, t_env_list **list)
 			else
 				prev->next = NULL;
 		}
-		node_del(node);
 	}
 }
 
-int	ft_unset(char **argv, t_env_list **list)//more than 25line
+int	ft_unset(char **argv, t_env_list **list)
 {
 	t_env_list	*new_node;
 	t_env_list	*prev;

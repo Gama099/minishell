@@ -43,7 +43,7 @@ int	ft_exit(char **arg)
 
 	i = 1;
 	write(1, "exit\n", 6);
-	if (arg[i] == NULL) //one arg = exit
+	if (arg[i] == NULL)
 		ft_exit_helper(ft_bash()->exit_status);
 	while (arg[i])
 	{
@@ -56,5 +56,5 @@ int	ft_exit(char **arg)
 		}
 		i++;
 	}
-	return (ft_exit_helper(ft_atoi(arg[1])));//second arg = exit 10
+	return (ft_exit_helper(ft_atoi(arg[1])));
 }

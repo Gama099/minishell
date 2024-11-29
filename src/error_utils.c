@@ -23,11 +23,12 @@ void	err_msg(char *err_mesg, char *err_cmd, char *err_name)
 		perror(err_cmd);
 }
 
+// free_env(ft_bash()->list);
+// free_struct(&ft_bash()->cmd);
+
 void	clean_exit(int exit_status)
 {
 	cleanup();
-	// free_env(ft_bash()->list);
-	// free_struct(&ft_bash()->cmd);
 	exit(exit_status);
 }
 
