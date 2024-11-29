@@ -36,7 +36,7 @@ void	init_params(t_params *params, char *buffer)
 	params->to_join = 0;
 }
 
-t_tokens	*get_tokens(char *buffer)
+t_tokens	*get_tokens(char *buffer, int sing_flag)
 {
 	t_params	params;
 
@@ -50,9 +50,11 @@ t_tokens	*get_tokens(char *buffer)
 		if ((params.iter > buffer && (is_white_space(*params.iter)
 					&& *(params.iter - 1) == '\0') && !params.in_qoutes))
 			*params.iter = '\0';
-		else if (is_qoute(*params.iter) && !params.in_qoutes)
+		else if ((*params.iter == '\'') && !params.in_qoutes && !sing_flag)
 			start_qoute(&params, buffer);
-		else if ((*params.iter == ' ' && !params.in_qoutes)
+		else if ((*params.iter == '\"') && !params.in_qoutes)
+			start_qoute(&params, buffer);
+		else if ((is_white_space(*params.iter) && !params.in_qoutes)
 			&& *(params.iter - 1) != '\0')
 			reach_space(&params);
 		else if ((*params.iter == params.which_qoute) && params.in_qoutes)

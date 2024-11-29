@@ -73,9 +73,13 @@ void	write_new_token(char *new_token, char *token_str, t_env_list *env_list)
 			strcpy(write_ptr, env_list->value);
 			write_ptr += strlen(env_list->value);
 			token_str++;
-			while ((*token_str) && (!is_white_space(*token_str)
-					|| *token_str != '$'))
+			while(1)
+			{
+				if (!*token_str || is_white_space(*token_str)
+					|| *token_str == '$' || is_meta(*token_str))
+					break ;
 				token_str++;
+			}
 			env_list = env_list->next;
 		}
 		else
