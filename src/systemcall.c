@@ -30,12 +30,12 @@ int	ft_fork(void)
 
 	pid = fork();
 	if (pid == -1)
-		err_n_exit("error with fork", "fork", NULL, 1);
+		err_n_ex("error with fork", "fork", NULL, 1);
 	return (pid);
 }
 
 void	ft_close(int fd)
 {
 	if (close(fd) == -1)
-		err_n_exit("syscall failed", "close", NULL, 1);
+		err_n_ex("syscall failed", "close", NULL, 1);
 }

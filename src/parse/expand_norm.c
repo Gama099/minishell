@@ -54,7 +54,7 @@ int	count_evn_vars_len(t_env_list *list)
 	return (count);
 }
 
-void	write_new_token(char *new_token, char *token_str, t_env_list *env_list)
+void	write_n_t(char *new_token, char *token_str, t_env_list *env_list)
 {
 	char	*write_ptr;
 

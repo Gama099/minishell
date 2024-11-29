@@ -51,11 +51,11 @@ t_pipes	*pipe_call(t_command *cmd)
 
 	var = (t_pipes *)my_malloc(sizeof(t_pipes));
 	if (var == NULL)
-		err_n_exit("syscall failed", "malloc", NULL, 1);
+		err_n_ex("syscall failed", "malloc", NULL, 1);
 	var->j = counter(cmd, 1);
 	var->pid = (int *)malloc(sizeof(int) * (var->j + 1));
 	if (var->pid == NULL)
-		err_n_exit("syscall failed", "malloc", NULL, 1);
+		err_n_ex("syscall failed", "malloc", NULL, 1);
 	return (var);
 }
 
@@ -74,7 +74,7 @@ int	excution_pipe(t_command *cmd)
 		if (cmd->next != NULL)
 		{
 			if (pipe(fd) == -1)
-				err_n_exit("syscall failed", "pipe", NULL, 1);
+				err_n_ex("syscall failed", "pipe", NULL, 1);
 		}
 		var->pid[i] = pipe_helper(old_input, cmd, fd);
 		if (cmd->next != NULL)

@@ -12,7 +12,7 @@ void	create_tokens(t_tokens **token, char *str, int qoute, int to_join)
 	new_node->next = NULL;
 	new_node->qoute_type = qoute;
 	new_node->join_with_next = to_join;
-	new_node->tokenType = NULL;
+	new_node->tokentype = NULL;
 	new_node->expand_env = 0;
 	if (!*token)
 		*token = new_node;

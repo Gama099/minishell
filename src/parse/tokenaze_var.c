@@ -8,12 +8,12 @@ void typing_nodes(t_tokens *iter, t_tokens **list)
     current = *list;
     while (current && current->next)
     {
-        current->tokenType = iter->tokenType;
+        current->tokentype = iter->tokentype;
         current = current->next;
     }
     if (current)
     {
-        current->tokenType = iter->tokenType;
+        current->tokentype = iter->tokentype;
     }
 }
 

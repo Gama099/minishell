@@ -22,10 +22,10 @@ void	ambigous_helper(char *file, int is_var)
 	{
 		spl_ex_file = ft_split(ex_file, ' ');
 		if (is_var && (spl_ex_file[0] != NULL && spl_ex_file[1] != NULL))
-			err_n_exit("ambiguous redirection", NULL, file, 1);
+			err_n_ex("ambiguous redirection", NULL, file, 1);
 	}
 	else if (is_var && ex_file == NULL && ft_strlen(file) > 1)
-		err_n_exit("ambiguous redirection", NULL, file, 1);
+		err_n_ex("ambiguous redirection", NULL, file, 1);
 }
 
 int	check_path(t_command *cmd)
@@ -39,9 +39,9 @@ int	check_path(t_command *cmd)
 			clean_exit(126);
 		check = check_access(cmd->args[0]);
 		if (check == 1)
-			err_n_exit(NULL, NULL, cmd->args[0], 127);
+			err_n_ex(NULL, NULL, cmd->args[0], 127);
 		else if (check == 2)
-			err_n_exit(NULL, NULL, cmd->args[0], 126);
+			err_n_ex(NULL, NULL, cmd->args[0], 126);
 		else
 			return (3);
 	}

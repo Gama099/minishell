@@ -3,27 +3,27 @@
 void	*my_malloc(size_t size)
 {
 	void		*ptr;
-	memoryblock	*block;
+	t_memoryblock	*block;
 
 	ptr = malloc(size);
 	if (ptr == NULL)
-		err_n_exit("syscall failed", "malloc", NULL, 1);
-	block = (memoryblock*)malloc(sizeof(memoryblock));
+		err_n_ex("syscall failed", "malloc", NULL, 1);
+	block = (t_memoryblock*)malloc(sizeof(t_memoryblock));
 	if (block == NULL)
-		err_n_exit("syscall failed", "malloc", NULL, 1);
+		err_n_ex("syscall failed", "malloc", NULL, 1);
 	block->ptr = ptr;
 	block->size = size;
-	block->next = head;
-	head = block;
+	block->next = ft_bash()->head;
+	ft_bash()->head = block;
 	return (ptr);
 }
 
 void	cleanup(void)
 {
-	memoryblock	*tmp2;
-	memoryblock	*tmp;
+	t_memoryblock	*tmp2;
+	t_memoryblock	*tmp;
 
-	tmp = head;
+	tmp = ft_bash()->head;
 	while (tmp != NULL)
 	{
 		tmp2 = tmp;
@@ -34,5 +34,5 @@ void	cleanup(void)
 		tmp2 = NULL;
 	}
 	tmp = NULL;
-	head = NULL;
+	ft_bash()->head = NULL;
 }

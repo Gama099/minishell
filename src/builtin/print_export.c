@@ -46,7 +46,7 @@ t_env_list	*copylist(t_env_list *head)
 	{
 		node = malloc(sizeof(t_env_list));
 		if (node == NULL)
-			err_n_exit("syscall failed", "malloc", NULL, 1);
+			err_n_ex("syscall failed", "malloc", NULL, 1);
 		node->name = ft_strdup(head->name);
 		node->value = ft_strdup(head->value);
 		node->type = head->type;

@@ -20,7 +20,7 @@ char	*expand_herdoc(char *str)
 	t_tokens	*tokens;
 
 	tmp = NULL;
-	tokens = get_tokens(str, 0, 0);
+	tokens = get_tokens(str, 0);
 	expand_varibles(&tokens);
 	while (tokens != NULL)
 	{

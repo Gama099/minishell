@@ -104,15 +104,15 @@ t_command	*to_strcuct(t_tokens *tokens)
 	command_list = command;
 	while (tokens)
 	{
-		if ((!ft_strcmps(tokens->tokenType, "command"))
-			|| (!ft_strcmps(tokens->tokenType, "argurment")))
+		if ((!ft_strcmps(tokens->tokentype, "command"))
+			|| (!ft_strcmps(tokens->tokentype, "argurment")))
 			set_as_command(command, tokens->token);
-		else if (!ft_strcmps(tokens->tokenType, "pipe"))
+		else if (!ft_strcmps(tokens->tokentype, "pipe"))
 			add_another_one(&command);
-		else if ((!ft_strcmps(tokens->tokenType, "input"))
-			|| (!ft_strcmps(tokens->tokenType, "output"))
-			|| (!ft_strcmps(tokens->tokenType, "appaned"))
-			|| (!ft_strcmps(tokens->tokenType, "herdoc")))
+		else if ((!ft_strcmps(tokens->tokentype, "input"))
+			|| (!ft_strcmps(tokens->tokentype, "output"))
+			|| (!ft_strcmps(tokens->tokentype, "appaned"))
+			|| (!ft_strcmps(tokens->tokentype, "herdoc")))
 			handle_rediration(command, &tokens);
 		tokens = tokens->next;
 	}

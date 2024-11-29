@@ -12,12 +12,12 @@ int ft_strcmps(const char *s1, const char *s2)
     return ((unsigned char)(*s1) - (unsigned char)(*s2));
 }
 
-int	is_special_operator(char *tokenType)
+int	is_special_operator(char *tokentype)
 {
-    return (!ft_strcmps(tokenType, "output") ||
-            !ft_strcmps(tokenType, "input") ||
-            !ft_strcmps(tokenType, "appaned") ||
-            !ft_strcmps(tokenType, "herdoc"));
+    return (!ft_strcmps(tokentype, "output") ||
+            !ft_strcmps(tokentype, "input") ||
+            !ft_strcmps(tokentype, "appaned") ||
+            !ft_strcmps(tokentype, "herdoc"));
 }
 
 int	is_operator(char *token)
@@ -38,15 +38,15 @@ int	handle_syntax_errors(t_tokens *tokens)
 	start = tokens;
 	while (tokens)
 	{
-		if (tokens == start && !ft_strcmps(tokens->tokenType, "pipe"))
+		if (tokens == start && !ft_strcmps(tokens->tokentype, "pipe"))
 		{
 			ft_putstr_fd("syntax error near unexpected token ", 2);
 			ft_putendl_fd(tokens->token, 2);
 			return (2);
 		}
-		else if (!tokens->next && is_special_operator(tokens->tokenType))
+		else if (!tokens->next && is_special_operator(tokens->tokentype))
 			return (err_msg("syntax error near unexpected token`newline' ", NULL, NULL), 2);
-		else if (is_special_operator(tokens->tokenType) && is_special_operator(tokens->next->tokenType))
+		else if (is_special_operator(tokens->tokentype) && is_special_operator(tokens->next->tokentype))
 		{
 			ft_putstr_fd("syntax error near unexpected token ", 2);
 			ft_putendl_fd(tokens->next->token, 2);

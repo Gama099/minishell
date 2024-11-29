@@ -32,7 +32,7 @@ void	clean_exit(int exit_status)
 	exit(exit_status);
 }
 
-void	err_n_exit(char *err_mesg, char *err_cmd, char *err_name, int status)
+void	err_n_ex(char *err_mesg, char *err_cmd, char *err_name, int status)
 {
 	err_msg(err_mesg, err_cmd, err_name);
 	clean_exit(status);

@@ -12,23 +12,22 @@
 # include <sys/stat.h>
 # include <signal.h>
 
+typedef struct s_memoryblock
+{
+	void				*ptr;
+	size_t				size;
+	struct s_memoryblock	*next;
+}	t_memoryblock;
 
-typedef struct memoryblock {
-    void* ptr;
-    size_t size;
-    struct memoryblock* next;
-} memoryblock;
-
-extern memoryblock *head;
 typedef struct s_tokens
 {
 	char			*token;
-	char			*tokenType;
+	char			*tokentype;
 	int				qoute_type;
 	int				join_with_next;
 	int				expand_env;
 	struct s_tokens	*next;
-} t_tokens;
+}	t_tokens;
 
 typedef struct s_env_var
 {
@@ -46,7 +45,7 @@ typedef struct s_listo
 
 typedef struct s_file
 {
-	int				flag; // 0 = no qoutes, 1 = ' , 2 = ""
+	int				flag;
 	char			*name;
 	char			*redirec;
 	int				fd[2];
@@ -76,13 +75,14 @@ typedef struct s_env_list
 
 typedef struct s_bash
 {
-	char		**env;
-	t_env_list	*list;
-	t_command	cmd;
-	t_files		*files;
-	int			fd_stdin;
-	int			fd_stdout;
-	int			exit_status;
+	t_memoryblock	*head;
+	char			**env;
+	t_env_list		*list;
+	t_command		cmd;
+	t_files			*files;
+	int				fd_stdin;
+	int				fd_stdout;
+	int				exit_status;
 }	t_bash;
 
 typedef struct s_params
@@ -93,8 +93,7 @@ typedef struct s_params
 	char		*token_begin;
 	t_tokens	*tokens;
 	int			to_join;
-} t_params;
-
+}	t_params;
 
 //parser
 void		cleanup(void);
@@ -106,7 +105,7 @@ void		hanlde_red(t_tokens **current, char *type);
 void		parser(t_tokens **list);
 t_tokens	*create_node_join(t_tokens *token_a, t_tokens *token_b);
 int			free_token(t_tokens **token, t_tokens **iter, t_tokens **prev);
-void		handle_join_with_next(t_tokens **token, t_tokens **iter, t_tokens **prev);
+void		handle_j_with_n(t_tokens **token, t_tokens **iter, t_tokens **prev);
 int			is_meta(char c);
 int			is_qoute(char c);
 void		create_tokens(t_tokens **token, char *str, int qoute, int to_join);
@@ -119,13 +118,13 @@ void		reach_operator_b(t_params *params);
 void		reach_operator(t_params *params);
 void		reach_dollar(t_params *params, char *buffer);
 t_tokens	*get_tokens(char *buffer, int sing_flag);
-char 		*ft_getenv(char *token);
+char		*ft_getenv(char *token);
 void		creat_list(t_env_list **list, char *token);
-int 		count_evn_vars_len(t_env_list *list);
-void 		write_new_token(char *new_token, char *token_str, t_env_list *env_list);
-int 		get_env_len(char *env_var_start, t_env_list **env_list);
-void 		creat_list_state(t_env_list **list);
-void 		get_new_token_a(char **token_iter, t_env_list **env_list, int *token_len);
+int			count_evn_vars_len(t_env_list *list);
+void		write_n_t(char *new_token, char *token_str, t_env_list *env_list);
+int			get_env_len(char *env_var_start, t_env_list **env_list);
+void		creat_list_state(t_env_list **list);
+void		get_n_t_a(char **token_iter, t_env_list **env_list, int *token_len);
 void		update_token(t_tokens *iter);
 int			ft_strcmps(const char *s1, const char *s2);
 int			is_operator(char *token);
@@ -138,14 +137,14 @@ void		trim_spaces(char **buffer);
 int			is_white_space(char charac);
 char		*replace_var(char *token);
 void		expand_varibles(t_tokens **token);
-void		my_free(void* ptr);
+void		my_free(void *ptr);
 void		*my_malloc(size_t	size);
 t_command	*to_strcuct(t_tokens *tokens);
 void		join_token_syblings(t_tokens **token);
 char		*get_new_token(char *token_str);
-void    	clean_list_spaces(t_tokens **token);
-int	handle_syntax_errors(t_tokens *tokens);
-char	*ft_strcpy(char *dest, char *src);
+void		clean_list_spaces(t_tokens **token);
+int			handle_syntax_errors(t_tokens *tokens);
+char		*ft_strcpy(char *dest, char *src);
 //parser
 
 // builtins
@@ -226,7 +225,7 @@ void		revert_stdfd(void);
 
 //errors
 void		clean_exit(int exit_status);
-void		err_n_exit(char *err_mesg, char *err_cmd, char *err_name, int status);
+void		err_n_ex(char *err_mesg, char *err_cmd, char *err_name, int status);
 void		err_msg(char *err_mesg, char *err_cmd, char *err_name);
 //errors
 

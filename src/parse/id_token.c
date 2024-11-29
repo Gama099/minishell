@@ -14,11 +14,11 @@ int	is_spaces(char *str)
 
 void	hanlde_red(t_tokens **current, char *type)
 {
-	(*current)->tokenType = type;
+	(*current)->tokentype = type;
 	if ((*current)->next && !is_operator((*current)->next->token))
 	{
 		*current = (*current)->next;
-		(*current)->tokenType = "file";
+		(*current)->tokentype = "file";
 	}
 }
 
@@ -30,10 +30,10 @@ void	parser(t_tokens **list)
 	while (current)
 	{
 		if (current == *list && (checkcommand(current->token)))
-			current->tokenType = "command";
+			current->tokentype = "command";
 		else if (!ft_strcmps(current->token, "|") && !current->qoute_type)
 		{
-			current->tokenType = "pipe";
+			current->tokentype = "pipe";
 			parser(&current->next);
 			return ;
 		}
@@ -46,7 +46,7 @@ void	parser(t_tokens **list)
 		else if (!ft_strcmps(current->token, "<<") && !current->qoute_type)
 			hanlde_red(&current, ft_strdup("herdoc"));
 		else
-			current->tokenType = "argurment";
+			current->tokentype = "argurment";
 		current = current->next;
 	}
 }

@@ -20,7 +20,7 @@ void creat_list_state(t_env_list **list)
     }
 }
 
-void get_new_token_a(char **token_iter, t_env_list **env_list, int *token_len)
+void get_n_t_a(char **token_iter, t_env_list **env_list, int *token_len)
 {
     if (**token_iter == '$' && *(*token_iter + 1) == '?')
     {
@@ -58,12 +58,12 @@ char *get_new_token(char *token_str)
     token_iter = token_str;
     count_token_len = 0;
     while (*token_iter)
-		get_new_token_a(&token_iter, &env_list, &count_token_len);
+		get_n_t_a(&token_iter, &env_list, &count_token_len);
     if (!env_list)
 			return NULL;
     env_vars_len = count_evn_vars_len(env_list);
      new_token = (char *)my_malloc(count_token_len + env_vars_len + 1);
-    write_new_token(new_token, token_str, env_list);
+    write_n_t(new_token, token_str, env_list);
     return new_token;
 }
 
@@ -75,7 +75,6 @@ void	update_token(t_tokens *iter)
     if (token_holder != NULL)
     {
         iter->expand_env = 1;
-        free(iter->token);
         iter->token = token_holder;
     }
 }

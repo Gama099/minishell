@@ -32,14 +32,14 @@ int	check_file_b_child(char *filename, int mode, int flag)
 			return (1);
 		if (access(filename, F_OK) != -1 && access(filename, W_OK) == -1)
 		{
-			err_n_exit(NULL, NULL, filename, 1);
+			err_n_ex(NULL, NULL, filename, 1);
 			return (1);
 		}
 		return (0);
 	}
 	if (access(filename, R_OK) == -1)
 	{
-		err_n_exit(NULL, NULL, filename, 1);
+		err_n_ex(NULL, NULL, filename, 1);
 		return (1);
 	}
 	return (0);
@@ -50,12 +50,11 @@ int	redirect_in_file_b_child(char *filename, int flag)
 	int	fd;
 
 	fd = -1;
-
 	if (check_file_b_child(filename, 0, flag))
 		return (1);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		err_n_exit("No such file or directory", NULL, filename, 1);
+		err_n_ex("No such file or directory", NULL, filename, 1);
 	ft_dup(fd, STDIN_FILENO);
 	return (0);
 }
@@ -73,7 +72,7 @@ int	redirect_out_b_child(char *filename, int append, int flag)
 		else
 			fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (fd == -1)
-			err_n_exit("No such file or directory", NULL, filename, 1);
+			err_n_ex("No such file or directory", NULL, filename, 1);
 		ft_dup(fd, STDOUT_FILENO);
 	}
 	else

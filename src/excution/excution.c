@@ -38,7 +38,7 @@ int	one_cmd(t_command *cmd, int input, int *pipe)
 		child_builtin_helper(cmd, input, pipe);
 		command = get_redarct(cmd, pipe, input);
 		if (command == NULL)
-			err_n_exit("No such file or directory", NULL, cmd->args[0], 127);
+			err_n_ex("No such file or directory", NULL, cmd->args[0], 127);
 		env = env_to_ary(ft_bash()->list);
 		status = execve(command, cmd->args, env);
 		if (status == -1)

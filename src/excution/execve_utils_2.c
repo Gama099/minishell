@@ -27,7 +27,7 @@ int	red_counter(t_command	*cmd)
 			if (!ft_strncmp(cmd->files->redirec, "<<", INT_MAX))
 			{
 				if (pipe(cmd->files->fd) == -1)
-					err_n_exit("syscall failed", "pipe", NULL, 1);
+					err_n_ex("syscall failed", "pipe", NULL, 1);
 				i++;
 			}
 			cmd->files = cmd->files->next;

@@ -8,7 +8,7 @@ t_tokens	*create_node_join(t_tokens *token_a, t_tokens *token_b)
 		return (NULL);
 	new_node = (t_tokens *)my_malloc(sizeof(t_tokens));
 	new_node->token = ft_strjoin(token_a->token, token_b->token);
-	new_node->tokenType = NULL;
+	new_node->tokentype = NULL;
 	new_node->qoute_type = 0;
 	new_node->join_with_next = token_b->join_with_next;
 	new_node->expand_env = token_b->expand_env;
@@ -28,7 +28,7 @@ int	free_token(t_tokens **token, t_tokens **iter, t_tokens **prev)
 	return (0);
 }
 
-void	handle_join_with_next(t_tokens **token, t_tokens **iter, t_tokens **prev)
+void	handle_j_with_n(t_tokens **token, t_tokens **iter, t_tokens **prev)
 {
 	t_tokens	*merged_nodes;
 	//t_tokens	*garb_node;
@@ -65,7 +65,7 @@ void	join_token_syblings(t_tokens **token)
 				break ;
 		}
 		else if (iter->join_with_next)
-			handle_join_with_next(token, &iter, &prev);
+			handle_j_with_n(token, &iter, &prev);
 		else
 		{
 			prev = iter;

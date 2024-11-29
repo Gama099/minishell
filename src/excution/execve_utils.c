@@ -11,7 +11,7 @@ int	dot_only(char *cmd)
 			return (1);
 		i++;
 	}
-	err_n_exit("command not found", NULL, cmd, 127);
+	err_n_ex("command not found", NULL, cmd, 127);
 	return (0);
 }
 
@@ -42,9 +42,9 @@ char	*get_path(void)
 void	check_exit(int check, char *cmd)
 {
 	if (check == 1)
-		err_n_exit("command not found", NULL, cmd, 127);
+		err_n_ex("command not found", NULL, cmd, 127);
 	else if (check == 2)
-		err_n_exit("permission denied", NULL, cmd, 126);
+		err_n_ex("permission denied", NULL, cmd, 126);
 }
 
 char	*find_path(char *cmd)

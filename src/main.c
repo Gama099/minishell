@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-memoryblock *head = NULL;
+t_memoryblock *head = NULL;
 
 t_bash	*ft_bash(void)
 {
