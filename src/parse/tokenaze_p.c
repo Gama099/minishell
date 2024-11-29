@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenaze_p.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sel-hadd <sel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 22:50:46 by sel-hadd          #+#    #+#             */
+/*   Updated: 2024/11/30 00:13:14 by sel-hadd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	close_qoute(t_params *params)
@@ -17,13 +29,6 @@ void	close_qoute(t_params *params)
 	while (is_white_space(*params->token_begin))
 		params->token_begin++;
 	params->in_qoutes = 0;
-}
-
-void	reach_operator_a(t_params *params, char tmp)
-{
-	*params->iter = '\0';
-	create_tokens(&params->tokens, params->token_begin, 0, 0);
-	*params->iter = tmp;
 }
 
 void	reach_operator_b(t_params *params)

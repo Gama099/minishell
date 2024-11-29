@@ -1,39 +1,63 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax_error.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sel-hadd <sel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 23:43:58 by sel-hadd          #+#    #+#             */
+/*   Updated: 2024/11/30 00:09:35 by sel-hadd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-int ft_strcmps(const char *s1, const char *s2)
+int	check_last_token_is_pipe(t_tokens *tokens)
 {
-	while (*s1 && *s2)
+	if (!tokens->next && !ft_strcmps(tokens->tokentype, "pipe"))
 	{
-        if (*s1 != *s2)
-			return (unsigned char)(*s1) - (unsigned char)(*s2);
-        s1++;
-        s2++;
-    }
-    return ((unsigned char)(*s1) - (unsigned char)(*s2));
+		ft_putstr_fd("syntax error near unexpected token ", 2);
+		ft_putendl_fd(tokens->token, 2);
+		return (2);
+	}
+	return (0);
 }
 
-int	is_special_operator(char *tokentype)
+int	check_special_operator_is_last(t_tokens *tokens)
 {
-    return (!ft_strcmps(tokentype, "output") ||
-            !ft_strcmps(tokentype, "input") ||
-            !ft_strcmps(tokentype, "appaned") ||
-            !ft_strcmps(tokentype, "herdoc"));
-}
-int	is_special_red(char *tokentype)
-{
-    return (!ft_strcmps(tokentype, "output") ||
-            !ft_strcmps(tokentype, "input") ||
-            !ft_strcmps(tokentype, "appaned") ||
-            !ft_strcmps(tokentype, "herdoc"));
+	if (!tokens->next && is_special_operator(tokens->tokentype))
+	{
+		return (err_msg("syntax error near unexpected token `newline' ",
+				NULL, NULL), 2);
+	}
+	return (0);
 }
 
-int	is_operator(char *token)
+int	check_pipe_follows_special_or_pipe(t_tokens *tokens, t_tokens *prev)
 {
-    return (!ft_strcmps(token, "|") ||
-            !ft_strcmps(token, ">") ||
-            !ft_strcmps(token, "<") ||
-            !ft_strcmps(token, ">>") ||
-            !ft_strcmps(token, "<<"));
+	if (!ft_strcmps(tokens->tokentype, "pipe"))
+	{
+		if (prev && (is_special_red(prev->tokentype)
+				|| !ft_strcmps(prev->tokentype, "pipe")))
+		{
+			ft_putstr_fd("syntax error near unexpected token ", 2);
+			ft_putendl_fd(tokens->token, 2);
+			return (2);
+		}
+	}
+	return (0);
+}
+
+int	check_special_operators_adjacent(t_tokens *tokens)
+{
+	if (is_special_operator(tokens->tokentype)
+		&& is_special_operator(tokens->next->tokentype))
+	{
+		ft_putstr_fd("syntax error near unexpected token ", 2);
+		ft_putendl_fd(tokens->next->token, 2);
+		return (2);
+	}
+	return (0);
 }
 
 int	handle_syntax_errors(t_tokens *tokens)
@@ -47,39 +71,16 @@ int	handle_syntax_errors(t_tokens *tokens)
 	start = tokens;
 	while (tokens)
 	{
-		//pipe in as first token
-		if (tokens == start && !ft_strcmps(tokens->tokentype, "pipe"))
-		{
-			ft_putstr_fd("syntax error near unexpected token ", 2);
-			ft_putendl_fd(tokens->token, 2);
+		if (check_first_token_is_pipe(tokens) == 2)
 			return (2);
-		}
-		// last is pipe
-		else if (!tokens->next && !ft_strcmps(tokens->tokentype, "pipe"))
-		{
-			ft_putstr_fd("syntax error near unexpected token ", 2);
-			ft_putendl_fd(tokens->token, 2);
+		if (check_last_token_is_pipe(tokens) == 2)
 			return (2);
-		}
-		//last node if it was opertator
-		else if (!tokens->next && is_special_operator(tokens->tokentype))
-			return (err_msg("syntax error near unexpected token`newline' ", NULL, NULL), 2);
-		// {   < |   }
-		else if (!ft_strcmps(tokens->tokentype, "pipe"))
-		{
-			if (prev && (is_special_red(prev->tokentype) || !ft_strcmps(prev->tokentype, "pipe")))
-			{
-				ft_putstr_fd("syntax error near unexpected token ", 2);
-				ft_putendl_fd(tokens->token, 2);
-				return (2);
-			}
-		}
-		else if (is_special_operator(tokens->tokentype) && is_special_operator(tokens->next->tokentype))
-		{
-			ft_putstr_fd("syntax error near unexpected token ", 2);
-			ft_putendl_fd(tokens->next->token, 2);
+		if (check_special_operator_is_last(tokens) == 2)
 			return (2);
-		}
+		if (check_pipe_follows_special_or_pipe(tokens, prev) == 2)
+			return (2);
+		if (check_special_operators_adjacent(tokens) == 2)
+			return (2);
 		prev = tokens;
 		tokens = tokens->next;
 	}

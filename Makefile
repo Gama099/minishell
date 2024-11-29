@@ -50,6 +50,8 @@ SRC =	src/main.c \
 		src/parse/tokenaze_pp.c \
 		src/parse/tokenaze_var.c \
 		src/parse/mem.c \
+		src/parse/to_strcut_p.c \
+		src/parse/syntax_error_p.c \
 
 OBJECT = $(SRC:.c=.o)
 

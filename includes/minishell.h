@@ -145,6 +145,15 @@ char		*get_new_token(char *token_str);
 void		clean_list_spaces(t_tokens **token);
 int			handle_syntax_errors(t_tokens *tokens);
 char		*ft_strcpy(char *dest, char *src);
+void		initialize_argumants(t_command *command, char *arg);
+void		handle_rediration(t_command *command, t_tokens **tokens);
+t_command	*init_cmd_node(void);
+int			ft_strcmps(const char *s1, const char *s2);
+int			is_special_operator(char *tokentype);
+int			is_special_red(char *tokentype);
+int			is_operator(char *token);
+int			check_first_token_is_pipe(t_tokens *tokens);
+void		handle_dlr(char **w_ptr, char **str, t_env_list **ev_list);
 //parser
 
 // builtins

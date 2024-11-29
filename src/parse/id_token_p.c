@@ -1,4 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   id_token_p.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sel-hadd <sel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 22:26:31 by sel-hadd          #+#    #+#             */
+/*   Updated: 2024/11/30 00:22:21 by sel-hadd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
+
+char	*ft_getenv(char *token)
+{
+	t_env_list	*iter;
+
+	iter = ft_bash()->list;
+	while (iter)
+	{
+		if (!ft_strcmps(iter->name, token))
+			return (iter->value);
+		iter = iter->next;
+	}
+	return (NULL);
+}
 
 int	is_word(char *token)
 {

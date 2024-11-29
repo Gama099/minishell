@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mem.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sel-hadd <sel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 22:28:57 by sel-hadd          #+#    #+#             */
+/*   Updated: 2024/11/29 22:28:59 by sel-hadd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	*my_malloc(size_t size)
 {
-	void		*ptr;
+	void			*ptr;
 	t_memoryblock	*block;
 
 	ptr = malloc(size);
 	if (ptr == NULL)
 		err_n_ex("syscall failed", "malloc", NULL, 1);
-	block = (t_memoryblock*)malloc(sizeof(t_memoryblock));
+	block = (t_memoryblock *)malloc(sizeof(t_memoryblock));
 	if (block == NULL)
 		err_n_ex("syscall failed", "malloc", NULL, 1);
 	block->ptr = ptr;

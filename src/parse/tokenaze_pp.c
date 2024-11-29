@@ -1,16 +1,16 @@
-#include "../../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenaze_pp.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sel-hadd <sel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 22:54:04 by sel-hadd          #+#    #+#             */
+/*   Updated: 2024/11/30 00:13:31 by sel-hadd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char	*ft_strcpy(char *dest, char *src)
-{
-    while (*src != '\0')
-	{
-        *dest = *src;
-        dest++;
-        src++;
-    }
-    *dest = '\0';
-    return (dest);
-}
+#include "../../includes/minishell.h"
 
 int	is_meta(char c)
 {
@@ -41,4 +41,11 @@ void	reach_space(t_params *params)
 		return ;
 	while (is_white_space(*params->token_begin))
 		params->token_begin++;
+}
+
+void	reach_operator_a(t_params *params, char tmp)
+{
+	*params->iter = '\0';
+	create_tokens(&params->tokens, params->token_begin, 0, 0);
+	*params->iter = tmp;
 }

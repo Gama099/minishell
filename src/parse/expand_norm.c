@@ -1,18 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_norm.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sel-hadd <sel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 22:14:49 by sel-hadd          #+#    #+#             */
+/*   Updated: 2024/11/30 00:22:09 by sel-hadd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
-
-char	*ft_getenv(char *token)
-{
-	t_env_list	*iter;
-
-	iter = ft_bash()->list;
-	while (iter)
-	{
-		if (!ft_strcmps(iter->name, token))
-			return (iter->value);
-		iter = iter->next;
-	}
-	return (NULL);
-}
 
 void	creat_list(t_env_list **list, char *token)
 {
@@ -54,6 +52,14 @@ int	count_evn_vars_len(t_env_list *list)
 	return (count);
 }
 
+void	handle_dlr(char **w_ptr, char **str, t_env_list **ev_list)
+{
+	ft_strcpy(*w_ptr, (*ev_list)->value);
+	*w_ptr += ft_strlen((*ev_list)->value);
+	*str += 2;
+	*ev_list = (*ev_list)->next;
+}
+
 void	write_n_t(char *new_token, char *token_str, t_env_list *env_list)
 {
 	char	*write_ptr;
@@ -62,18 +68,13 @@ void	write_n_t(char *new_token, char *token_str, t_env_list *env_list)
 	while (*token_str)
 	{
 		if (*token_str == '$' && *(token_str + 1) == '?')
-        {
-            ft_strcpy(write_ptr, env_list->value);
-            write_ptr += strlen(env_list->value);
-            token_str += 2;
-			env_list = env_list->next;
-        }
+			handle_dlr(&write_ptr, &token_str, &env_list);
 		else if (*token_str == '$' && env_list)
 		{
 			ft_strcpy(write_ptr, env_list->value);
-			write_ptr += strlen(env_list->value);
+			write_ptr += ft_strlen(env_list->value);
 			token_str++;
-			while(1)
+			while (1)
 			{
 				if (!*token_str || is_white_space(*token_str)
 					|| *token_str == '$' || is_meta(*token_str))

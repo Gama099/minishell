@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenaze.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sel-hadd <sel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 23:38:48 by sel-hadd          #+#    #+#             */
+/*   Updated: 2024/11/30 00:43:56 by sel-hadd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	create_tokens(t_tokens **token, char *str, int qoute, int to_join)
@@ -69,4 +81,3 @@ t_tokens	*get_tokens(char *buffer, int sing_flag)
 		create_tokens(&params.tokens, params.token_begin, 0, 0);
 	return (params.tokens);
 }
-

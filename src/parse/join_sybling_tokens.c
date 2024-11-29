@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   join_sybling_tokens.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sel-hadd <sel-hadd@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 22:27:44 by sel-hadd          #+#    #+#             */
+/*   Updated: 2024/11/29 22:27:47 by sel-hadd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 t_tokens	*create_node_join(t_tokens *token_a, t_tokens *token_b)
@@ -31,12 +43,10 @@ int	free_token(t_tokens **token, t_tokens **iter, t_tokens **prev)
 void	handle_j_with_n(t_tokens **token, t_tokens **iter, t_tokens **prev)
 {
 	t_tokens	*merged_nodes;
-	//t_tokens	*garb_node;
 
 	merged_nodes = create_node_join(*iter, (*iter)->next);
 	if (!merged_nodes)
 		return ;
-
 	*iter = (*iter)->next;
 	if (*prev)
 		(*prev)->next = merged_nodes;
