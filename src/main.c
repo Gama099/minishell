@@ -55,17 +55,13 @@ t_command	*parsing_process(void)
 		join_token_syblings(&tokens);
 		parser(&tokens);
 		tokenaze_var(&tokens);
-		status = handle_syntax_errors(tokens);
-		if (status == 0)
-		{
-			cmd = to_strcuct(tokens);
-			return (cmd);
-		}
+		if (handle_syntax_errors(tokens) == 0)
+			return (to_strcuct(tokens));
 		else
-			init_status(status);
+			init_status(2);
 	}
 	else
-		init_status(status);
+		init_status(1);
 	return (NULL);
 }
 

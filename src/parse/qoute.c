@@ -22,6 +22,6 @@ int is_qoute_valid(char *buffer)
         buffer++;
     }
 	if (in_qoute)
-		return (err_msg("enter valid quotes",NULL, NULL), in_qoute);
+		return (err_msg("enter valid quotes",NULL, NULL), 1);
 	return (0);
 }
