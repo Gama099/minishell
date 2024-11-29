@@ -63,14 +63,14 @@ void	write_new_token(char *new_token, char *token_str, t_env_list *env_list)
 	{
 		if (*token_str == '$' && *(token_str + 1) == '?')
         {
-            strcpy(write_ptr, env_list->value);
+            ft_strcpy(write_ptr, env_list->value);
             write_ptr += strlen(env_list->value);
             token_str += 2;
 			env_list = env_list->next;
         }
 		else if (*token_str == '$' && env_list)
 		{
-			strcpy(write_ptr, env_list->value);
+			ft_strcpy(write_ptr, env_list->value);
 			write_ptr += strlen(env_list->value);
 			token_str++;
 			while(1)

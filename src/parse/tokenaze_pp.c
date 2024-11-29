@@ -1,5 +1,17 @@
 #include "../../includes/minishell.h"
 
+char	*ft_strcpy(char *dest, char *src)
+{
+    while (*src != '\0')
+	{
+        *dest = *src;
+        dest++;
+        src++;
+    }
+    *dest = '\0';
+    return (dest);
+}
+
 int	is_meta(char c)
 {
 	return (c == '>' || c == '<' || c == '|' );

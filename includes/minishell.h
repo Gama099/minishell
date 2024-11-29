@@ -118,7 +118,7 @@ void		reach_operator_a(t_params *params, char tmp);
 void		reach_operator_b(t_params *params);
 void		reach_operator(t_params *params);
 void		reach_dollar(t_params *params, char *buffer);
-t_tokens	*get_tokens(char *buffer, int sing_flag);
+t_tokens	*get_tokens(char *buffer, int sing_flag, int dbl);
 char 		*ft_getenv(char *token);
 void		creat_list(t_env_list **list, char *token);
 int 		count_evn_vars_len(t_env_list *list);
@@ -145,6 +145,7 @@ void		join_token_syblings(t_tokens **token);
 char		*get_new_token(char *token_str);
 void    	clean_list_spaces(t_tokens **token);
 int	handle_syntax_errors(t_tokens *tokens);
+char	*ft_strcpy(char *dest, char *src);
 //parser
 
 // builtins
