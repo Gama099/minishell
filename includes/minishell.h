@@ -118,7 +118,7 @@ void		reach_operator_a(t_params *params, char tmp);
 void		reach_operator_b(t_params *params);
 void		reach_operator(t_params *params);
 void		reach_dollar(t_params *params, char *buffer);
-t_tokens	*get_tokens(char *buffer, int sing_flag, int dbl);
+t_tokens	*get_tokens(char *buffer, int sing_flag);
 char 		*ft_getenv(char *token);
 void		creat_list(t_env_list **list, char *token);
 int 		count_evn_vars_len(t_env_list *list);
@@ -170,6 +170,7 @@ t_env_list	*check_if_exit(t_env_list *list, char *str, int mode);
 //builtins
 
 //excution
+char		*expand_herdoc(char *str);
 int			spaces(t_command *cmd);
 int			excution_parse(t_command *cmd);
 int			excution_status(int status);
@@ -192,6 +193,7 @@ int			check_access(char *path);
 //excution
 
 //string_utils
+char		*ft_strrchr(const char *s, int c);
 char		*ft_substr_h(char *s, int start, int end);
 int			ft_strlen(const char *str);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);

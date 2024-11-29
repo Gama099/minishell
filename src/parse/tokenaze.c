@@ -36,7 +36,7 @@ void	init_params(t_params *params, char *buffer)
 	params->to_join = 0;
 }
 
-t_tokens	*get_tokens(char *buffer, int sing_flag, int dbl)
+t_tokens	*get_tokens(char *buffer, int sing_flag)
 {
 	t_params	params;
 
@@ -52,21 +52,15 @@ t_tokens	*get_tokens(char *buffer, int sing_flag, int dbl)
 			*params.iter = '\0';
 		else if ((*params.iter == '\'') && !params.in_qoutes && !sing_flag)
 			start_qoute(&params, buffer);
-		else if ((*params.iter == '\"') && !params.in_qoutes && !dbl)
+		else if ((*params.iter == '\"') && !params.in_qoutes)
 			start_qoute(&params, buffer);
 		else if ((is_white_space(*params.iter) && !params.in_qoutes)
 			&& *(params.iter - 1) != '\0')
-		{
 			reach_space(&params);
-			dbl = 0;
-		}
 		else if ((*params.iter == params.which_qoute) && params.in_qoutes)
 			close_qoute(&params);
 		else if (is_meta(*params.iter) && !params.in_qoutes)
-		{
 			reach_operator(&params);
-			dbl = 1;
-		}
 		else if (*params.iter == '$' && !params.in_qoutes)
 			reach_dollar(&params, buffer);
 		params.iter++;

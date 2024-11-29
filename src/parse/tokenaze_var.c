@@ -42,7 +42,7 @@ void tokenaze_var(t_tokens **tokens)
 			return ;
 		if (iter->expand_env && iter->qoute_type == 0)
 		{
-			tmp_holder = get_tokens(iter->token, 1, 0);
+			tmp_holder = get_tokens(iter->token, 1);
 			typing_nodes(iter, &tmp_holder);
 			last = last_token(tmp_holder);
 			to_free = iter;

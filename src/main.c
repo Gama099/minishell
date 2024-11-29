@@ -50,7 +50,7 @@ t_command	*parsing_process(void)
 	buffer = prompt();
 	if (is_qoute_valid(buffer) == 0)
 	{
-		tokens = get_tokens(buffer, 0, 0);
+		tokens = get_tokens(buffer, 0);
 		expand_varibles(&tokens);
 		join_token_syblings(&tokens);
 		parser(&tokens);

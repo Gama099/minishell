@@ -12,7 +12,7 @@ char	*expand_name(char *file)
 	return (str);
 }
 
-void	ambigous_helper(char	*file, int is_var)
+void	ambigous_helper(char *file, int is_var)
 {
 	char	*ex_file;
 	char	**spl_ex_file;

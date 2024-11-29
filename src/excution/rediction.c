@@ -50,6 +50,7 @@ int	redirect_in_file_b_child(char *filename, int flag)
 	int	fd;
 
 	fd = -1;
+
 	if (check_file_b_child(filename, 0, flag))
 		return (1);
 	fd = open(filename, O_RDONLY);

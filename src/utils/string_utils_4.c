@@ -25,7 +25,8 @@ char	*expand_herdoc(char *str)
 	while (tokens != NULL)
 	{
 		tmp = ft_strjoin(tmp, tokens->token);
-		tmp = ft_strjoin(tmp, " ");
+		if (tokens->token != NULL)
+			tmp = ft_strjoin(tmp, " ");
 		tokens = tokens->next;
 	}
 	return (tmp);
