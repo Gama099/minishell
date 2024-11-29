@@ -1,6 +1,5 @@
 #include "../../includes/minishell.h"
 
-
 void typing_nodes(t_tokens *iter, t_tokens **list)
 {
     t_tokens *current;
@@ -16,8 +15,6 @@ void typing_nodes(t_tokens *iter, t_tokens **list)
         current->tokentype = iter->tokentype;
     }
 }
-
-
 
 t_tokens	*last_token(t_tokens *tokens)
 {
