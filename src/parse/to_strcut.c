@@ -24,13 +24,13 @@ void	handle_rediration(t_command *command, t_tokens **tokens)
 	if (command->files->name != NULL)
 	{
 		new_file = malloc(sizeof(t_files));
-		return ;
-		new_file->fd[0] = -1;
-		new_file->fd[1] = -1;
+		if (new_file == NULL)
+			return ;
 		while (current->next)
 			current = current->next;
 		current->next = new_file;
 		current = new_file;
+		new_file->next = NULL;
 	}
 	current->redirec = ft_strdup((*tokens)->token);
 		(*tokens) = (*tokens)->next;
