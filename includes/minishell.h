@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: echoubby <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/30 01:15:12 by echoubby          #+#    #+#             */
+/*   Updated: 2024/11/30 01:15:14 by echoubby         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include <unistd.h>
@@ -14,8 +26,8 @@
 
 typedef struct s_memoryblock
 {
-	void				*ptr;
-	size_t				size;
+	void					*ptr;
+	size_t					size;
 	struct s_memoryblock	*next;
 }	t_memoryblock;
 
@@ -150,7 +162,6 @@ void		handle_rediration(t_command *command, t_tokens **tokens);
 t_command	*init_cmd_node(void);
 int			ft_strcmps(const char *s1, const char *s2);
 int			is_special_operator(char *tokentype);
-int			is_special_red(char *tokentype);
 int			is_operator(char *token);
 int			check_first_token_is_pipe(t_tokens *tokens);
 void		handle_dlr(char **w_ptr, char **str, t_env_list **ev_list);
@@ -178,6 +189,7 @@ t_env_list	*check_if_exit(t_env_list *list, char *str, int mode);
 //builtins
 
 //excution
+char		*get_new_token_herodc(char *token_str);
 char		*expand_herdoc(char *str);
 int			spaces(t_command *cmd);
 int			excution_parse(t_command *cmd);
@@ -201,6 +213,7 @@ int			check_access(char *path);
 //excution
 
 //string_utils
+char		*ft_strncpy(char *dest, const char *src, int n);
 char		*ft_strrchr(const char *s, int c);
 char		*ft_substr_h(char *s, int start, int end);
 int			ft_strlen(const char *str);

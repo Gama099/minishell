@@ -1,16 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   herdoc.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: echoubby <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/30 01:12:13 by echoubby          #+#    #+#             */
+/*   Updated: 2024/11/30 01:12:15 by echoubby         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-char	*buffer_glue(char **buffer, char **input)
+char	*buffer_glue(char **buffer, char **input, int flag)
 {
 	char	*tmp;
 	char	*new_buffer;
 	char	*str;
 
 	str = ft_strrchr(*input, '$');
-	if (str != NULL)
+	if (str != NULL && flag == 0)
 	{
 		tmp = expand_herdoc(*input);
-		new_buffer = ft_strjoin(*buffer, tmp);
+		if (tmp == NULL)
+			new_buffer = ft_strjoin(*buffer, *input);
+		else
+			new_buffer = ft_strjoin(*buffer, tmp);
 	}
 	else
 		new_buffer = ft_strjoin(*buffer, *input);
@@ -32,7 +47,7 @@ void	run_herdoc_child(t_files *files)
 		return ;
 	while (ft_strcmp(files->name, input) != 0)
 	{
-		buffer = buffer_glue(&buffer, &input);
+		buffer = buffer_glue(&buffer, &input, files->flag);
 		input = readline(">");
 		if (input == NULL)
 			break ;
@@ -100,7 +115,7 @@ int	ft_herdoc(t_command	*cmd)
 	if (i > 16)
 	{
 		close_pipes(cmd);
-		return (err_msg("maximum here-document count exceeded", NULL, NULL), 1);
+		err_n_ex("maximum here-document count exceeded", NULL, NULL, 2);
 	}
 	else if (i == 0)
 		return (0);

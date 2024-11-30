@@ -107,7 +107,7 @@ int	get_env_len(char *env_var_start, t_env_list **env_list)
 	env_var = (char *)my_malloc(len + 1);
 	if (!env_var)
 		return (0);
-	strncpy(env_var, env_var_start, len);
+	ft_strncpy(env_var, env_var_start, len);
 	env_var[len] = '\0';
 	creat_list(env_list, env_var);
 	return (len);

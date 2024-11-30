@@ -38,6 +38,7 @@ void	handle_rediration(t_command *command, t_tokens **tokens)
 		new_file = (t_files *)my_malloc(sizeof(t_files));
 		if (new_file == NULL)
 			return ;
+		new_file->flag = 0;
 		while (current->next)
 			current = current->next;
 		current->next = new_file;

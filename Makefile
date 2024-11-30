@@ -1,6 +1,6 @@
 CC = cc
 NAME = minishell
-CFLAGS = -g3 #-Wall -Wextra -Werror
+CFLAGS = -g3 -Wall -Wextra -Werror
 HEADER = minishell.h
 INC = includes
 SRC =	src/main.c \
@@ -11,6 +11,8 @@ SRC =	src/main.c \
 		src/excution/rediction.c \
 		src/excution/excution_pipe.c \
 		src/excution/ambiguous.c \
+		src/excution/herdoc_utils.c \
+		src/excution/ft_shell.c \
 		src/builtin/builtins_utils.c \
 		src/builtin/cd.c \
 		src/builtin/echo.c \
@@ -32,7 +34,6 @@ SRC =	src/main.c \
 		src/utils/string_utils.c \
 		src/utils/string_utils_2.c \
 		src/utils/string_utils_3.c \
-		src/utils/string_utils_4.c \
 		src/systemcall.c \
 		src/error_utils.c \
 		src/signals.c \

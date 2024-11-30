@@ -39,12 +39,10 @@ void	expand_env_variable(t_tokens *iter, t_tokens **tokens, t_tokens *prev)
 {
 	t_tokens	*tmp_holder;
 	t_tokens	*last;
-	t_tokens	*to_free;
 
 	tmp_holder = get_tokens(iter->token, 1);
 	typing_nodes(iter, &tmp_holder);
 	last = last_token(tmp_holder);
-	to_free = iter;
 	iter = iter->next;
 	if (prev)
 		prev->next = tmp_holder;
@@ -57,12 +55,19 @@ void	tokenaze_var(t_tokens **tokens)
 {
 	t_tokens	*iter;
 	t_tokens	*prev;
+	int			f;
 
 	iter = *tokens;
 	prev = NULL;
 	while (iter)
 	{
-		if (iter->expand_env && iter->qoute_type == 0)
+		f = 0;
+		if (prev)
+		{
+			if (!ft_strcmps(prev->token, "export"))
+				f = 1;
+		}
+		if (iter->expand_env && iter->qoute_type == 0 && !f)
 		{
 			expand_env_variable(iter, tokens, prev);
 			iter = iter->next;

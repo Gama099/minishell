@@ -12,52 +12,47 @@
 
 #include "../../includes/minishell.h"
 
-int	check_last_token_is_pipe(t_tokens *tokens)
+int	ft_strcmps(const char *s1, const char *s2)
 {
-	if (!tokens->next && !ft_strcmps(tokens->tokentype, "pipe"))
+	while (*s1 && *s2)
+	{
+		if (*s1 != *s2)
+			return ((unsigned char)(*s1) - (unsigned char)(*s2));
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)(*s1) - (unsigned char)(*s2));
+}
+
+int	syntax_b(t_tokens *prev, t_tokens *tokens)
+{
+	if (prev && (is_special_operator (prev->tokentype)
+			|| !ft_strcmps(prev->tokentype, "pipe")))
 	{
 		ft_putstr_fd("syntax error near unexpected token ", 2);
 		ft_putendl_fd(tokens->token, 2);
 		return (2);
 	}
-	return (0);
+	else
+		return (0);
 }
 
-int	check_special_operator_is_last(t_tokens *tokens)
+void	syntax_c(t_tokens *tokens, int mode, char *token_str)
 {
-	if (!tokens->next && is_special_operator(tokens->tokentype))
-	{
-		return (err_msg("syntax error near unexpected token `newline' ",
-				NULL, NULL), 2);
-	}
-	return (0);
-}
-
-int	check_pipe_follows_special_or_pipe(t_tokens *tokens, t_tokens *prev)
-{
-	if (!ft_strcmps(tokens->tokentype, "pipe"))
-	{
-		if (prev && (is_special_red(prev->tokentype)
-				|| !ft_strcmps(prev->tokentype, "pipe")))
-		{
-			ft_putstr_fd("syntax error near unexpected token ", 2);
-			ft_putendl_fd(tokens->token, 2);
-			return (2);
-		}
-	}
-	return (0);
-}
-
-int	check_special_operators_adjacent(t_tokens *tokens)
-{
-	if (is_special_operator(tokens->tokentype)
-		&& is_special_operator(tokens->next->tokentype))
+	if (mode == 0)
 	{
 		ft_putstr_fd("syntax error near unexpected token ", 2);
 		ft_putendl_fd(tokens->next->token, 2);
-		return (2);
 	}
-	return (0);
+	else if (mode == 1)
+	{
+		err_msg("syntax error near unexpected token`newline' ", NULL, NULL);
+	}
+	else if (mode == 3)
+	{
+		ft_putstr_fd("syntax error near unexpected token ", 2);
+		ft_putendl_fd(token_str, 2);
+	}
 }
 
 int	handle_syntax_errors(t_tokens *tokens)
@@ -71,16 +66,18 @@ int	handle_syntax_errors(t_tokens *tokens)
 	start = tokens;
 	while (tokens)
 	{
-		if (check_first_token_is_pipe(tokens) == 2)
+		if (tokens == start && !ft_strcmps(tokens->tokentype, "pipe"))
+			return (syntax_c(NULL, 3, tokens->token), 2);
+		else if (!tokens->next && !ft_strcmps(tokens->tokentype, "pipe"))
+			return (syntax_c(NULL, 3, tokens->tokentype), 2);
+		else if (!tokens->next && is_special_operator(tokens->tokentype))
+			return (syntax_c(NULL, 1, NULL), 2);
+		else if (!ft_strcmps(tokens->tokentype, "pipe")
+			&& (syntax_b(prev, tokens) == 2))
 			return (2);
-		if (check_last_token_is_pipe(tokens) == 2)
-			return (2);
-		if (check_special_operator_is_last(tokens) == 2)
-			return (2);
-		if (check_pipe_follows_special_or_pipe(tokens, prev) == 2)
-			return (2);
-		if (check_special_operators_adjacent(tokens) == 2)
-			return (2);
+		else if (is_special_operator(tokens->tokentype)
+			&& is_special_operator(tokens->next->tokentype))
+			return (syntax_c(tokens, 0, NULL), 2);
 		prev = tokens;
 		tokens = tokens->next;
 	}

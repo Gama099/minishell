@@ -1,35 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_shell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echoubby <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 01:13:22 by echoubby          #+#    #+#             */
-/*   Updated: 2024/11/30 01:13:23 by echoubby         ###   ########.fr       */
+/*   Created: 2024/11/30 01:32:47 by echoubby          #+#    #+#             */
+/*   Updated: 2024/11/30 01:32:49 by echoubby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_pwd(void)
+void	init_status(int status)
 {
-	char		*pwd;
-	t_env_list	*node;
+	ft_bash()->exit_status = status;
+}
 
-	pwd = getcwd(NULL, 0);
-	if (pwd == NULL)
+t_bash	*ft_bash(void)
+{
+	static t_bash	shell;
+
+	return (&shell);
+}
+
+char	*ft_strncpy(char *dest, const char *src, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n && src[i] != '\0')
 	{
-		node = check_if_exit(ft_bash()->list, "PWD", 1);
-		if (node != NULL)
-		{
-			printf("%s\n", node->value);
-			return (EXIT_SUCCESS);
-		}
-		return (EXIT_SUCCESS);
+		dest[i] = src[i];
+		i++;
 	}
-	ft_putstr_fd(pwd, 1);
-	write(1, "\n", 1);
-	free(pwd);
-	return (EXIT_SUCCESS);
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }

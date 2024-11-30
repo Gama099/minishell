@@ -12,27 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_strcmps(const char *s1, const char *s2)
-{
-	while (*s1 && *s2)
-	{
-		if (*s1 != *s2)
-			return ((unsigned char)(*s1) - (unsigned char)(*s2));
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)(*s1) - (unsigned char)(*s2));
-}
-
 int	is_special_operator(char *tokentype)
-{
-	return (!ft_strcmps(tokentype, "output")
-		|| !ft_strcmps(tokentype, "input")
-		|| !ft_strcmps(tokentype, "appaned")
-		|| !ft_strcmps(tokentype, "herdoc"));
-}
-
-int	is_special_red(char *tokentype)
 {
 	return (!ft_strcmps(tokentype, "output")
 		|| !ft_strcmps(tokentype, "input")

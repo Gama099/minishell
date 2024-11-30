@@ -38,11 +38,6 @@ void	add_argument_to_command(t_command *command, char *arg)
 
 void	set_as_command(t_command *command, char *arg)
 {
-	int		i;
-	char	**tmp;
-	int		new_len;
-
-	i = 0;
 	if (command->args == NULL)
 		initialize_argumants(command, arg);
 	else
