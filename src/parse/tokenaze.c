@@ -6,7 +6,7 @@
 /*   By: sel-hadd <sel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:38:48 by sel-hadd          #+#    #+#             */
-/*   Updated: 2024/11/30 00:43:56 by sel-hadd         ###   ########.fr       */
+/*   Updated: 2024/11/30 01:12:39 by sel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,38 +46,4 @@ void	init_params(t_params *params, char *buffer)
 	params->which_qoute = '\0';
 	params->tokens = NULL;
 	params->to_join = 0;
-}
-
-t_tokens	*get_tokens(char *buffer, int sing_flag)
-{
-	t_params	params;
-
-	trim_spaces(&buffer);
-	init_params(&params, buffer);
-	while (*params.iter)
-	{
-		params.to_join = 0;
-		if (*params.token_begin == '\0')
-			return (params.tokens);
-		if ((params.iter > buffer && (is_white_space(*params.iter)
-					&& *(params.iter - 1) == '\0') && !params.in_qoutes))
-			*params.iter = '\0';
-		else if ((*params.iter == '\'') && !params.in_qoutes && !sing_flag)
-			start_qoute(&params, buffer);
-		else if ((*params.iter == '\"') && !params.in_qoutes)
-			start_qoute(&params, buffer);
-		else if ((is_white_space(*params.iter) && !params.in_qoutes)
-			&& *(params.iter - 1) != '\0')
-			reach_space(&params);
-		else if ((*params.iter == params.which_qoute) && params.in_qoutes)
-			close_qoute(&params);
-		else if (is_meta(*params.iter) && !params.in_qoutes)
-			reach_operator(&params);
-		else if (*params.iter == '$' && !params.in_qoutes)
-			reach_dollar(&params, buffer);
-		params.iter++;
-	}
-	if (params.token_begin)
-		create_tokens(&params.tokens, params.token_begin, 0, 0);
-	return (params.tokens);
 }
