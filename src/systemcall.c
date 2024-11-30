@@ -15,7 +15,7 @@
 void	ft_dup(int old_fd, int new_fd)
 {
 	if (dup2(old_fd, new_fd) == -1)
-		err_msg("syscall failed", "dup2", NULL);
+		err_n_ex("syscall failed", "dup2", NULL, 1);
 	else
 		ft_close(old_fd);
 }
@@ -24,10 +24,10 @@ void	save_stdfd(void)
 {
 	ft_bash()->fd_stdin = dup(STDIN_FILENO);
 	if (ft_bash()->fd_stdin == -1)
-		err_msg("syscall failed", "dup", NULL);
+		err_n_ex("syscall failed", "dup", NULL, 1);
 	ft_bash()->fd_stdout = dup(STDOUT_FILENO);
 	if (ft_bash()->fd_stdout == -1)
-		err_msg("syscall failed", "dup", NULL);
+		err_n_ex("syscall failed", "dup", NULL, 1);
 }
 
 void	revert_stdfd(void)
