@@ -48,7 +48,7 @@ char	*get_path(void)
 		}
 		i++;
 	}
-	return (free_ary(env), NULL);
+	return (NULL);
 }
 
 void	check_exit(int check, char *cmd)

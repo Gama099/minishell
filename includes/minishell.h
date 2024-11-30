@@ -273,7 +273,6 @@ void		sigquit_handler_cmd(int num);
 
 //node
 void		fill_node(t_env_list *node, char *str, int mode);
-void		free_struct(t_command	*cmd);
 void		update_env(char *name, char *value);
 void		free_env(t_env_list *env);
 t_env_list	*env_to_list(char	**env);

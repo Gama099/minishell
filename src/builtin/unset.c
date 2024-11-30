@@ -12,19 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-// void	node_del(t_env_list *node)
-// {
-// 	if (node)
-// 	{
-// 		free(node->name);
-// 		node->name = NULL;
-// 		free(node->value);
-// 		node->value = NULL;
-// 	}
-// 	free(node);
-// 	node = NULL;
-// }
-
 void	ft_unset_helper(t_env_list *node, t_env_list *prev, t_env_list **list)
 {
 	if (node != NULL)
