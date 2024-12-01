@@ -75,4 +75,3 @@ void	free_env(t_env_list *env)
 	}
 	env = NULL;
 }
-	

@@ -257,7 +257,6 @@ void		ambigous_helper(char	*file, int is_var);
 int			redirect_no_cmd(t_files *file);
 int			redirect_in_file_b_child(char *filename, int flag);
 int			redirect_out_b_child(char *filename, int append, int flag);
-void		free_ary(char	**str);
 int			ft_herdoc(t_command	*cmd);
 int			check_ambiguous(char **filename, int flag);
 int			is_a_directory(char *filename, int bltn);

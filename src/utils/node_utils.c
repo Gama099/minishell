@@ -22,17 +22,6 @@ t_env_list	*ft_last_node(t_env_list *head)
 	return (new_node);
 }
 
-void	free_ary(char	**str)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i])
-		free(str[i++]);
-	free(str);
-	str = NULL;
-}
-
 void	fill_node(t_env_list *node, char *str, int mode)
 {
 	int		i;
