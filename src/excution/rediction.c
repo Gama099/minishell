@@ -6,7 +6,7 @@
 /*   By: echoubby <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 01:12:20 by echoubby          #+#    #+#             */
-/*   Updated: 2024/11/30 01:12:21 by echoubby         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:20:01 by echoubby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	redirect_out_b_child(char *filename, int append, int flag)
 	{
 		if (filename[0] == '$' && (flag == 0 || flag == 2))
 			filename = expand_name(filename);
+		if (filename == NULL)
+			filename = ft_strdup("");
 		if (append == 1)
 			fd = open(filename, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		else

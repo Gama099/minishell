@@ -99,7 +99,7 @@ int	get_env_len(char *env_var_start, t_env_list **env_list)
 		return (0);
 	iter = env_var_start;
 	len = 0;
-	while (iter[len] && (isalpha(iter[len]) || isdigit(iter[len])
+	while (iter[len] && (ft_isalpha(iter[len]) || ft_isdigit(iter[len])
 			|| iter[len] == '_'))
 		len++;
 	if (len == 0)

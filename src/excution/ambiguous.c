@@ -35,6 +35,9 @@ void	ambigous_helper(char *file, int is_var)
 		spl_ex_file = ft_split(ex_file, ' ');
 		if (is_var && (spl_ex_file[0] != NULL && spl_ex_file[1] != NULL))
 			err_n_ex("ambiguous redirection", NULL, file, 1);
+		spl_ex_file = ft_split(ex_file, '	');
+		if (is_var && (spl_ex_file[0] != NULL && spl_ex_file[1] != NULL))
+			err_n_ex("ambiguous redirection", NULL, file, 1);
 	}
 	else if (is_var && ex_file == NULL && ft_strlen(file) > 1)
 		err_n_ex("ambiguous redirection", NULL, file, 1);

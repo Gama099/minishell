@@ -39,7 +39,7 @@ void	get_n_t_a(char **token_iter, t_env_list **env_list, int *token_len)
 	if (**token_iter == '$' && *(*token_iter + 1) == '?')
 	{
 		creat_list_state(env_list);
-		*token_len += strlen(ft_itoa(ft_bash()->exit_status));
+		*token_len += ft_strlen(ft_itoa(ft_bash()->exit_status));
 		*token_iter += 2;
 	}
 	else if (**token_iter == '$' && *(*token_iter + 1))
